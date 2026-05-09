@@ -24,10 +24,10 @@ export function DomainSummaryCard({
     >
       <Card
         className={cn(
-          "h-full transition-all group-hover:border-primary/50 group-hover:shadow-md group-focus-visible:ring-2 group-focus-visible:ring-ring",
+          "h-full gap-2 py-3 transition-all group-hover:border-primary/50 group-hover:shadow-md group-focus-visible:ring-2 group-focus-visible:ring-ring",
         )}
       >
-        <CardContent className="flex h-full flex-col gap-3 p-5">
+        <CardContent className="flex h-full flex-col gap-2 px-5">
           <div className="flex items-baseline justify-between gap-2">
             <h3 className="text-base font-semibold">{DOMAIN_LABELS[domain]}</h3>
             <span className="text-xs text-muted-foreground">
