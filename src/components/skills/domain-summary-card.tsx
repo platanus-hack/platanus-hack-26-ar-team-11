@@ -1,6 +1,8 @@
 import Link from "next/link";
-import { Card, CardContent } from "@/components/ui/card";
-import { ConfidenceBar } from "@/components/ui/confidence-bar";
+import { ArrowRight } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Card } from "@/components/ui/card";
+import { DOMAIN_VISUALS } from "@/lib/domains/visuals";
 import { DOMAIN_LABELS, type Domain, type Fact } from "@/types";
 
 export function DomainSummaryCard({
@@ -12,7 +14,13 @@ export function DomainSummaryCard({
   facts: Fact[];
   confidence: number;
 }) {
+  const visual = DOMAIN_VISUALS[domain];
+  const Icon = visual.icon;
   const empty = facts.length === 0;
+  const percent = Math.round(Math.max(0, Math.min(1, confidence)) * 100);
+  const topFacts = [...facts]
+    .sort((a, b) => b.confidence - a.confidence)
+    .slice(0, 2);
 
   return (
     <Link
@@ -20,24 +28,97 @@ export function DomainSummaryCard({
       className="group block focus:outline-none"
       aria-label={`Ver detalle de ${DOMAIN_LABELS[domain]}`}
     >
-      <Card className="h-full gap-2 pt-3 pb-6 transition-all group-hover:-translate-y-0.5 group-hover:border-primary/50 group-hover:shadow-md group-focus-visible:ring-2 group-focus-visible:ring-ring">
-        <CardContent className="flex h-full flex-col gap-2 px-5">
-          <div className="flex items-baseline justify-between gap-2">
-            <h3 className="text-base font-semibold">{DOMAIN_LABELS[domain]}</h3>
-            <span className="text-xs text-muted-foreground">
-              {empty ? "Sin entrenar" : `${facts.length} fact${facts.length === 1 ? "" : "s"}`}
-            </span>
+      <Card
+        className={cn(
+          "relative h-full gap-0 overflow-hidden p-5 transition-all",
+          "group-hover:-translate-y-0.5 group-hover:shadow-lg group-focus-visible:ring-2 group-focus-visible:ring-ring",
+          empty && "border-dashed bg-card/60",
+        )}
+      >
+        <div className="flex items-start justify-between gap-3">
+          <div
+            className={cn(
+              "flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl ring-1",
+              visual.tone,
+              visual.ring,
+              empty && "opacity-60",
+            )}
+          >
+            <Icon className="h-6 w-6" />
           </div>
+          {!empty && <ConfidenceDial percent={percent} />}
+        </div>
 
-          {empty ? (
-            <p className="text-sm text-muted-foreground">
-              Aún no entrenamos este dominio.
-            </p>
-          ) : (
-            <ConfidenceBar value={confidence} showValue />
-          )}
-        </CardContent>
+        <div className="mt-4 flex flex-col gap-1.5">
+          <h3 className="text-lg font-bold leading-tight">
+            {DOMAIN_LABELS[domain]}
+          </h3>
+          <p className="text-xs uppercase tracking-wider text-muted-foreground">
+            {empty
+              ? "Sin entrenar"
+              : `${facts.length} fact${facts.length === 1 ? "" : "s"}`}
+          </p>
+        </div>
+
+        {empty ? (
+          <p className="mt-4 text-sm text-muted-foreground">
+            Aún no entrenamos este dominio. Iniciá una sesión para enseñarle a tu Twin.
+          </p>
+        ) : (
+          <ul className="mt-4 space-y-1.5 text-sm text-foreground/90">
+            {topFacts.map((f) => (
+              <li key={f.id} className="line-clamp-2 leading-snug">
+                {f.text}
+              </li>
+            ))}
+            {facts.length > topFacts.length && (
+              <li className="text-xs text-muted-foreground">
+                +{facts.length - topFacts.length} más
+              </li>
+            )}
+          </ul>
+        )}
+
+        <div className="mt-5 flex items-center justify-end text-xs font-medium text-muted-foreground transition-colors group-hover:text-foreground">
+          Ver detalle
+          <ArrowRight className="ml-1 h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+        </div>
       </Card>
     </Link>
+  );
+}
+
+function ConfidenceDial({ percent }: { percent: number }) {
+  const radius = 18;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference * (1 - percent / 100);
+
+  return (
+    <div className="relative h-12 w-12 shrink-0">
+      <svg viewBox="0 0 48 48" className="h-full w-full -rotate-90">
+        <circle
+          cx="24"
+          cy="24"
+          r={radius}
+          fill="none"
+          className="stroke-muted"
+          strokeWidth="4"
+        />
+        <circle
+          cx="24"
+          cy="24"
+          r={radius}
+          fill="none"
+          className="stroke-primary"
+          strokeWidth="4"
+          strokeLinecap="round"
+          strokeDasharray={circumference}
+          strokeDashoffset={offset}
+        />
+      </svg>
+      <div className="absolute inset-0 flex items-center justify-center text-xs font-semibold tabular-nums">
+        {percent}%
+      </div>
+    </div>
   );
 }

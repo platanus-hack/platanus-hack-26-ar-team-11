@@ -14,23 +14,41 @@ export default async function SkillsPage() {
       <PageShell>
         <Card>
           <CardContent className="p-6 text-sm text-muted-foreground">
-            Aún no tienes un Twin. Inicia una sesión desde el panel.
+            Aún no tenés un Twin. Iniciá una sesión desde el panel.
           </CardContent>
         </Card>
       </PageShell>
     );
   }
 
+  const trained = ALL_DOMAINS.filter((d) => {
+    const skill = skillByDomain(data.skills, d);
+    return (skill?.facts.length ?? 0) > 0;
+  });
+  const totalFacts = data.skills.reduce((acc, s) => acc + s.facts.length, 0);
+
   return (
     <PageShell>
-      <header className="mb-6 space-y-2">
-        <h1 className="text-2xl font-semibold">Skills aprendidas</h1>
-        <p className="text-sm text-muted-foreground">
-          Lo que tu Twin sabe sobre ti. Toca una skill para ver el detalle.
-        </p>
+      <header className="mb-10 flex flex-col items-start gap-6 sm:flex-row sm:items-end sm:justify-between">
+        <div className="space-y-2">
+          <span className="text-sm uppercase tracking-[0.2em] text-secondary">
+            Skills
+          </span>
+          <h1 className="text-balance text-3xl font-black sm:text-4xl">
+            Lo que tu Twin aprendió de vos.
+          </h1>
+          <p className="max-w-xl text-base text-muted-foreground">
+            Cada dominio se entrena con sesiones de voz. Tocá una skill para ver el
+            detalle de los facts y su nivel de confianza.
+          </p>
+        </div>
+        <div className="flex shrink-0 gap-3 text-center">
+          <Stat label="Dominios" value={`${trained.length}/${ALL_DOMAINS.length}`} />
+          <Stat label="Facts" value={totalFacts.toString()} />
+        </div>
       </header>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {ALL_DOMAINS.map((domain) => {
           const skill = skillByDomain(data.skills, domain);
           return (
@@ -44,5 +62,16 @@ export default async function SkillsPage() {
         })}
       </div>
     </PageShell>
+  );
+}
+
+function Stat({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-2xl border border-border bg-card px-5 py-3 shadow-sm">
+      <p className="text-2xl font-black tabular-nums">{value}</p>
+      <p className="text-xs uppercase tracking-wider text-muted-foreground">
+        {label}
+      </p>
+    </div>
   );
 }

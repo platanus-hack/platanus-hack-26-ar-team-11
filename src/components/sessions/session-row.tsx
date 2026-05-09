@@ -1,20 +1,8 @@
 import Link from "next/link";
-import {
-  Calendar,
-  ChevronRight,
-  Clock,
-  Heart,
-  Layers,
-  MapPin,
-  MessageCircle,
-  Music,
-  Plane,
-  Shirt,
-  UtensilsCrossed,
-  Wallet,
-} from "lucide-react";
+import { Calendar, ChevronRight, Clock, Layers } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { DOMAIN_LABELS, type Domain, type Session } from "@/types";
+import { DOMAIN_VISUALS } from "@/lib/domains/visuals";
+import { DOMAIN_LABELS, type Session } from "@/types";
 
 export function formatDuration(seconds: number | null): string {
   if (!seconds || seconds <= 0) return "—";
@@ -32,41 +20,6 @@ export function truncateSummary(text: string | null, max = 120): string {
   if (text.length <= max) return text;
   return `${text.slice(0, max - 1).trimEnd()}…`;
 }
-
-const DOMAIN_VISUALS: Record<Domain, { icon: typeof Music; tone: string }> = {
-  music_taste: {
-    icon: Music,
-    tone: "bg-primary/10 text-primary",
-  },
-  event_preferences: {
-    icon: MapPin,
-    tone: "bg-secondary/15 text-secondary",
-  },
-  vibes: {
-    icon: Heart,
-    tone: "bg-accent/20 text-accent-foreground",
-  },
-  communication_style: {
-    icon: MessageCircle,
-    tone: "bg-muted text-foreground",
-  },
-  spending_profile: {
-    icon: Wallet,
-    tone: "bg-muted text-foreground",
-  },
-  fashion_taste: {
-    icon: Shirt,
-    tone: "bg-secondary/15 text-secondary",
-  },
-  food_taste: {
-    icon: UtensilsCrossed,
-    tone: "bg-accent/20 text-accent-foreground",
-  },
-  travel_style: {
-    icon: Plane,
-    tone: "bg-primary/10 text-primary",
-  },
-};
 
 const SYNTHESIS_VISUAL = {
   icon: Layers,
