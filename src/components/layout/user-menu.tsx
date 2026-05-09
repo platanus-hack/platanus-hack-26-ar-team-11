@@ -1,7 +1,6 @@
 "use client";
 
-import { LogOut, User as UserIcon } from "lucide-react";
-import Link from "next/link";
+import { LogOut } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,13 +10,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { signOutAction } from "@/lib/auth/actions";
-
-const NAV_ITEMS = [
-  { href: "/dashboard", label: "Panel" },
-  { href: "/skills", label: "Aprendizaje" },
-  { href: "/sessions", label: "Sesiones" },
-  { href: "/connected-apps", label: "Aplicaciones conectadas" },
-] as const;
 
 function initialsOf(value: string | null): string {
   if (!value) return "T";
@@ -53,15 +45,6 @@ export function UserMenu({ email, name }: { email: string | null; name?: string 
             <span className="text-xs text-muted-foreground">{email}</span>
           )}
         </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        {NAV_ITEMS.map((item) => (
-          <DropdownMenuItem key={item.href} asChild>
-            <Link href={item.href} className="cursor-pointer">
-              <UserIcon className="mr-2 h-4 w-4 opacity-0" />
-              {item.label}
-            </Link>
-          </DropdownMenuItem>
-        ))}
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild variant="destructive">
           <form action={signOutAction} className="w-full">
