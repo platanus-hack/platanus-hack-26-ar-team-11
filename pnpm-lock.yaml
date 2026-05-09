@@ -47,6 +47,9 @@ importers:
       '@supabase/supabase-js':
         specifier: ^2.46.1
         version: 2.105.4
+      '@types/ws':
+        specifier: ^8.18.1
+        version: 8.18.1
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -86,6 +89,9 @@ importers:
       tailwind-merge:
         specifier: ^3.0.1
         version: 3.5.0
+      ws:
+        specifier: ^8.20.0
+        version: 8.20.0
       zod:
         specifier: ^3.24.1
         version: 3.25.76
@@ -2311,6 +2317,9 @@ packages:
 
   '@types/shimmer@1.2.0':
     resolution: {integrity: sha512-UE7oxhQLLd9gub6JKIAhDq06T0F6FnztwMNRvYgjeQSBeMc1ZG/tA47EwfduvkuQS8apbkM/lpLpWsaCeYsXVg==}
+
+  '@types/ws@8.18.1':
+    resolution: {integrity: sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==}
 
   '@typescript-eslint/eslint-plugin@8.59.2':
     resolution: {integrity: sha512-j/bwmkBvHUtPNxzuWe5z6BEk3q54YRyGlBXkSsmfoih7zNrBvl5A9A98anlp/7JbyZcWIJ8KXo/3Tq/DjFLtuQ==}
@@ -6675,6 +6684,10 @@ snapshots:
       csstype: 3.2.3
 
   '@types/shimmer@1.2.0': {}
+
+  '@types/ws@8.18.1':
+    dependencies:
+      '@types/node': 20.19.40
 
   '@typescript-eslint/eslint-plugin@8.59.2(@typescript-eslint/parser@8.59.2(eslint@9.39.4(jiti@2.7.0))(typescript@5.9.3))(eslint@9.39.4(jiti@2.7.0))(typescript@5.9.3)':
     dependencies:
