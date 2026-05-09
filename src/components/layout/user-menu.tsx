@@ -11,18 +11,21 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { signOutAction } from "@/lib/auth/actions";
+import { UserAvatar } from "@/components/avatar/UserAvatar";
+import type { AvatarConfig } from "@/types/avatar";
 
-function initialsOf(value: string | null): string {
-  if (!value) return "T";
-  const parts = value.trim().split(/[@\s.]+/).filter(Boolean);
-  if (parts.length === 0) return "T";
-  if (parts.length === 1) return parts[0]!.slice(0, 2).toUpperCase();
-  return (parts[0]![0]! + parts[1]![0]!).toUpperCase();
-}
-
-export function UserMenu({ email, name }: { email: string | null; name?: string | null }) {
+export function UserMenu({
+  email,
+  name,
+  avatarConfig,
+  avatarSeed,
+}: {
+  email: string | null;
+  name?: string | null;
+  avatarConfig?: AvatarConfig | null;
+  avatarSeed?: string;
+}) {
   const display = name ?? email ?? "Tu cuenta";
-  const initials = initialsOf(name ?? email);
   const [isPending, startTransition] = useTransition();
 
   return (
@@ -31,9 +34,14 @@ export function UserMenu({ email, name }: { email: string | null; name?: string 
         <button
           type="button"
           aria-label={`Abrir menú de ${display}`}
-          className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/15 text-sm font-semibold text-primary outline-none transition-colors hover:bg-primary/25 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-primary/10 outline-none transition-colors hover:bg-primary/20 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
-          {initials}
+          <UserAvatar
+            config={avatarConfig ?? null}
+            seed={avatarSeed ?? email ?? "twin"}
+            ariaLabel={display}
+            className="h-full w-full"
+          />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent

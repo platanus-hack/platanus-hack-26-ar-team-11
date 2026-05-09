@@ -4,6 +4,7 @@ import { getCurrentUser } from "@/lib/auth/server";
 import { Button } from "@/components/ui/button";
 import { UserMenu } from "./user-menu";
 import { PrimaryNav } from "./primary-nav";
+import type { AvatarConfig } from "@/types/avatar";
 
 export type HeaderVariant = "default" | "minimal" | "auth";
 
@@ -11,6 +12,7 @@ export async function Header({ variant = "default" }: { variant?: HeaderVariant 
   const user = variant === "minimal" ? null : await getCurrentUser();
   const name = (user?.user_metadata?.name as string | undefined) ?? null;
   const email = user?.email ?? null;
+  const avatarConfig = (user?.user_metadata?.avatar_config as AvatarConfig | undefined) ?? null;
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/80 backdrop-blur">
@@ -34,7 +36,12 @@ export async function Header({ variant = "default" }: { variant?: HeaderVariant 
         {variant === "default" && (
           <nav className="ml-auto flex items-center gap-7 text-base sm:gap-8">
             {user ? (
-              <UserMenu email={email} name={name} />
+              <UserMenu
+                email={email}
+                name={name}
+                avatarConfig={avatarConfig}
+                avatarSeed={user?.id}
+              />
             ) : (
               <>
                 <Link href="/auth/login" className="text-muted-foreground hover:text-foreground">
