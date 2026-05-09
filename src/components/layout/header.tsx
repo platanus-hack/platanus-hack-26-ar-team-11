@@ -24,7 +24,15 @@ export async function Header({ variant = "default" }: { variant?: HeaderVariant 
           aria-label="Twin"
           className="flex items-center"
         >
-          <Image src="/logo.png" alt="Twin" width={88} height={40} priority />
+          <Image
+            src="/logo.png"
+            alt="Twin"
+            width={264}
+            height={120}
+            quality={100}
+            priority
+            className="h-10 w-auto"
+          />
         </Link>
 
         {variant === "default" && user && (
