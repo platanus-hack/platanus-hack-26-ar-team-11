@@ -51,7 +51,7 @@ export function Hero({ isAuthenticated }: HeroProps) {
               asChild
               size="lg"
               variant="ghost"
-              className="h-14 px-6 text-lg text-foreground hover:bg-primary/5 hover:text-foreground"
+              className="h-14 px-6 text-lg text-foreground hover:bg-foreground/5 hover:text-foreground"
             >
               <Link href={secondary.href}>{secondary.label}</Link>
             </Button>
