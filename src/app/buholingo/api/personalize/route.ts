@@ -66,14 +66,16 @@ function buildPrompt(args: {
     "   - Ejercicio 5: cierre / conclusión / implicancia",
     "3) Asegurate que TODAS las oraciones tengan onda de ESTE usuario, no de cualquiera. Si el Twin habla rioplatense, usá registro rioplatense en el español.",
     "",
-    "EJEMPLO DE LO QUE QUIERO (no copies, es solo orientación):",
-    "Tema: 'Yendo a un recital chico en La Trastienda'",
-    "1. 'Esta noche tengo entradas para ver a Tormenta Negra.'",
-    "2. 'El recital es en La Trastienda, un lugar bien chico.'",
-    "3. 'Me gustan los venues íntimos más que los festivales gigantes.'",
-    "4. 'Espero que toquen las canciones del último disco.'",
-    "5. 'Después del show vamos a volver caminando con los pibes.'",
-    "Notá: las 5 oraciones cuentan una mini-historia sobre la misma noche. No son 5 datos sueltos.",
+    "EJEMPLO DE FORMA (no copies estos placeholders, son sólo para que veas la ESTRUCTURA narrativa):",
+    "Tema: 'Yendo a un recital chico'",
+    "1. 'Esta noche tengo entradas para ver a <ARTISTA-DEL-TWIN>.'  ← setup",
+    "2. 'El recital es en <VENUE-DEL-TWIN>, un lugar <ATRIBUTO-DEL-TWIN>.'  ← desarrollo",
+    "3. 'Me gustan los <CARACTERÍSTICA-DEL-TWIN> más que los festivales gigantes.'  ← detalle",
+    "4. 'Espero que toquen <ALGO-RELACIONADO-AL-TWIN>.'  ← emoción",
+    "5. 'Después del show <ACCIÓN-AFÍN-AL-TWIN>.'  ← cierre",
+    "Notá: las 5 oraciones cuentan una mini-historia sobre la misma noche. NO son 5 datos sueltos.",
+    "",
+    "🚨 IMPORTANTÍSIMO: los placeholders <ARTISTA-DEL-TWIN>, <VENUE-DEL-TWIN>, etc. del ejemplo son SÓLO ilustrativos. NUNCA inventes nombres ni copies nombres del ejemplo. Cada nombre propio (artistas, lugares, venues, géneros, ciudades, hábitos) que aparezca en tus 5 oraciones tiene que venir LITERALMENTE del 'CONTEXTO DEL TWIN' que aparece abajo. Si en el contexto no hay datos suficientes para un tema, elegí otro tema con los datos que sí tengas — o, si todo el contexto es demasiado fino, hacé una lección sobre 'la vibe general' del usuario sin inventar nombres.",
     "",
     "=== CONTEXTO DEL TWIN ===",
     "[General summary]",
@@ -181,6 +183,12 @@ export async function POST(request: NextRequest) {
       { status: 502 },
     );
   }
+
+  // Debug logging — useful while tuning the prompt to see exactly what Claude gets.
+  console.log(
+    "[personalize] twin context",
+    JSON.stringify({ general, music, vibes }, null, 2),
+  );
 
   const client = getAnthropicClient();
   let raw = "";
