@@ -91,7 +91,7 @@ export function StepStack() {
       className="relative bg-background"
       style={{ height: `${steps.length * 100}vh` }}
     >
-      <div className="sticky top-0 flex h-screen items-center overflow-hidden pt-28">
+      <div className="sticky top-0 flex h-screen items-center overflow-hidden pt-12">
         <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-12 px-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-20">
           <div className="relative">
             <span className="text-sm uppercase tracking-[0.2em] text-secondary">
