@@ -226,7 +226,10 @@ export function AvatarCustomizer({
             }}
             onClick={isEditingName ? handleSaveName : startEditingName}
             disabled={isEditingName && (!nameValid || isNamePending)}
-            className="absolute right-0 h-12 w-12 text-muted-foreground"
+            className={cn(
+              "absolute right-0 h-12 w-12 text-muted-foreground",
+              isEditingName && "hover:bg-transparent",
+            )}
             aria-label={isEditingName ? "Confirmar nombre" : "Editar nombre"}
           >
             {isEditingName ? (
