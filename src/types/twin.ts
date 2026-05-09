@@ -52,7 +52,7 @@ export interface Twin {
   completion_score: number;
   summary: string | null;
   profile_json: TwinProfileJson;
-  next_session_index: number; // 0..8
+  next_session_index: number; // 0..12
   created_at: string;
   updated_at: string;
 }

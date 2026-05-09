@@ -25,21 +25,21 @@ describe("computeCompletion", () => {
     ).toBe(0);
   });
 
-  it("hits 1.0 when all 8 sessions are done and confidence is 1", () => {
+  it("hits 1.0 when all 12 sessions are done and confidence is 1", () => {
     expect(
-      computeCompletion({ sessionsCompleted: 8, meanConfidence: 1 })
+      computeCompletion({ sessionsCompleted: 12, meanConfidence: 1 })
     ).toBe(1);
   });
 
   it("uses 50/50 weighting between sessions and confidence", () => {
     expect(
-      computeCompletion({ sessionsCompleted: 4, meanConfidence: 0.7 })
+      computeCompletion({ sessionsCompleted: 6, meanConfidence: 0.7 })
     ).toBeCloseTo(0.5 * 0.5 + 0.5 * 0.7, 2);
   });
 
   it("caps sessions at the target", () => {
     expect(
-      computeCompletion({ sessionsCompleted: 12, meanConfidence: 0.5 })
+      computeCompletion({ sessionsCompleted: 20, meanConfidence: 0.5 })
     ).toBeCloseTo(0.5 * 1 + 0.5 * 0.5, 2);
   });
 

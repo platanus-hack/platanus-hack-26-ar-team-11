@@ -7,7 +7,7 @@ import type {
   TwinSkill,
 } from "@/types";
 
-export const TARGET_TRAINING_SESSIONS = 8;
+export const TARGET_TRAINING_SESSIONS = 12;
 export const MAX_SESSION_INDEX = TARGET_TRAINING_SESSIONS;
 
 export interface RecomputeOptions {

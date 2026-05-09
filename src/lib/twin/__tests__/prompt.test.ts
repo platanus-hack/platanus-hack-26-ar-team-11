@@ -66,15 +66,15 @@ describe("buildSystemPrompt", () => {
     expect(out).toContain("introvertido");
   });
 
-  it("synthesis slot (6) explicitly recapitulates and asks for corrections", () => {
-    const out = buildSystemPrompt({ slot: CURRICULUM[6], twin: emptyTwin });
+  it("synthesis slot (10) explicitly recapitulates and asks for corrections", () => {
+    const out = buildSystemPrompt({ slot: CURRICULUM[10], twin: emptyTwin });
     expect(out).toContain("Modo: synthesis");
     expect(out).toContain("recapitular");
     expect(out).toContain("correcciones");
   });
 
-  it("gap_filling slot (7) targets low-confidence areas", () => {
-    const out = buildSystemPrompt({ slot: CURRICULUM[7], twin: emptyTwin });
+  it("gap_filling slot (11) targets low-confidence areas", () => {
+    const out = buildSystemPrompt({ slot: CURRICULUM[11], twin: emptyTwin });
     expect(out).toContain("Modo: gap_filling");
     expect(out).toContain("menor confidence");
   });
