@@ -50,9 +50,9 @@ export default async function SkillDetailPage({
     <PageShell>
       <Link
         href="/skills"
-        className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
+        className="inline-flex items-center gap-2 text-base font-medium text-muted-foreground hover:text-foreground"
       >
-        <ArrowLeft className="h-4 w-4" />
+        <ArrowLeft className="h-5 w-5" />
         Volver a skills
       </Link>
 
