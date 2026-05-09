@@ -9,6 +9,6 @@
       .accent { fill: #faf5ea; }
     }
   </style>
-  <circle class="accent" cx="50" cy="18" r="15"/>
-  <path class="ink-stroke" d="M 28 88 L 28 67 A 22 22 0 0 1 72 67 L 72 88"/>
+  <circle class="accent" cx="50" cy="18" r="18"/>
+  <path class="ink-stroke" d="M 28 93 L 28 70 A 22 22 0 0 1 72 70 L 72 93"/>
 </svg>
