@@ -364,14 +364,16 @@ body {
   }
 }
 
-/* StepStack — scroll-driven storytelling */
+/* StepStack — scroll-driven storytelling (5 pasos) */
 .step-stack-section {
-  height: calc(var(--step-count, 5) * 65vh);
+  height: 325vh;
+  height: 325dvh;
 }
 
 @media (min-width: 768px) {
   .step-stack-section {
-    height: calc(var(--step-count, 5) * 100vh);
+    height: 500vh;
+    height: 500dvh;
   }
 }
 

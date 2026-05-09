@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <style>
+    .ink { fill: #17244e; }
+    .ink-stroke { stroke: #17244e; fill: none; stroke-width: 14; stroke-linecap: round; stroke-linejoin: round; }
+    .accent { fill: #7cbcec; }
+    @media (prefers-color-scheme: dark) {
+      .ink { fill: #faf5ea; }
+      .ink-stroke { stroke: #faf5ea; }
+      .accent { fill: #faf5ea; }
+    }
+  </style>
+  <circle class="accent" cx="50" cy="18" r="18"/>
+  <path class="ink-stroke" d="M 28 93 L 28 70 A 22 22 0 0 1 72 70 L 72 93"/>
+</svg>

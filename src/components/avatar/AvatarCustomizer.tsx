@@ -152,7 +152,6 @@ export function AvatarCustomizer({
       if (res.ok) {
         setSavedName(trimmed);
         setIsEditingName(false);
-        toast.success("Nombre guardado");
       } else {
         toast.error(res.error ?? "No se pudo guardar el nombre");
       }
@@ -181,7 +180,7 @@ export function AvatarCustomizer({
       </header>
 
       <div className="-mt-5 flex flex-col items-center gap-5">
-        <div className="relative flex w-72 items-center">
+        <div className="relative flex w-full max-w-72 items-center">
           {isEditingName ? (
             <Input
               ref={nameInputRef}
@@ -395,7 +394,7 @@ function ColorGrid<K extends CategoryKey>({
 }) {
   const current = config[fieldKey];
   return (
-    <div className="grid grid-cols-7 gap-3 sm:grid-cols-9 md:grid-cols-12">
+    <div className="grid grid-cols-6 gap-3 sm:grid-cols-9 md:grid-cols-12">
       {colors.map((color) => {
         const selected = current === color;
         const isTransparent = color === "transparent";
