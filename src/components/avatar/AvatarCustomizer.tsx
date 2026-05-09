@@ -22,6 +22,7 @@ import {
   SKIN_COLORS,
 } from "@/types/avatar";
 import { updateAvatarConfig } from "@/lib/auth/avatar-actions";
+import { LoadingScreen } from "@/components/common/LoadingScreen";
 
 type CategoryKey =
   | "top"
@@ -103,7 +104,6 @@ export function AvatarCustomizer({ initialConfig, seed }: AvatarCustomizerProps)
       const res = await updateAvatarConfig(config);
       if (res.ok) {
         setSavedConfig(config);
-        toast.success("Avatar guardado");
       } else {
         toast.error(res.error ?? "No se pudo guardar el avatar");
       }
@@ -112,6 +112,15 @@ export function AvatarCustomizer({ initialConfig, seed }: AvatarCustomizerProps)
 
   function handleReset() {
     setConfig(savedConfig);
+  }
+
+  if (isPending) {
+    return (
+      <LoadingScreen
+        title="Guardando tu avatar…"
+        body="Estamos actualizando la apariencia de tu Twin."
+      />
+    );
   }
 
   return (
@@ -148,7 +157,7 @@ export function AvatarCustomizer({ initialConfig, seed }: AvatarCustomizerProps)
             disabled={!dirty || isPending}
             className="flex-1"
           >
-            {isPending ? "Guardando…" : "Guardar avatar"}
+            Guardar avatar
           </Button>
         </div>
       </div>
