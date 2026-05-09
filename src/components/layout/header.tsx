@@ -4,6 +4,7 @@ import { getCurrentUser } from "@/lib/auth/server";
 import { Button } from "@/components/ui/button";
 import { UserMenu } from "./user-menu";
 import { PrimaryNav } from "./primary-nav";
+import { MobileNav } from "./mobile-nav";
 import type { AvatarConfig } from "@/types/avatar";
 
 export type HeaderVariant = "default" | "minimal" | "auth";
@@ -16,13 +17,14 @@ export async function Header({ variant = "default" }: { variant?: HeaderVariant 
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/80 backdrop-blur">
-      <div className="relative flex h-20 w-full items-center px-8 sm:px-12">
+      <div className="relative flex h-20 w-full items-center gap-2 px-4 sm:gap-4 sm:px-8 md:px-12">
+        {variant === "default" && user && <MobileNav className="md:hidden" />}
         <Link
           href={user ? "/dashboard" : "/"}
           aria-label="Twin"
           className="flex items-center"
         >
-          <Image src="/logo.png" alt="Twin" width={88} height={88} priority />
+          <Image src="/logo.png" alt="Twin" width={88} height={40} priority />
         </Link>
 
         {variant === "default" && user && (
