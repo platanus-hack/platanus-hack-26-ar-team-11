@@ -9,6 +9,7 @@ import {
 } from "@livekit/agents";
 import * as silero from "@livekit/agents-plugin-silero";
 import * as bey from "@livekit/agents-plugin-bey";
+import { turnDetector } from "@livekit/agents-plugin-livekit";
 import { CURRICULUM, getCurriculumSlot } from "../src/lib/twin/curriculum.js";
 import { buildSystemPrompt } from "../src/lib/twin/prompt.js";
 import type { TranscriptEntry } from "../src/types/session.js";
@@ -57,6 +58,10 @@ export default defineAgent({
 
     const session = new voice.AgentSession({
       vad: ctx.proc.userData.vad as silero.VAD,
+      // Semantic end-of-utterance model (LiveKit's open-weights, multilingual).
+      // Way more accurate than VAD-silence alone for telling "user paused
+      // mid-sentence" from "user finished".
+      turnDetection: new turnDetector.MultilingualModel(),
       stt: buildStt(),
       llm: new AnthropicLLM({
         model: ANTHROPIC_MODEL,
@@ -71,6 +76,36 @@ export default defineAgent({
         slot,
         twin: { name: null, summary: null, skills: [] },
       }),
+      turnHandling: {
+        endpointing: {
+          // "dynamic" adapts the delay using the MultilingualModel's EOU
+          // probability — cuts pauses short when the user clearly finished,
+          // tolerates long pauses when the user is mid-thought.
+          mode: "dynamic",
+          // Snappy floor for short confident answers without clipping breath
+          // pauses (the EOU model gates this anyway).
+          minDelay: 120,
+          // Hard cap so even when the EOU model is uncertain we cut at 1.5s,
+          // avoiding the "I said it once but the bot stayed silent" feel that
+          // led users to repeat themselves.
+          maxDelay: 1500,
+        },
+        interruption: {
+          enabled: true,
+          // Sustained user speech (in ms) before the agent stops talking.
+          // Note: 0.8 here would be 0.8 *ms* — instantaneous, hence constant
+          // accidental cut-offs. 800ms is the right unit.
+          minDuration: 800,
+          minWords: 2,
+        },
+        preemptiveGeneration: {
+          // Start LLM/TTS the moment STT emits a final transcript, before
+          // the EOU detector confirms end of turn. Worst case: discard the
+          // in-flight generation. Best case (most turns): bot replies
+          // near-instantly when the user truly finishes.
+          enabled: true,
+        },
+      } as voice.AgentOptions<unknown>["turnHandling"],
     });
 
     session.on(
