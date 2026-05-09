@@ -1,11 +1,13 @@
 "use client";
 
-import { LogOut } from "lucide-react";
+import Link from "next/link";
+import { LogOut, UserCog } from "lucide-react";
 import { useTransition } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { signOutAction } from "@/lib/auth/actions";
@@ -37,8 +39,15 @@ export function UserMenu({ email, name }: { email: string | null; name?: string 
       <DropdownMenuContent
         align="end"
         sideOffset={8}
-        className="w-44 border-border bg-card text-card-foreground shadow-xl"
+        className="w-56 border-border bg-card text-card-foreground shadow-xl"
       >
+        <DropdownMenuItem asChild className="cursor-pointer">
+          <Link href="/avatar">
+            <UserCog className="mr-2 h-4 w-4" />
+            Personalizar avatar
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
         <DropdownMenuItem
           variant="destructive"
           disabled={isPending}
