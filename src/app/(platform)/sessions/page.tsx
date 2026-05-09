@@ -28,20 +28,33 @@ export default async function SessionsPage() {
   }
 
   const sessions = await listSessionsForTwin(data.twin.id);
+  const trainingCount = sessions.filter((s) => s.type === "training").length;
 
   return (
     <PageShell>
-      <header className="mb-6 space-y-2">
-        <h1 className="text-2xl font-semibold">Sesiones</h1>
-        <p className="text-sm text-muted-foreground">
-          Cada conversación con tu Twin queda guardada aquí.
-        </p>
+      <header className="mb-10 flex flex-col items-start gap-6 sm:flex-row sm:items-end sm:justify-between">
+        <div className="space-y-2">
+          <span className="text-sm uppercase tracking-[0.2em] text-secondary">
+            Sesiones
+          </span>
+          <h1 className="text-balance text-3xl font-black sm:text-4xl">
+            Cada charla que tuviste con tu Twin.
+          </h1>
+          <p className="max-w-xl text-base text-muted-foreground">
+            Tocá una sesión para ver el resumen, los datos extraídos y la
+            duración de la conversación.
+          </p>
+        </div>
+        <div className="flex shrink-0 gap-3 text-center">
+          <Stat label="Total" value={sessions.length.toString()} />
+          <Stat label="Entrenamiento" value={trainingCount.toString()} />
+        </div>
       </header>
 
       {sessions.length === 0 ? (
         <Card>
           <CardContent className="space-y-3 p-6 text-center">
-            <p className="text-sm text-muted-foreground">Aún no tienes sesiones.</p>
+            <p className="text-sm text-muted-foreground">Aún no tenés sesiones.</p>
             <ContinueTrainingButton>Iniciar entrenamiento</ContinueTrainingButton>
           </CardContent>
         </Card>
@@ -55,5 +68,16 @@ export default async function SessionsPage() {
         </ul>
       )}
     </PageShell>
+  );
+}
+
+function Stat({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-2xl border border-border bg-card px-5 py-3 shadow-sm">
+      <p className="text-2xl font-black tabular-nums">{value}</p>
+      <p className="text-xs uppercase tracking-wider text-muted-foreground">
+        {label}
+      </p>
+    </div>
   );
 }

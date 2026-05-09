@@ -17,13 +17,27 @@ export default async function ConnectedAppsPage() {
   );
   const logsMap = new Map<string, QueryLog[]>(logsByConnection);
 
+  const activeCount = connections.filter((c) => !c.revoked_at).length;
+
   return (
     <PageShell>
-      <header className="mb-6 space-y-2">
-        <h1 className="text-2xl font-semibold">Aplicaciones conectadas</h1>
-        <p className="text-sm text-muted-foreground">
-          Aplicaciones que pueden consultar a tu Twin. Tú eliges a qué acceden y cuándo desconectarlas.
-        </p>
+      <header className="mb-10 flex flex-col items-start gap-6 sm:flex-row sm:items-end sm:justify-between">
+        <div className="space-y-2">
+          <span className="text-sm uppercase tracking-[0.2em] text-secondary">
+            Aplicaciones
+          </span>
+          <h1 className="text-balance text-3xl font-black sm:text-4xl">
+            Las apps que pueden consultar a tu Twin.
+          </h1>
+          <p className="max-w-xl text-base text-muted-foreground">
+            Vos elegís qué pueden preguntar y cuándo revocar el acceso. Tu Twin
+            sigue siendo tuyo.
+          </p>
+        </div>
+        <div className="flex shrink-0 gap-3 text-center">
+          <Stat label="Conectadas" value={connections.length.toString()} />
+          <Stat label="Activas" value={activeCount.toString()} />
+        </div>
       </header>
 
       {connections.length === 0 ? (
@@ -44,5 +58,16 @@ export default async function ConnectedAppsPage() {
         </div>
       )}
     </PageShell>
+  );
+}
+
+function Stat({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-2xl border border-border bg-card px-5 py-3 shadow-sm">
+      <p className="text-2xl font-black tabular-nums">{value}</p>
+      <p className="text-xs uppercase tracking-wider text-muted-foreground">
+        {label}
+      </p>
+    </div>
   );
 }

@@ -34,9 +34,9 @@ describe("SkillsList", () => {
         pending={[]}
       />,
     );
-    const idxMusic = html.indexOf("Music taste");
-    const idxEvents = html.indexOf("Event preferences");
-    const idxVibes = html.indexOf("Vibes");
+    const idxMusic = html.indexOf("Música");
+    const idxEvents = html.indexOf("Eventos");
+    const idxVibes = html.indexOf("Vibe");
     expect(idxMusic).toBeGreaterThan(-1);
     expect(idxMusic).toBeLessThan(idxEvents);
     expect(idxEvents).toBeLessThan(idxVibes);
@@ -47,8 +47,8 @@ describe("SkillsList", () => {
       <SkillsList skills={[]} pending={["music_taste", "vibes"]} />,
     );
     expect(html).toContain("Pendientes");
-    expect(html).toContain("Music taste");
-    expect(html).toContain("Vibes");
+    expect(html).toContain("Música");
+    expect(html).toContain("Vibe");
   });
 
   it("hides pending section when empty", () => {

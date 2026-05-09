@@ -30,7 +30,7 @@ export function DomainSummaryCard({
     >
       <Card
         className={cn(
-          "relative h-full gap-0 overflow-hidden p-5 transition-all",
+          "relative flex h-full flex-col gap-0 overflow-hidden p-5 transition-all",
           "group-hover:-translate-y-0.5 group-hover:shadow-lg group-focus-visible:ring-2 group-focus-visible:ring-ring",
           empty && "border-dashed bg-card/60",
         )}
@@ -56,7 +56,7 @@ export function DomainSummaryCard({
           <p className="text-xs uppercase tracking-wider text-muted-foreground">
             {empty
               ? "Sin entrenar"
-              : `${facts.length} fact${facts.length === 1 ? "" : "s"}`}
+              : `${facts.length} dato${facts.length === 1 ? "" : "s"}`}
           </p>
         </div>
 
@@ -79,7 +79,7 @@ export function DomainSummaryCard({
           </ul>
         )}
 
-        <div className="mt-5 flex items-center justify-end text-xs font-medium text-muted-foreground transition-colors group-hover:text-foreground">
+        <div className="mt-auto flex items-center justify-end pt-5 text-xs font-medium text-muted-foreground transition-colors group-hover:text-foreground">
           Ver detalle
           <ArrowRight className="ml-1 h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
         </div>
@@ -89,24 +89,24 @@ export function DomainSummaryCard({
 }
 
 function ConfidenceDial({ percent }: { percent: number }) {
-  const radius = 18;
+  const radius = 26;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference * (1 - percent / 100);
 
   return (
-    <div className="relative h-12 w-12 shrink-0">
-      <svg viewBox="0 0 48 48" className="h-full w-full -rotate-90">
+    <div className="relative h-16 w-16 shrink-0">
+      <svg viewBox="0 0 64 64" className="h-full w-full -rotate-90">
         <circle
-          cx="24"
-          cy="24"
+          cx="32"
+          cy="32"
           r={radius}
           fill="none"
           className="stroke-muted"
           strokeWidth="4"
         />
         <circle
-          cx="24"
-          cy="24"
+          cx="32"
+          cy="32"
           r={radius}
           fill="none"
           className="stroke-primary"
@@ -116,7 +116,7 @@ function ConfidenceDial({ percent }: { percent: number }) {
           strokeDashoffset={offset}
         />
       </svg>
-      <div className="absolute inset-0 flex items-center justify-center text-xs font-semibold tabular-nums">
+      <div className="absolute inset-0 flex items-center justify-center text-sm font-semibold tabular-nums">
         {percent}%
       </div>
     </div>

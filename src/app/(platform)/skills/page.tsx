@@ -39,12 +39,12 @@ export default async function SkillsPage() {
           </h1>
           <p className="max-w-xl text-base text-muted-foreground">
             Cada dominio se entrena con sesiones de voz. Tocá una skill para ver el
-            detalle de los facts y su nivel de confianza.
+            detalle de los datos y su nivel de confianza.
           </p>
         </div>
         <div className="flex shrink-0 gap-3 text-center">
           <Stat label="Dominios" value={`${trained.length}/${ALL_DOMAINS.length}`} />
-          <Stat label="Facts" value={totalFacts.toString()} />
+          <Stat label="Datos" value={totalFacts.toString()} />
         </div>
       </header>
 

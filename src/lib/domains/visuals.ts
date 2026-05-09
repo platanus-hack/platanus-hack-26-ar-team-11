@@ -20,18 +20,18 @@ export interface DomainVisual {
 export const DOMAIN_VISUALS: Record<Domain, DomainVisual> = {
   music_taste: {
     icon: Music,
-    tone: "bg-primary/10 text-primary",
-    ring: "ring-primary/20",
+    tone: "bg-muted text-foreground",
+    ring: "ring-border",
   },
   event_preferences: {
     icon: MapPin,
-    tone: "bg-secondary/15 text-secondary",
-    ring: "ring-secondary/20",
+    tone: "bg-muted text-foreground",
+    ring: "ring-border",
   },
   vibes: {
     icon: Heart,
-    tone: "bg-accent/20 text-accent-foreground",
-    ring: "ring-accent/30",
+    tone: "bg-muted text-foreground",
+    ring: "ring-border",
   },
   communication_style: {
     icon: MessageCircle,
@@ -45,17 +45,17 @@ export const DOMAIN_VISUALS: Record<Domain, DomainVisual> = {
   },
   fashion_taste: {
     icon: Shirt,
-    tone: "bg-secondary/15 text-secondary",
-    ring: "ring-secondary/20",
+    tone: "bg-muted text-foreground",
+    ring: "ring-border",
   },
   food_taste: {
     icon: UtensilsCrossed,
-    tone: "bg-accent/20 text-accent-foreground",
-    ring: "ring-accent/30",
+    tone: "bg-muted text-foreground",
+    ring: "ring-border",
   },
   travel_style: {
     icon: Plane,
-    tone: "bg-primary/10 text-primary",
-    ring: "ring-primary/20",
+    tone: "bg-muted text-foreground",
+    ring: "ring-border",
   },
 };

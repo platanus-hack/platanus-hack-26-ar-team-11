@@ -53,7 +53,7 @@ describe("SessionRow", () => {
   it("renders training slot label", () => {
     const html = renderToString(<SessionRow session={baseSession} />);
     expect(html).toContain("Sesión 3");
-    expect(html).toContain("Music taste");
+    expect(html).toContain("Música");
     expect(html).toContain("12 min");
   });
 

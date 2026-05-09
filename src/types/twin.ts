@@ -58,12 +58,12 @@ export interface Twin {
 }
 
 export const DOMAIN_LABELS: Record<Domain, string> = {
-  vibes: "Vibes",
-  communication_style: "Communication style",
-  spending_profile: "Spending profile",
-  music_taste: "Music taste",
-  event_preferences: "Event preferences",
-  fashion_taste: "Fashion taste",
-  food_taste: "Food taste",
-  travel_style: "Travel style",
+  vibes: "Vibe",
+  communication_style: "Comunicación",
+  spending_profile: "Gastos",
+  music_taste: "Música",
+  event_preferences: "Eventos",
+  fashion_taste: "Moda",
+  food_taste: "Comida",
+  travel_style: "Viajes",
 };
