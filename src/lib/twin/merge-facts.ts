@@ -1,7 +1,12 @@
 import { randomUUID } from "node:crypto";
 import type { ExtractedFact, Fact } from "@/types";
 
-const SIMILARITY_THRESHOLD = 0.85;
+// Jaccard threshold for "this is the same fact". The spec suggested 0.85 but
+// that's calibrated for embedding similarity; with token-set jaccard, 0.85
+// only matches near-identical strings. 0.7 keeps phrasing variants together
+// (e.g. "indie rock alternative" vs "indie rock alternative and folk")
+// without coalescing genuinely different facts.
+const SIMILARITY_THRESHOLD = 0.7;
 
 export interface MergeOptions {
   sessionId?: string | null;
