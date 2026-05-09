@@ -192,6 +192,51 @@ describe("POST /api/twin/query", () => {
     expect(json.policy.allowed).toBe(true);
   });
 
+  it("400 bad_request when domain_summary missing context.domain", async () => {
+    state.validation = { ok: true, connection: ACTIVE_CONN };
+    const res = await call(
+      { connection_id: ACTIVE_CONN.id, intent: "domain_summary" },
+      { token: "tok" },
+    );
+    expect(res.status).toBe(400);
+  });
+
+  it("400 bad_request when event_recommendation missing context.event", async () => {
+    state.validation = { ok: true, connection: ACTIVE_CONN };
+    const res = await call(
+      { connection_id: ACTIVE_CONN.id, intent: "event_recommendation" },
+      { token: "tok" },
+    );
+    expect(res.status).toBe(400);
+  });
+
+  it("400 bad_request when event_ranking has empty events array", async () => {
+    state.validation = { ok: true, connection: ACTIVE_CONN };
+    const res = await call(
+      {
+        connection_id: ACTIVE_CONN.id,
+        intent: "event_ranking",
+        context: { events: [] },
+      },
+      { token: "tok" },
+    );
+    expect(res.status).toBe(400);
+  });
+
+  it("400 bad_request when event_ranking exceeds MAX_EVENTS", async () => {
+    state.validation = { ok: true, connection: ACTIVE_CONN };
+    const events = Array.from({ length: 51 }, (_, i) => ({ id: `e${i}` }));
+    const res = await call(
+      {
+        connection_id: ACTIVE_CONN.id,
+        intent: "event_ranking",
+        context: { events },
+      },
+      { token: "tok" },
+    );
+    expect(res.status).toBe(400);
+  });
+
   it("logs every request (allowed and denied)", async () => {
     state.validation = { ok: true, connection: ACTIVE_CONN };
     await call(

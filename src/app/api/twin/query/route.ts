@@ -115,6 +115,33 @@ function deniedPolicy(reason: string): PolicyResult {
   return { allowed: false, scopes_used: [], blocked_reason: reason };
 }
 
+function validateIntentShape(
+  intent: Intent,
+  body: ParsedQuery,
+): string | null {
+  const ctx = body.context;
+  switch (intent) {
+    case "domain_summary":
+      // Engine catches missing/blocked domain — but check shape here too so
+      // we surface a 400 earlier with a clearer message than relying on policy.
+      if (!ctx?.domain) return "context.domain is required for domain_summary";
+      return null;
+    case "event_recommendation":
+      if (!ctx?.event) return "context.event is required for event_recommendation";
+      return null;
+    case "event_ranking":
+      if (!ctx?.events || !Array.isArray(ctx.events) || ctx.events.length === 0) {
+        return "context.events must be a non-empty array for event_ranking";
+      }
+      if (ctx.events.length > MAX_EVENTS) {
+        return `Max ${MAX_EVENTS} events per request`;
+      }
+      return null;
+    case "general_summary":
+      return null;
+  }
+}
+
 export async function OPTIONS(req: NextRequest) {
   const origin = req.headers.get("origin");
   return new Response(null, { status: 204, headers: corsHeaders(origin) });
@@ -165,6 +192,11 @@ export async function POST(req: NextRequest) {
     return withCors(invalidIntent(parsed.intent), origin);
   }
   const intent = parsed.intent as Intent;
+
+  const shapeError = validateIntentShape(intent, parsed);
+  if (shapeError) {
+    return withCors(badRequest(shapeError), origin);
+  }
 
   const validation = await validateConnection(parsed.connection_id, token);
   if (!validation.ok) {

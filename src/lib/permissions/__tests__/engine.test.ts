@@ -42,21 +42,30 @@ describe("evaluatePolicy — domain_summary", () => {
     expect(result.blocked_reason).toContain("missing_scope");
   });
 
-  it("blocked when context.domain is a blocked domain", () => {
+  it("blocked_domain wins over bad_request when context.domain is a blocked domain", () => {
     const result = evaluatePolicy({
       intent: "domain_summary",
       context: { domain: "politics" },
       granted_scopes: ["persona.read.summary", "persona.read.music"],
     });
     expect(result.allowed).toBe(false);
-    // The required-scope check returns [] so the engine flags missing domain first.
-    expect(result.blocked_reason).toMatch(/bad_request|blocked_domain/);
+    expect(result.blocked_reason).toBe("blocked_domain: politics");
   });
 
-  it("blocked when domain is missing entirely", () => {
+  it("bad_request when domain is missing entirely", () => {
     const result = evaluatePolicy({
       intent: "domain_summary",
       context: {},
+      granted_scopes: ["persona.read.summary"],
+    });
+    expect(result.allowed).toBe(false);
+    expect(result.blocked_reason).toContain("bad_request");
+  });
+
+  it("bad_request when domain is unknown (not Domain, not BlockedDomain)", () => {
+    const result = evaluatePolicy({
+      intent: "domain_summary",
+      context: { domain: "totally_random_domain" },
       granted_scopes: ["persona.read.summary"],
     });
     expect(result.allowed).toBe(false);
