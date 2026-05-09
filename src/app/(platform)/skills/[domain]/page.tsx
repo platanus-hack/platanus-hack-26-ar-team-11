@@ -56,7 +56,7 @@ export default async function SkillDetailPage({
         Volver a skills
       </Link>
 
-      <header className="mt-8 grid grid-cols-[auto_1fr] items-start gap-x-4 gap-y-6 sm:flex sm:flex-row sm:items-center sm:gap-8">
+      <header className="mt-8 grid grid-cols-[auto_1fr_auto] items-start gap-x-3 sm:flex sm:flex-row sm:items-center sm:gap-8">
         <div
           className={cn(
             "flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl ring-1 sm:h-24 sm:w-24 sm:rounded-3xl",
@@ -79,11 +79,7 @@ export default async function SkillDetailPage({
           </p>
         </div>
 
-        {!empty && (
-          <div className="col-span-2 flex justify-center sm:col-auto sm:block">
-            <BigDial percent={percent} />
-          </div>
-        )}
+        {!empty && <BigDial percent={percent} />}
       </header>
 
       <section className="mt-12">
@@ -116,7 +112,7 @@ function BigDial({ percent }: { percent: number }) {
   const offset = circumference * (1 - percent / 100);
 
   return (
-    <div className="relative h-40 w-40 shrink-0">
+    <div className="relative h-16 w-16 shrink-0 sm:h-40 sm:w-40">
       <svg viewBox="0 0 160 160" className="h-full w-full -rotate-90">
         <circle
           cx="80"
@@ -139,8 +135,8 @@ function BigDial({ percent }: { percent: number }) {
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-3xl font-black tabular-nums">{percent}%</span>
-        <span className="text-xs uppercase tracking-wider text-muted-foreground">
+        <span className="text-sm font-black tabular-nums sm:text-3xl">{percent}%</span>
+        <span className="hidden text-xs uppercase tracking-wider text-muted-foreground sm:block">
           Confianza
         </span>
       </div>
