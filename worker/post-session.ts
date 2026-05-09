@@ -5,6 +5,11 @@ import {
   mergeFacts,
 } from "../src/lib/twin/merge-facts.js";
 import {
+  advanceNextSessionIndex,
+  recomputeCompletion,
+  regenerateSummary,
+} from "../src/lib/twin/recompute.js";
+import {
   ALL_DOMAINS,
   type Domain,
   type ExtractedFact,
@@ -24,6 +29,9 @@ export interface PostSessionInput {
 export interface PostSessionResult {
   facts: ExtractedFact[];
   summaryUpdate: string | null;
+  completion: number | null;
+  nextSessionIndex: number | null;
+  summary: string | null;
 }
 
 let cachedClient: SupabaseClient | null = null;
@@ -53,16 +61,6 @@ export async function runPostSession(
     targetDomain: input.targetDomain,
   });
 
-  if (extracted.facts.length === 0) {
-    await persistSessionResults(
-      supabase,
-      input.sessionId,
-      [],
-      extracted.summary_update
-    );
-    return { facts: [], summaryUpdate: extracted.summary_update };
-  }
-
   const byDomain = groupByDomain(extracted.facts);
   for (const [domain, incoming] of byDomain.entries()) {
     const skill = skills.find((s) => s.domain === domain);
@@ -79,9 +77,37 @@ export async function runPostSession(
     extracted.summary_update
   );
 
+  const opts = { client: supabase, twinId: input.twinId };
+
+  let completion: number | null = null;
+  try {
+    completion = await recomputeCompletion(opts);
+  } catch (err) {
+    console.error("[post-session] recomputeCompletion failed:", err);
+  }
+
+  let summary: string | null = null;
+  if (extracted.facts.length > 0) {
+    try {
+      summary = await regenerateSummary({ ...opts, sessionId: input.sessionId });
+    } catch (err) {
+      console.error("[post-session] regenerateSummary failed:", err);
+    }
+  }
+
+  let nextSessionIndex: number | null = null;
+  try {
+    nextSessionIndex = await advanceNextSessionIndex(opts);
+  } catch (err) {
+    console.error("[post-session] advanceNextSessionIndex failed:", err);
+  }
+
   return {
     facts: extracted.facts,
     summaryUpdate: extracted.summary_update,
+    completion,
+    nextSessionIndex,
+    summary,
   };
 }
 

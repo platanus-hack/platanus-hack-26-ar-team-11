@@ -219,7 +219,7 @@ export default defineAgent({
           transcript,
         });
         console.log(
-          `[worker] post-session: ${result.facts.length} facts extracted, summary_update=${result.summaryUpdate ? "yes" : "no"}`
+          `[worker] post-session: facts=${result.facts.length} completion=${result.completion ?? "—"} next_slot=${result.nextSessionIndex ?? "—"} summary=${result.summary ? "regenerated" : "skipped"}`
         );
       } catch (err) {
         console.error("[worker] post-session pipeline failed:", err);
