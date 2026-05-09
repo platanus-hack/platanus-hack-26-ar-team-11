@@ -21,6 +21,7 @@ interface HeroAvatarProps {
   config?: AvatarConfig;
   seed?: string;
   swapKey?: string | number;
+  scale?: number;
 }
 
 // Frame del Twin: cartoon avatar con halo amber + orbits indigo.
@@ -29,7 +30,15 @@ export function HeroAvatar({
   config = HERO_AVATAR_CONFIG,
   seed = "twin-hero",
   swapKey,
+  scale,
 }: HeroAvatarProps) {
+  const swapStyle =
+    scale && scale !== 1
+      ? ({
+          transform: `scale(${scale})`,
+          transformOrigin: "bottom center",
+        } as const)
+      : undefined;
   return (
     <div
       role="img"
@@ -43,9 +52,9 @@ export function HeroAvatar({
       <span className="hero-avatar-orbit hero-avatar-orbit--mid" aria-hidden />
       <span className="hero-avatar-halo" aria-hidden />
       <div className="hero-avatar-frame" aria-hidden>
-        <div key={swapKey} className="hero-avatar-swap">
+        <div key={swapKey} className="hero-avatar-swap" style={swapStyle}>
           <UserAvatar
-            config={config}
+            config={{ ...config, backgroundColor: "transparent" }}
             seed={seed}
             ariaLabel="Avatar de tu Twin"
             className="h-full w-full"

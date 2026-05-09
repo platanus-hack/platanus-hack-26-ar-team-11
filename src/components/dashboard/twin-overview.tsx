@@ -24,7 +24,7 @@ export function TwinOverview({
       <HeroAvatar
         config={avatarConfig ?? DEFAULT_AVATAR_CONFIG}
         seed={avatarSeed ?? twin.id}
-        className="!w-48 md:!w-56"
+        className="!w-56 md:!w-64"
       />
 
       <div className="space-y-3">
@@ -58,7 +58,7 @@ export function EmptyTwinState({
       <HeroAvatar
         config={avatarConfig ?? DEFAULT_AVATAR_CONFIG}
         seed={avatarSeed ?? "twin"}
-        className="!w-48 md:!w-56"
+        className="!w-56 md:!w-64"
       />
       <div className="space-y-2">
         <h1 className="text-3xl font-semibold md:text-4xl">Tu Twin está esperando.</h1>
