@@ -30,7 +30,7 @@ describe("SessionDetail", () => {
     const html = renderToString(<SessionDetail session={makeSession()} />);
     expect(html).toContain("Hola, contame algo.");
     expect(html).toContain("Soy introvertido.");
-    expect(html).toContain("Cami");
+    expect(html).toContain("Clara");
     expect(html).toContain("Vos");
   });
 
