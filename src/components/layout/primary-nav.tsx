@@ -8,7 +8,7 @@ const ITEMS = [
   { href: "/dashboard", label: "Agente" },
   { href: "/skills", label: "Skills" },
   { href: "/sessions", label: "Sesiones" },
-  { href: "/connected-apps", label: "Aplicaciones conectadas" },
+  { href: "/connected-apps", label: "Aplicaciones" },
 ] as const;
 
 export function PrimaryNav() {
