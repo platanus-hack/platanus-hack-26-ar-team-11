@@ -32,7 +32,7 @@ describe("Header", () => {
 
   it("hides nav entirely on minimal variant", async () => {
     const html = renderToString(await Header({ variant: "minimal" }));
-    expect(html).toContain("Twin Protocol");
+    expect(html).toContain("Twin");
     expect(html).not.toContain("Login");
     expect(html).not.toContain("Crear mi Twin");
     expect(getCurrentUser).not.toHaveBeenCalled();
@@ -41,7 +41,7 @@ describe("Header", () => {
   it("auth variant shows logo only without auth nav", async () => {
     getCurrentUser.mockResolvedValue(null);
     const html = renderToString(await Header({ variant: "auth" }));
-    expect(html).toContain("Twin Protocol");
+    expect(html).toContain("Twin");
     expect(html).not.toContain("Login");
   });
 });

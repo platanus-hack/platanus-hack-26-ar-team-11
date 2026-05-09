@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Twin Protocol",
+  title: "Twin",
   description: "Your AI self, connected to every app.",
 };
 
