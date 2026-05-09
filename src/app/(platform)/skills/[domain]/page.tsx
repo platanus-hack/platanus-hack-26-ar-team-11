@@ -56,7 +56,7 @@ export default async function SkillDetailPage({
         Volver a skills
       </Link>
 
-      <header className="mt-8 grid grid-cols-[auto_1fr_auto] items-start gap-x-3 sm:flex sm:flex-row sm:items-center sm:gap-8">
+      <header className="mt-8 grid grid-cols-[auto_minmax(0,1fr)_auto] items-start gap-x-3 sm:flex sm:flex-row sm:items-center sm:gap-8">
         <div
           className={cn(
             "flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl ring-1 sm:h-24 sm:w-24 sm:rounded-3xl",
