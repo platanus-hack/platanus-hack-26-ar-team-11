@@ -67,7 +67,7 @@ export default async function SkillsPage() {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl border border-border bg-card px-5 py-3 shadow-sm">
+    <div className="min-w-[8rem] rounded-2xl border border-border bg-card px-5 py-3 shadow-sm">
       <p className="text-2xl font-black tabular-nums">{value}</p>
       <p className="text-xs uppercase tracking-wider text-muted-foreground">
         {label}
