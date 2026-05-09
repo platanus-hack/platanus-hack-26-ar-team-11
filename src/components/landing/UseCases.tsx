@@ -5,19 +5,19 @@ const cards = [
     Icon: Music,
     title: "Apps de música y entradas",
     body:
-      "Tu Twin entiende tus gustos, géneros y artistas favoritos. Las apps recomiendan shows que te van a encantar sin sacarte un cuestionario.",
+      "Tu Twin conoce tus gustos musicales y ayuda a las apps a recomendarte shows y artistas alineados con tus preferencias.",
   },
   {
     Icon: Calendar,
     title: "Asistentes y planners",
     body:
-      "El Twin contesta cómo te gusta organizar tu semana, qué ritmo querés y qué tono usar. Tus apps no empiezan de cero.",
+      "Tus apps de organización entienden cómo planificás tu semana y se adaptan a tu ritmo y estilo desde el primer uso.",
   },
   {
     Icon: Boxes,
     title: "Productos nuevos",
     body:
-      "Cualquier dev puede integrarse con scopes mínimos. Onboarding cero: el usuario llega ya conocido.",
+      "Las apps que pruebes por primera vez te reconocen automáticamente y se adaptan a vos, sin procesos largos de configuración.",
   },
 ];
 
@@ -33,8 +33,9 @@ export function UseCases() {
             Apps que se vuelven tuyas desde el primer click.
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            Desarrolladores integran Twin Protocol como un OAuth chiquito con
-            scopes específicos. Vos no llenás formularios; tu Twin contesta por vos.
+            Conectá tu Twin a las apps que usás todos los días y disfrutá de
+            experiencias personalizadas desde el primer momento, sin completar
+            formularios ni repetir tus preferencias.
           </p>
         </div>
 
