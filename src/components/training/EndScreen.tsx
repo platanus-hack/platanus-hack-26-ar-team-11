@@ -6,6 +6,7 @@ import { CheckCircle2, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { ContinueTrainingButton } from "@/components/training/ContinueTrainingButton";
+import { TARGET_TRAINING_SESSIONS } from "@/lib/twin/recompute";
 import type { Domain, ExtractedFact, Session } from "@/types";
 
 const POLL_INTERVAL_MS = 2000;
@@ -17,6 +18,10 @@ const DOMAIN_LABELS: Record<Domain, string> = {
   event_preferences: "Eventos",
   vibes: "Vibes",
   communication_style: "Comunicación",
+  spending_profile: "Gastos",
+  fashion_taste: "Moda",
+  food_taste: "Comida",
+  travel_style: "Viajes",
 };
 
 interface SessionResponse {
@@ -155,7 +160,7 @@ function ReadyView({ data }: { data: SessionResponse }) {
   const completion = Math.round(data.twin.completion_score * 100);
   const slotIndex = data.session.session_index ?? 0;
   const nextIndex = data.twin.next_session_index;
-  const hasMoreSessions = nextIndex < 8;
+  const hasMoreSessions = nextIndex < TARGET_TRAINING_SESSIONS;
 
   const factsByDomain = new Map<Domain, ExtractedFact[]>();
   for (const fact of facts) {
@@ -170,7 +175,7 @@ function ReadyView({ data }: { data: SessionResponse }) {
         <CheckCircle2 className="h-6 w-6 text-emerald-500" />
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">
-            Sesión {slotIndex + 1} de 8 completada
+            Sesión {slotIndex + 1} de {TARGET_TRAINING_SESSIONS} completada
           </h1>
           {facts.length > 0 && (
             <p className="text-sm text-neutral-600">

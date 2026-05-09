@@ -5,12 +5,17 @@ import { Mic, MicOff } from "lucide-react";
 import type { CurriculumSlot } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { TARGET_TRAINING_SESSIONS } from "@/lib/twin/recompute";
 
 const DOMAIN_LABELS: Record<string, string> = {
-  music_taste: "gustos musicales",
-  event_preferences: "preferencias de eventos",
   vibes: "personalidad y energía",
   communication_style: "estilo de comunicación",
+  spending_profile: "mentalidad de gasto",
+  music_taste: "gustos musicales",
+  event_preferences: "preferencias de eventos",
+  fashion_taste: "estilo y moda",
+  food_taste: "gustos gastronómicos",
+  travel_style: "estilo viajero",
 };
 
 const DEPTH_LABELS: Record<CurriculumSlot["target_depth"], string> = {
@@ -71,7 +76,7 @@ export function Lobby({ slot, status, error, onStart }: LobbyProps) {
     <div className="mx-auto flex min-h-[60vh] max-w-md flex-col items-center justify-center gap-8 px-4 py-10">
       <div className="text-center">
         <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
-          Sesión {slot.index + 1} de 8 · {DEPTH_LABELS[slot.target_depth]}
+          Sesión {slot.index + 1} de {TARGET_TRAINING_SESSIONS} · {DEPTH_LABELS[slot.target_depth]}
         </p>
         <h1 className="mt-3 text-2xl font-semibold tracking-tight text-foreground">
           {targetLabel}

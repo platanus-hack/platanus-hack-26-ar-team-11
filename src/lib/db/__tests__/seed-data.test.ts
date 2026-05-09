@@ -11,13 +11,34 @@ describe("demo users seed data", () => {
     }
   });
 
-  it("session indexes are unique and within [0,7]", () => {
+  it("session indexes are unique and within [0,11]", () => {
     for (const user of DEMO_USERS) {
       const indexes = user.sessions.map((s) => s.session_index);
       expect(new Set(indexes).size).toBe(indexes.length);
       for (const idx of indexes) {
         expect(idx).toBeGreaterThanOrEqual(0);
-        expect(idx).toBeLessThanOrEqual(7);
+        expect(idx).toBeLessThanOrEqual(11);
+      }
+    }
+  });
+
+  it("each demo user has facts in every domain (Skills tab is fully populated)", () => {
+    const REQUIRED_DOMAINS = [
+      "vibes",
+      "communication_style",
+      "spending_profile",
+      "music_taste",
+      "event_preferences",
+      "fashion_taste",
+      "food_taste",
+      "travel_style",
+    ];
+    for (const user of DEMO_USERS) {
+      const domainsWithFacts = new Set(
+        user.skills.filter((s) => s.facts.length > 0).map((s) => s.domain),
+      );
+      for (const domain of REQUIRED_DOMAINS) {
+        expect(domainsWithFacts).toContain(domain);
       }
     }
   });

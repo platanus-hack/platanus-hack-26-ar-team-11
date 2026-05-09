@@ -90,11 +90,43 @@ export interface CommunicationStyleData {
   technical_detail: string | null;
 }
 
+export interface SpendingProfileData {
+  price_sensitivity: string | null;   // "high" | "medium" | "low" | null
+  splurge_categories: string[];       // categorías donde gasta sin culpa
+  save_categories: string[];          // categorías donde busca ahorrar
+  budget_mindset: string | null;      // p. ej. "value-driven", "experience-first", "status-driven"
+}
+
+export interface FashionTasteData {
+  style_tags: string[];               // p. ej. ["minimal", "streetwear", "clásico"]
+  color_palette: string[];            // colores que usa más
+  fit_preference: string | null;      // p. ej. "oversized", "fitted", null
+  brands_loved: string[];
+}
+
+export interface FoodTasteData {
+  cuisines: string[];
+  dietary_restrictions: string[];     // ["vegetariano", "sin gluten", ...]
+  palate: string | null;              // p. ej. "picante", "dulce", "umami"
+  habit: string | null;               // p. ej. "delivery frecuente", "cocina casa", "sale a comer"
+}
+
+export interface TravelStyleData {
+  vibe: string | null;                // p. ej. "mochilero", "confort", "lujo"
+  destinations_loved: string[];
+  budget_typical: string | null;      // free text: "medio", "alto", "low cost", null
+  travel_companions: string | null;   // "solo", "pareja", "amigos", "familia", null
+}
+
 export type DomainSummaryData =
   | MusicTasteData
   | EventPreferencesData
   | VibesData
-  | CommunicationStyleData;
+  | CommunicationStyleData
+  | SpendingProfileData
+  | FashionTasteData
+  | FoodTasteData
+  | TravelStyleData;
 
 export interface DomainSummaryResponse extends PolicyEnvelope {
   domain: Domain;
