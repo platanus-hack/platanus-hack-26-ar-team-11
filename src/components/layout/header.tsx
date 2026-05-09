@@ -14,7 +14,7 @@ export async function Header({ variant = "default" }: { variant?: HeaderVariant 
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/80 backdrop-blur">
-      <div className="relative flex h-20 w-full items-center px-4 sm:px-6">
+      <div className="relative flex h-20 w-full items-center px-6 sm:px-10">
         <Link
           href={user ? "/dashboard" : "/"}
           aria-label="Twin"
