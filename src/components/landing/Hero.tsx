@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { HeroAvatar } from "./HeroAvatar";
-import { ArrowRight, ArrowDown, Music, Calendar, Boxes } from "lucide-react";
+import { ArrowDown, Music, Calendar, Boxes } from "lucide-react";
 
 interface HeroProps {
   isAuthenticated: boolean;
@@ -40,12 +40,9 @@ export function Hero({ isAuthenticated }: HeroProps) {
             <Button
               asChild
               size="lg"
-              className="h-14 gap-3 px-8 text-lg bg-accent text-accent-foreground hover:bg-accent/90 [&_svg]:size-5"
+              className="h-14 px-8 text-lg bg-accent text-accent-foreground hover:bg-accent/90"
             >
-              <Link href={primary.href}>
-                {primary.label}
-                <ArrowRight className="h-5 w-5" />
-              </Link>
+              <Link href={primary.href}>{primary.label}</Link>
             </Button>
             <Button
               asChild
