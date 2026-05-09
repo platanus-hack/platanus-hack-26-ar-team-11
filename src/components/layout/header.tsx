@@ -45,14 +45,14 @@ export async function Header({ variant = "default" }: { variant?: HeaderVariant 
                 avatarSeed={user?.id}
               />
             ) : (
-              <>
+              <div className="hidden items-center gap-7 sm:flex sm:gap-8">
                 <Link href="/auth/login" className="text-muted-foreground hover:text-foreground">
                   Iniciar sesión
                 </Link>
                 <Button asChild size="lg">
                   <Link href="/auth/signup">Crea tu Twin</Link>
                 </Button>
-              </>
+              </div>
             )}
           </nav>
         )}
