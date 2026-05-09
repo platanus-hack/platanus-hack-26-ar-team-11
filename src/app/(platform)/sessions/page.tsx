@@ -16,9 +16,9 @@ export default async function SessionsPage() {
       <PageShell>
         <Card>
           <CardContent className="space-y-3 p-6">
-            <p className="text-sm text-muted-foreground">Aún no tenés un Twin.</p>
+            <p className="text-sm text-muted-foreground">Aún no tienes un Twin.</p>
             <Button asChild size="sm">
-              <Link href="/dashboard">Ir al dashboard</Link>
+              <Link href="/dashboard">Ir al panel</Link>
             </Button>
           </CardContent>
         </Card>
@@ -33,16 +33,16 @@ export default async function SessionsPage() {
       <header className="mb-6">
         <h1 className="text-2xl font-semibold">Sesiones</h1>
         <p className="text-sm text-muted-foreground">
-          Cada conversación con tu Twin queda guardada acá.
+          Cada conversación con tu Twin queda guardada aquí.
         </p>
       </header>
 
       {sessions.length === 0 ? (
         <Card>
           <CardContent className="space-y-3 p-6 text-center">
-            <p className="text-sm text-muted-foreground">Aún no tenés sesiones.</p>
+            <p className="text-sm text-muted-foreground">Aún no tienes sesiones.</p>
             <Button asChild>
-              <Link href="/training/start">Empezar entrenamiento</Link>
+              <Link href="/training/start">Iniciar entrenamiento</Link>
             </Button>
           </CardContent>
         </Card>

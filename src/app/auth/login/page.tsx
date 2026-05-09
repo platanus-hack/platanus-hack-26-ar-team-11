@@ -11,7 +11,7 @@ export default async function LoginPage({
     <Card>
       <CardHeader>
         <CardTitle>Bienvenido de nuevo</CardTitle>
-        <CardDescription>Ingresá para continuar entrenando tu Twin.</CardDescription>
+        <CardDescription>Inicia sesión para continuar entrenando tu Twin.</CardDescription>
       </CardHeader>
       <CardContent>
         <LoginForm returnTo={params.return_to} />

@@ -13,10 +13,10 @@ import {
 import { signOutAction } from "@/lib/auth/actions";
 
 const NAV_ITEMS = [
-  { href: "/dashboard", label: "Dashboard" },
-  { href: "/skills", label: "Skills" },
+  { href: "/dashboard", label: "Panel" },
+  { href: "/skills", label: "Aprendizaje" },
   { href: "/sessions", label: "Sesiones" },
-  { href: "/connected-apps", label: "Apps conectadas" },
+  { href: "/connected-apps", label: "Aplicaciones conectadas" },
 ] as const;
 
 function initialsOf(value: string | null): string {

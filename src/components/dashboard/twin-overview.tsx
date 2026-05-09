@@ -60,11 +60,11 @@ export function TwinOverview({
               Aplicaciones conectadas
             </h3>
             <p className="text-sm text-muted-foreground">
-              Conectá tu Twin a apps para que respondan por vos.
+              Conecta tu Twin a aplicaciones para que respondan por ti.
             </p>
             <Button asChild variant="outline" size="sm">
               <Link href="/connected-apps">
-                Ver apps
+                Ver aplicaciones
                 <ArrowRight className="ml-1 h-3 w-3" />
               </Link>
             </Button>
@@ -85,7 +85,7 @@ export function EmptyTwinState() {
         <div className="space-y-2">
           <h1 className="text-2xl font-semibold">Tu Twin está esperando.</h1>
           <p className="text-sm text-muted-foreground">
-            Empezá la primera sesión para que aprenda quién sos.
+            Inicia la primera sesión para que aprenda quién eres.
           </p>
         </div>
         <NextSessionCTA nextSessionIndex={0} />

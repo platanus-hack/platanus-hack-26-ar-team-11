@@ -14,8 +14,8 @@ describe("Header", () => {
   it("shows login + signup CTAs when no user", async () => {
     getCurrentUser.mockResolvedValue(null);
     const html = renderToString(await Header({}));
-    expect(html).toContain("Login");
-    expect(html).toContain("Crear mi Twin");
+    expect(html).toContain("Iniciar sesión");
+    expect(html).toContain("Crea tu Twin");
   });
 
   it("shows user menu when logged in", async () => {
@@ -33,8 +33,8 @@ describe("Header", () => {
   it("hides nav entirely on minimal variant", async () => {
     const html = renderToString(await Header({ variant: "minimal" }));
     expect(html).toContain("Twin");
-    expect(html).not.toContain("Login");
-    expect(html).not.toContain("Crear mi Twin");
+    expect(html).not.toContain("Iniciar sesión");
+    expect(html).not.toContain("Crea tu Twin");
     expect(getCurrentUser).not.toHaveBeenCalled();
   });
 
@@ -42,6 +42,6 @@ describe("Header", () => {
     getCurrentUser.mockResolvedValue(null);
     const html = renderToString(await Header({ variant: "auth" }));
     expect(html).toContain("Twin");
-    expect(html).not.toContain("Login");
+    expect(html).not.toContain("Iniciar sesión");
   });
 });

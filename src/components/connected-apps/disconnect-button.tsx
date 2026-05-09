@@ -30,7 +30,7 @@ export function DisconnectButton({
     startTransition(async () => {
       const result = await revokeConnectionAction(connectionId);
       if (!result.ok) {
-        setError("No pudimos desconectar. Intentá de nuevo.");
+        setError("No pudimos desconectar. Inténtalo de nuevo.");
         return;
       }
       setOpen(false);
@@ -41,14 +41,14 @@ export function DisconnectButton({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="destructive" size="sm">
-          Disconnect
+          Desconectar
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>¿Desconectar {appName}?</DialogTitle>
           <DialogDescription>
-            La app no podrá consultar tu Twin más. Podés reconectar cuando quieras.
+            La aplicación dejará de poder consultar tu Twin. Puedes reconectarla cuando quieras.
           </DialogDescription>
         </DialogHeader>
         {error && <p className="text-sm text-destructive">{error}</p>}

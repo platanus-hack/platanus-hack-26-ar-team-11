@@ -16,10 +16,10 @@ function SubmitButton() {
       {pending ? (
         <>
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          Ingresando…
+          Iniciando…
         </>
       ) : (
-        "Ingresar"
+        "Iniciar sesión"
       )}
     </Button>
   );
@@ -43,7 +43,7 @@ export function LoginForm({ returnTo }: { returnTo?: string }) {
           type="email"
           autoComplete="email"
           required
-          placeholder="vos@email.com"
+          placeholder="tu@email.com"
         />
       </div>
 
@@ -69,9 +69,9 @@ export function LoginForm({ returnTo }: { returnTo?: string }) {
       <SubmitButton />
 
       <p className="text-center text-sm text-muted-foreground">
-        ¿No tenés cuenta?{" "}
+        ¿No tienes cuenta?{" "}
         <Link href="/auth/signup" className="font-medium text-primary hover:underline">
-          Crear mi Twin
+          Crea tu Twin
         </Link>
       </p>
     </form>

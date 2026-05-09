@@ -16,7 +16,7 @@ export async function signUpAction(
   const confirm = String(formData.get("confirm_password") ?? "");
 
   if (!email || !password) {
-    return { error: "Completá email y contraseña." };
+    return { error: "Completa el correo y la contraseña." };
   }
   if (password.length < 8) {
     return { error: "La contraseña debe tener al menos 8 caracteres." };
@@ -29,9 +29,9 @@ export async function signUpAction(
   if (error) {
     const msg = error.message?.toLowerCase() ?? "";
     if (msg.includes("registered") || msg.includes("exists") || msg.includes("already")) {
-      return { error: "Ya existe una cuenta con ese email." };
+      return { error: "Ya existe una cuenta con ese correo." };
     }
-    return { error: "No pudimos crear tu cuenta. Intentá de nuevo." };
+    return { error: "No pudimos crear tu cuenta. Inténtalo de nuevo." };
   }
 
   // El trigger handle_new_user crea public.users + twins. Auto sign-in:

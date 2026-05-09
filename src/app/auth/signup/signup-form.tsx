@@ -19,7 +19,7 @@ function SubmitButton() {
           Creando…
         </>
       ) : (
-        "Crear mi Twin"
+        "Crea mi Twin"
       )}
     </Button>
   );
@@ -52,7 +52,7 @@ export function SignupForm() {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="confirm_password">Repetir contraseña</Label>
+        <Label htmlFor="confirm_password">Repite la contraseña</Label>
         <Input
           id="confirm_password"
           name="confirm_password"
@@ -72,9 +72,9 @@ export function SignupForm() {
       <SubmitButton />
 
       <p className="text-center text-sm text-muted-foreground">
-        ¿Ya tenés cuenta?{" "}
+        ¿Ya tienes cuenta?{" "}
         <Link href="/auth/login" className="font-medium text-primary hover:underline">
-          Ingresar
+          Inicia sesión
         </Link>
       </p>
     </form>

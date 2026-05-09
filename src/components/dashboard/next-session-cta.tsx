@@ -27,7 +27,7 @@ export function NextSessionCTA({
     <Button asChild size="lg" className="w-full sm:w-auto">
       <Link href="/training/start">
         <Sparkles className="mr-2 h-4 w-4" />
-        {isStart ? "Empezar entrenamiento" : "Continuar entrenamiento"}
+        {isStart ? "Iniciar entrenamiento" : "Continuar entrenamiento"}
       </Link>
     </Button>
   );

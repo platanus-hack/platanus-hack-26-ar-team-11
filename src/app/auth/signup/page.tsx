@@ -5,8 +5,8 @@ export default function SignupPage() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Creá tu Twin</CardTitle>
-        <CardDescription>Tu Twin aprende de vos para responder por vos.</CardDescription>
+        <CardTitle>Crea tu Twin</CardTitle>
+        <CardDescription>Tu Twin aprende de ti para responder por ti.</CardDescription>
       </CardHeader>
       <CardContent>
         <SignupForm />

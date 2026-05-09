@@ -29,10 +29,10 @@ export async function Header({ variant = "default" }: { variant?: HeaderVariant 
             ) : (
               <>
                 <Link href="/auth/login" className="text-muted-foreground hover:text-foreground">
-                  Login
+                  Iniciar sesión
                 </Link>
                 <Button asChild size="sm">
-                  <Link href="/auth/signup">Crear mi Twin</Link>
+                  <Link href="/auth/signup">Crea tu Twin</Link>
                 </Button>
               </>
             )}

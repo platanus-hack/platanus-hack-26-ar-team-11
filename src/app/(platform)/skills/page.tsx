@@ -14,7 +14,7 @@ export default async function SkillsPage() {
       <PageShell>
         <Card>
           <CardContent className="p-6 text-sm text-muted-foreground">
-            Aún no tenés un Twin. Empezá una sesión desde el dashboard.
+            Aún no tienes un Twin. Inicia una sesión desde el panel.
           </CardContent>
         </Card>
       </PageShell>
@@ -26,7 +26,7 @@ export default async function SkillsPage() {
       <header className="mb-6">
         <h1 className="text-2xl font-semibold">Skills aprendidas</h1>
         <p className="text-sm text-muted-foreground">
-          Lo que tu Twin sabe sobre vos, dominio por dominio.
+          Lo que tu Twin sabe sobre ti, dominio por dominio.
         </p>
       </header>
 

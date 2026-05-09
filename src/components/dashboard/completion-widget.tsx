@@ -47,8 +47,8 @@ export function CompletionWidget({
         </p>
         <p className="text-sm text-muted-foreground">
           {sessionIndex >= totalSessions
-            ? "Twin completo. Podés seguir afinando con sesiones extra."
-            : "Tu Twin está aprendiendo de vos."}
+            ? "Twin completo. Puedes seguir afinándolo con sesiones extra."
+            : "Tu Twin está aprendiendo de ti."}
         </p>
       </div>
     </div>
