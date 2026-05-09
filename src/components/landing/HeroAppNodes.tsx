@@ -22,7 +22,6 @@ const APP_POOL: AppItem[] = [
   { id: "pedidosya", src: "/integrations/pedidosya.png", label: "PedidosYa" },
   { id: "duolingo", src: "/integrations/duolingo.png", label: "Duolingo" },
   { id: "coursera", src: "/integrations/coursera.png", label: "Coursera" },
-  { id: "khan-academy", src: "/integrations/khan-academy.png", label: "Khan Academy" },
   { id: "perplexity", src: "/integrations/perplexity.png", label: "Perplexity" },
   { id: "booking", src: "/integrations/booking.png", label: "Booking" },
   { id: "despegar", src: "/integrations/despegar.png", label: "Despegar" },
