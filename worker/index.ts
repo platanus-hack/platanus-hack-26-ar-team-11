@@ -8,6 +8,7 @@ import {
   type JobContext,
 } from "@livekit/agents";
 import * as silero from "@livekit/agents-plugin-silero";
+import * as bey from "@livekit/agents-plugin-bey";
 import { CURRICULUM, getCurriculumSlot } from "../src/lib/twin/curriculum.js";
 import { buildSystemPrompt } from "../src/lib/twin/prompt.js";
 import type { TranscriptEntry } from "../src/types/session.js";
@@ -107,6 +108,27 @@ export default defineAgent({
 
     await session.start({ agent, room: ctx.room });
     console.log(`[worker] session started`);
+
+    // CRITICAL: avatar.start must run AFTER session.start. The plugin's start()
+    // sets `agentSession.output.audio = new DataStreamAudioOutput(...)` so the
+    // TTS audio is routed *into* the avatar (which renders lipsync video) rather
+    // than published as a regular audio track. If we call avatar.start first,
+    // session.start sees an already-set output.audio and ignores ours, leaving
+    // the avatar muted. See bey-dev/bey-examples/livekit-agent/main.js.
+    const beyApiKey = process.env.BEY_API_KEY;
+    const beyAvatarId = process.env.NEXT_PUBLIC_BEY_AVATAR_ID;
+    if (!beyApiKey || !beyAvatarId) {
+      throw new Error(
+        "BEY_API_KEY and NEXT_PUBLIC_BEY_AVATAR_ID are required in .env.local"
+      );
+    }
+    console.log(`[worker] starting bey avatar (avatarId=${beyAvatarId})`);
+    const avatar = new bey.AvatarSession({
+      avatarId: beyAvatarId,
+      apiKey: beyApiKey,
+    });
+    await avatar.start(session, ctx.room);
+    console.log(`[worker] bey avatar session started`);
 
     await session.generateReply({});
 
