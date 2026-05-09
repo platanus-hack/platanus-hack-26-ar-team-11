@@ -12,7 +12,7 @@ export function PageShell({
   return (
     <div
       className={cn(
-        "mx-auto w-full px-4 pb-12 pt-16 md:px-8 md:pt-20",
+        "mx-auto w-full px-4 py-8 md:px-8",
         size === "wide" && "max-w-7xl",
         size === "default" && "max-w-5xl",
         size === "narrow" && "max-w-2xl",
