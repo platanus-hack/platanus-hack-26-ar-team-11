@@ -39,6 +39,8 @@ const SLOT_CLASSES = [
   "hero-app-node hero-app-node--b",
   "hero-app-node hero-app-node--c",
   "hero-app-node hero-app-node--d",
+  "hero-app-node hero-app-node--e",
+  "hero-app-node hero-app-node--f",
 ];
 
 const CYCLE_INTERVAL_MS = 2200;
@@ -53,7 +55,7 @@ interface SlotState {
 
 export function HeroAppNodes() {
   const [slots, setSlots] = useState<SlotState[]>(() =>
-    APP_POOL.slice(0, 4).map((app) => ({
+    APP_POOL.slice(0, SLOT_CLASSES.length).map((app) => ({
       app,
       pending: null,
       exiting: false,
@@ -64,7 +66,7 @@ export function HeroAppNodes() {
   useEffect(() => {
     let cycle = 0;
     const interval = window.setInterval(() => {
-      const slotIdx = cycle % 4;
+      const slotIdx = cycle % SLOT_CLASSES.length;
       cycle += 1;
 
       setSlots((prev) => {
