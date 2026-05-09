@@ -130,13 +130,14 @@ export function AvatarCustomizer({ initialConfig, seed }: AvatarCustomizerProps)
           className="h-56 w-56 overflow-hidden rounded-2xl border border-border/60 bg-card sm:h-72 sm:w-72 [&>svg]:h-full [&>svg]:w-full"
           dangerouslySetInnerHTML={{ __html: previewSvg }}
         />
-        <div className="flex items-center gap-3">
+        <div className="flex w-full max-w-md items-center gap-3">
           <Button
             type="button"
-            variant="ghost"
+            variant="outline"
             size="lg"
             onClick={handleReset}
             disabled={!dirty || isPending}
+            className="flex-1"
           >
             Descartar
           </Button>
@@ -145,14 +146,14 @@ export function AvatarCustomizer({ initialConfig, seed }: AvatarCustomizerProps)
             size="lg"
             onClick={handleSave}
             disabled={!dirty || isPending}
-            className="min-w-40"
+            className="flex-1"
           >
             {isPending ? "Guardando…" : "Guardar avatar"}
           </Button>
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-2">
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-5">
         {CATEGORIES.map((cat) => (
           <button
             key={cat.key}
