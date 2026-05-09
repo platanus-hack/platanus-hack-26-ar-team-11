@@ -105,17 +105,17 @@ body {
 
 .hero-avatar-halo {
   position: absolute;
-  inset: 6%;
+  inset: -8%;
   border-radius: 9999px;
   background: conic-gradient(
     from 0deg,
     rgba(212, 160, 23, 0.0),
-    rgba(212, 160, 23, 0.55),
+    rgba(212, 160, 23, 0.7),
     rgba(212, 160, 23, 0.0)
   );
-  filter: blur(14px);
-  animation: hero-halo-spin 14s linear infinite;
-  opacity: 0.85;
+  filter: blur(20px);
+  animation: hero-halo-spin 5s linear infinite;
+  opacity: 0.9;
 }
 
 .hero-avatar-orbit {
@@ -211,49 +211,78 @@ body {
   100% { transform: rotate(-360deg) translateX(-30%) rotate(360deg); }
 }
 
-/* Hero — chips de apps flotando alrededor del avatar */
-.hero-chip {
+/* Hero — nodos de apps conectados al avatar central */
+.hero-app-node {
   position: absolute;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 0.85rem;
+  justify-content: center;
+  width: 3.25rem;
+  height: 3.25rem;
   border-radius: 9999px;
   background: var(--color-card);
   color: var(--color-indigo);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
   box-shadow:
-    0 18px 40px -16px rgba(33, 40, 66, 0.35),
+    0 18px 40px -16px rgba(33, 40, 66, 0.45),
     0 0 0 1px rgba(33, 40, 66, 0.08);
-  white-space: nowrap;
   pointer-events: none;
-  animation: hero-chip-float 7s ease-in-out infinite;
+  animation: hero-app-node-float 7s ease-in-out infinite;
   z-index: 1;
 }
 
-.hero-chip--a {
-  top: 8%;
-  left: 6%;
+.hero-app-node::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--node-line, 6rem);
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    rgba(33, 40, 66, 0) 0%,
+    rgba(33, 40, 66, 0.28) 50%,
+    rgba(33, 40, 66, 0) 100%
+  );
+  transform-origin: left center;
+  transform: translate(0, -50%) rotate(var(--node-angle, 0deg));
+  z-index: -1;
+}
+
+.hero-app-node--a {
+  top: 6%;
+  left: 4%;
+  --node-angle: 35deg;
+  --node-line: 9rem;
   animation-delay: 0s;
 }
 
-.hero-chip--b {
-  top: 38%;
-  right: -2%;
-  animation-delay: -2.4s;
+.hero-app-node--b {
+  top: 32%;
+  right: -4%;
+  --node-angle: 165deg;
+  --node-line: 8rem;
+  animation-delay: -1.8s;
 }
 
-.hero-chip--c {
-  bottom: 10%;
-  left: 14%;
-  animation-delay: -4.8s;
+.hero-app-node--c {
+  bottom: 14%;
+  left: 8%;
+  --node-angle: -35deg;
+  --node-line: 8.5rem;
+  animation-delay: -3.6s;
 }
 
-@keyframes hero-chip-float {
+.hero-app-node--d {
+  bottom: 6%;
+  right: 10%;
+  --node-angle: -150deg;
+  --node-line: 8rem;
+  animation-delay: -5.2s;
+}
+
+@keyframes hero-app-node-float {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  50% { transform: translateY(-8px); }
 }
 
 /* Hero — scroll cue */
@@ -322,7 +351,7 @@ body {
   .hero-avatar-halo,
   .hero-avatar-orbit,
   .hero-avatar-particle,
-  .hero-chip,
+  .hero-app-node,
   .hero-scroll-cue,
   .reveal-up {
     animation: none;

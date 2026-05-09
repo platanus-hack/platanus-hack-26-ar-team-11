@@ -1,16 +1,17 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { HeroAvatar } from "./HeroAvatar";
-import { ArrowDown, Music, Calendar, Boxes } from "lucide-react";
+import { ArrowDown, Music, Ticket, Plug2, ShoppingBag } from "lucide-react";
 
 interface HeroProps {
   isAuthenticated: boolean;
 }
 
-const chips = [
-  { Icon: Music, label: "Música", className: "hero-chip hero-chip--a" },
-  { Icon: Calendar, label: "Agenda", className: "hero-chip hero-chip--b" },
-  { Icon: Boxes, label: "Apps nuevas", className: "hero-chip hero-chip--c" },
+const appNodes = [
+  { Icon: Ticket, label: "AllAccess", className: "hero-app-node hero-app-node--a" },
+  { Icon: Music, label: "App de música", className: "hero-app-node hero-app-node--b" },
+  { Icon: ShoppingBag, label: "App de e-commerce", className: "hero-app-node hero-app-node--c" },
+  { Icon: Plug2, label: "Otras apps", className: "hero-app-node hero-app-node--d" },
 ];
 
 export function Hero({ isAuthenticated }: HeroProps) {
@@ -61,10 +62,9 @@ export function Hero({ isAuthenticated }: HeroProps) {
         <div className="flex justify-center md:self-center">
           <div className="relative">
             <HeroAvatar />
-            {chips.map(({ Icon, label, className }) => (
-              <span key={label} className={className} aria-hidden>
-                <Icon className="h-4 w-4" />
-                <span>{label}</span>
+            {appNodes.map(({ Icon, label, className }) => (
+              <span key={label} className={className} aria-label={label} role="img">
+                <Icon className="h-6 w-6" aria-hidden />
               </span>
             ))}
           </div>
