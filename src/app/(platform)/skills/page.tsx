@@ -32,13 +32,13 @@ export default async function SkillsPage() {
       <header className="mb-10 flex flex-col items-start gap-6 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <span className="block text-sm uppercase tracking-[0.2em] text-secondary">
-            Skills
+            Atributos
           </span>
           <h1 className="mt-3 text-balance text-3xl font-black sm:text-4xl">
             Lo que tu Twin aprendió de vos.
           </h1>
           <p className="mt-4 max-w-xl text-base text-muted-foreground">
-            Cada dominio se entrena con sesiones de voz. Tocá una skill para ver el
+            Cada dominio se entrena con sesiones de voz. Tocá un atributo para ver el
             detalle de los datos y su nivel de confianza.
           </p>
         </div>
