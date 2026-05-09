@@ -34,3 +34,13 @@ supabase/.branches/
 # Test
 coverage/
 .nyc_output/
+
+# Private (local-only, shared via zip — no commitear)
+IDEA.md
+DEFINITIONS.md
+doc.pdf
+CONTRACTS.md
+CLAUDE.md
+tasks/
+references/
+twin-protocol-private.zip
