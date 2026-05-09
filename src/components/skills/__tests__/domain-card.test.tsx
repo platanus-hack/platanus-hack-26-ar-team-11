@@ -1,7 +1,12 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { renderToString } from "react-dom/server";
-import { DomainCard, meanConfidence } from "../domain-card";
 import type { Fact } from "@/types";
+
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({ push: vi.fn(), replace: vi.fn(), refresh: vi.fn() }),
+}));
+
+const { DomainCard, meanConfidence } = await import("../domain-card");
 
 const fact = (confidence: number, text = "f"): Fact => ({
   id: `${text}-${confidence}`,

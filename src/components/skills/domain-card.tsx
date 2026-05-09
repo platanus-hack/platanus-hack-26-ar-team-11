@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ConfidenceBar } from "@/components/ui/confidence-bar";
+import { ContinueTrainingButton } from "@/components/training/ContinueTrainingButton";
 import { FactItem } from "./fact-item";
 import { DOMAIN_LABELS, type Domain, type Fact } from "@/types";
 
@@ -35,13 +35,14 @@ export function DomainCard({
       </CardHeader>
       <CardContent>
         {sorted.length === 0 ? (
-          <p className="text-sm text-muted-foreground">
-            Aún no entrenamos este dominio.{" "}
-            <Link href="/training/start" className="text-primary hover:underline">
+          <div className="space-y-2">
+            <p className="text-sm text-muted-foreground">
+              Aún no entrenamos este dominio.
+            </p>
+            <ContinueTrainingButton variant="link" size="sm" className="-ml-3">
               Próxima sesión
-            </Link>
-            .
-          </p>
+            </ContinueTrainingButton>
+          </div>
         ) : (
           <ul className="space-y-2">
             {sorted.map((f) => (
