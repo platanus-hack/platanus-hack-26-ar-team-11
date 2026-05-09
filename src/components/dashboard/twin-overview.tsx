@@ -6,6 +6,16 @@ import { CompletionWidget } from "./completion-widget";
 import { NextSessionCTA } from "./next-session-cta";
 import type { Twin } from "@/types";
 
+function personalizeSummary(
+  summary: string | null | undefined,
+  name: string | null | undefined,
+): string | null | undefined {
+  if (!summary || !name) return summary;
+  const trimmed = name.trim();
+  if (!trimmed || trimmed.includes("@")) return summary;
+  return summary.replace(/^[A-ZÁÉÍÓÚÑÜ][a-záéíóúñü]+/u, trimmed);
+}
+
 export function TwinOverview({
   twin,
   ownerName,
@@ -17,7 +27,11 @@ export function TwinOverview({
   avatarConfig?: AvatarConfig | null;
   avatarSeed?: string;
 }) {
-  const twinName = twin.name ?? (ownerName ? `Twin de ${ownerName}` : "Tu Twin");
+  const hasOwnerName = Boolean(ownerName && !ownerName.includes("@"));
+  const twinName = hasOwnerName
+    ? `Twin de ${ownerName}`
+    : (twin.name ?? "Tu Twin");
+  const summary = personalizeSummary(twin.summary, ownerName);
 
   return (
     <div className="flex h-[calc(100vh-5rem)] flex-col items-center justify-center gap-6 px-4 text-center">
@@ -29,9 +43,9 @@ export function TwinOverview({
 
       <div className="space-y-3">
         <h1 className="text-3xl font-semibold tracking-tight md:text-5xl">{twinName}</h1>
-        {twin.summary && (
+        {summary && (
           <p className="mx-auto max-w-2xl text-sm text-muted-foreground md:text-base">
-            {twin.summary}
+            {summary}
           </p>
         )}
       </div>
