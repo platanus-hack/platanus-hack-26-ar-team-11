@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Sparkles } from "lucide-react";
+import { KeyRound } from "lucide-react";
 import type { Scope, BlockedDomain } from "@/types/permissions";
 import { ALL_SCOPES, ALL_BLOCKED_DOMAINS } from "@/types/permissions";
 import type { DeveloperApp } from "@/types/apps";
@@ -32,7 +32,7 @@ export function ConsentScreen({
     <Card className="border-border/80 shadow-sm">
       <CardHeader className="space-y-3 text-center">
         <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-          <Sparkles className="h-6 w-6" />
+          <KeyRound className="h-6 w-6" />
         </div>
         <CardTitle className="text-2xl">{app.name} wants to access your Twin</CardTitle>
         {app.description && (

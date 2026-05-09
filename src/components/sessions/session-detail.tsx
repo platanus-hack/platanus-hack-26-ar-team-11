@@ -48,7 +48,7 @@ export function SessionDetail({ session }: { session: Session }) {
                 >
                   <div className="flex items-baseline gap-2 text-xs text-muted-foreground">
                     <span className="font-medium uppercase">
-                      {entry.role === "assistant" ? "Twin" : "Vos"}
+                      {entry.role === "assistant" ? "Cami" : "Vos"}
                     </span>
                     <span>{formatTime(entry.at)}</span>
                   </div>

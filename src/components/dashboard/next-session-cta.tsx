@@ -1,4 +1,4 @@
-import { Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { ContinueTrainingButton } from "@/components/training/ContinueTrainingButton";
 
 export function NextSessionCTA({
@@ -23,8 +23,8 @@ export function NextSessionCTA({
       variant={isComplete ? "secondary" : "default"}
       className="w-full sm:w-auto"
     >
-      <Sparkles className="mr-2 h-4 w-4" />
       {label}
+      <ArrowRight className="ml-2 h-4 w-4" />
     </ContinueTrainingButton>
   );
 }

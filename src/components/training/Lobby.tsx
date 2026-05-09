@@ -68,30 +68,26 @@ export function Lobby({ slot, status, error, onStart }: LobbyProps) {
     : DEPTH_LABELS[slot.target_depth];
 
   return (
-    <div className="mx-auto flex min-h-[60vh] max-w-xl flex-col items-center justify-center gap-6 px-4 py-10">
+    <div className="mx-auto flex min-h-[60vh] max-w-md flex-col items-center justify-center gap-8 px-4 py-10">
       <div className="text-center">
-        <p className="text-xs uppercase tracking-[0.2em] text-neutral-500">
-          Sesión {slot.index + 1} de 8
+        <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+          Sesión {slot.index + 1} de 8 · {DEPTH_LABELS[slot.target_depth]}
         </p>
-        <h1 className="mt-2 text-2xl font-semibold tracking-tight">
-          Hoy: {targetLabel}
+        <h1 className="mt-3 text-2xl font-semibold tracking-tight text-foreground">
+          {targetLabel}
         </h1>
-        <p className="mt-1 text-sm text-neutral-500">
-          ({DEPTH_LABELS[slot.target_depth]})
-        </p>
       </div>
 
       {slot.intro_hint && (
-        <p className="max-w-md text-center text-sm leading-relaxed text-neutral-700">
-          “{slot.intro_hint}”
+        <p className="max-w-sm text-center text-sm leading-relaxed text-muted-foreground">
+          {slot.intro_hint}
         </p>
       )}
 
-      <ul className="w-full max-w-md space-y-1.5 rounded-xl border border-neutral-200 bg-white/60 p-4 text-sm text-neutral-700">
+      <ul className="w-full max-w-sm divide-y divide-border/60 text-sm text-foreground/85">
         {slot.focus_areas.map((area) => (
-          <li key={area} className="flex gap-2">
-            <span aria-hidden className="mt-2 h-1 w-1 shrink-0 rounded-full bg-neutral-400" />
-            <span>{area}</span>
+          <li key={area} className="py-2">
+            {area}
           </li>
         ))}
       </ul>

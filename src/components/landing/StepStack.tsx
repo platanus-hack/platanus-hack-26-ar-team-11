@@ -1,8 +1,8 @@
 import {
-  Sparkles,
+  UserPlus,
   MessagesSquare,
   Plug2,
-  Wand2,
+  Compass,
   ShieldCheck,
 } from "lucide-react";
 
@@ -11,7 +11,7 @@ const steps = [
     n: "01",
     title: "Creá tu Twin.",
     body: "Empezás con una cuenta gratuita y un Twin vacío esperando a aprender de vos.",
-    Icon: Sparkles,
+    Icon: UserPlus,
   },
   {
     n: "02",
@@ -29,7 +29,7 @@ const steps = [
     n: "04",
     title: "Recibí experiencias personalizadas.",
     body: "Desde el primer momento las apps entienden tu estilo, sin pedirte datos otra vez.",
-    Icon: Wand2,
+    Icon: Compass,
   },
   {
     n: "05",

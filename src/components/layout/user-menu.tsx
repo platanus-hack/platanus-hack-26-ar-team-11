@@ -1,6 +1,7 @@
 "use client";
 
 import { LogOut } from "lucide-react";
+import { useTransition } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,6 +21,7 @@ function initialsOf(value: string | null): string {
 export function UserMenu({ email, name }: { email: string | null; name?: string | null }) {
   const display = name ?? email ?? "Tu cuenta";
   const initials = initialsOf(name ?? email);
+  const [isPending, startTransition] = useTransition();
 
   return (
     <DropdownMenu>
@@ -37,13 +39,19 @@ export function UserMenu({ email, name }: { email: string | null; name?: string 
         sideOffset={8}
         className="w-44 border-border bg-card text-card-foreground shadow-xl"
       >
-        <DropdownMenuItem asChild variant="destructive">
-          <form action={signOutAction} className="w-full">
-            <button type="submit" className="flex w-full cursor-pointer items-center">
-              <LogOut className="mr-2 h-4 w-4" />
-              Cerrar sesión
-            </button>
-          </form>
+        <DropdownMenuItem
+          variant="destructive"
+          disabled={isPending}
+          onSelect={(event) => {
+            event.preventDefault();
+            startTransition(() => {
+              signOutAction();
+            });
+          }}
+          className="cursor-pointer"
+        >
+          <LogOut className="mr-2 h-4 w-4" />
+          Cerrar sesión
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

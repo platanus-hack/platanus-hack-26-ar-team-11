@@ -1,4 +1,4 @@
-import { Sparkles } from "lucide-react";
+import { Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function TwinCallout({
@@ -21,7 +21,7 @@ export function TwinCallout({
         className,
       )}
     >
-      <div className="text-accent">{icon ?? <Sparkles className="h-5 w-5" />}</div>
+      <div className="text-accent">{icon ?? <Info className="h-5 w-5" />}</div>
       <div className="flex-1">
         {title && <p className="font-semibold">{title}</p>}
         {description && (

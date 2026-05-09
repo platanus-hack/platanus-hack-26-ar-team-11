@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Calendar, ChevronRight, Clock, MapPin, MessageCircle, Music, Sparkles } from "lucide-react";
+import { Calendar, ChevronRight, Clock, Heart, Layers, MapPin, MessageCircle, Music } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DOMAIN_LABELS, type Domain, type Session } from "@/types";
 
@@ -30,7 +30,7 @@ const DOMAIN_VISUALS: Record<Domain, { icon: typeof Music; tone: string }> = {
     tone: "bg-secondary/15 text-secondary",
   },
   vibes: {
-    icon: Sparkles,
+    icon: Heart,
     tone: "bg-accent/20 text-accent-foreground",
   },
   communication_style: {
@@ -40,7 +40,7 @@ const DOMAIN_VISUALS: Record<Domain, { icon: typeof Music; tone: string }> = {
 };
 
 const SYNTHESIS_VISUAL = {
-  icon: Sparkles,
+  icon: Layers,
   tone: "bg-muted text-foreground",
 };
 

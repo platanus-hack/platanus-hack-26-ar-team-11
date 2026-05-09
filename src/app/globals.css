@@ -7,7 +7,7 @@
 
 @theme {
   --color-indigo: #212842;
-  --color-cream: #f0e7d5;
+  --color-cream: #faf5ea;
   --color-dusty: #485d7a;
   --color-lilac: #a39db3;
   --color-amber: #d4a017;
@@ -24,18 +24,18 @@
   --color-accent: var(--color-amber);
   --color-accent-foreground: var(--color-indigo);
 
-  --color-muted: #e6dcc7;
+  --color-muted: #f0e9d8;
   --color-muted-foreground: #4f5564;
 
-  --color-card: #faf4e6;
+  --color-card: #ffffff;
   --color-card-foreground: var(--color-indigo);
 
-  --color-border: #d8cfb8;
-  --color-input: #d8cfb8;
+  --color-border: #e6dec9;
+  --color-input: #e6dec9;
   --color-ring: var(--color-amber);
 
   --color-destructive: #b94a4a;
-  --color-destructive-foreground: #faf4e6;
+  --color-destructive-foreground: #ffffff;
 
   --font-sans: "Inter", "ui-sans-serif", "system-ui", "sans-serif";
   --font-mono: "JetBrains Mono", "ui-monospace", "monospace";

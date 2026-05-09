@@ -43,7 +43,7 @@ export function TranscriptPane({ items }: { items: TranscriptItem[] }) {
             )}
           >
             <span className="mr-2 text-[10px] uppercase tracking-wider text-neutral-400">
-              {item.role === "assistant" ? "Twin" : "Vos"}
+              {item.role === "assistant" ? "Cami" : "Vos"}
             </span>
             {item.text}
           </li>

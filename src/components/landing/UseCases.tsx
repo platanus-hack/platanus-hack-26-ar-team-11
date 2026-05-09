@@ -1,4 +1,4 @@
-import { Music, Calendar, Sparkles } from "lucide-react";
+import { Music, Calendar, Boxes } from "lucide-react";
 
 const cards = [
   {
@@ -14,7 +14,7 @@ const cards = [
       "El Twin contesta cómo te gusta organizar tu semana, qué ritmo querés y qué tono usar. Tus apps no empiezan de cero.",
   },
   {
-    Icon: Sparkles,
+    Icon: Boxes,
     title: "Productos nuevos",
     body:
       "Cualquier dev puede integrarse con scopes mínimos. Onboarding cero: el usuario llega ya conocido.",
