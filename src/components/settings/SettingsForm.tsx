@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { Card, CardContent } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import { LoadingScreen } from "@/components/common/LoadingScreen";
 import { updateTrainingSettings } from "@/lib/auth/settings-actions";
 import type { TrainingSettings } from "@/types/settings";
 
@@ -17,18 +18,21 @@ export function SettingsForm({ initial }: { initial: TrainingSettings }) {
     setSettings(next);
     startTransition(async () => {
       const res = await updateTrainingSettings(next);
-      if (res.ok) {
-        toast.success(
-          avatar_enabled
-            ? "Avatar activado para entrenamiento"
-            : "Modo audio activado",
-        );
-      } else {
+      if (!res.ok) {
         setSettings(settings);
         toast.error(res.error ?? "No se pudo guardar la configuración");
       }
     });
   };
+
+  if (isPending) {
+    return (
+      <LoadingScreen
+        title="Guardando configuración…"
+        body="Estamos actualizando tus preferencias de entrenamiento."
+      />
+    );
+  }
 
   return (
     <Card>
