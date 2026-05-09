@@ -32,7 +32,7 @@ export async function Header({ variant = "default" }: { variant?: HeaderVariant 
         )}
 
         {variant === "default" && (
-          <nav className="ml-auto flex items-center gap-2 text-sm">
+          <nav className="ml-auto flex items-center gap-5 text-sm sm:gap-6">
             {user ? (
               <UserMenu email={email} name={name} />
             ) : (
