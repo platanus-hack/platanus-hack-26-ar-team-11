@@ -1,4 +1,3 @@
-import { Card, CardContent } from "@/components/ui/card";
 import { TwinAvatarPlaceholder } from "@/components/twin/twin-avatar-placeholder";
 import { CompletionWidget } from "./completion-widget";
 import { NextSessionCTA } from "./next-session-cta";
@@ -14,44 +13,39 @@ export function TwinOverview({
   const twinName = twin.name ?? (ownerName ? `Twin de ${ownerName}` : "Tu Twin");
 
   return (
-    <Card className="overflow-hidden">
-      <CardContent className="flex flex-col items-center gap-10 p-10 text-center sm:p-14">
-        <TwinAvatarPlaceholder size="lg" completion={twin.completion_score} className="h-56 w-56" />
+    <div className="flex h-[calc(100vh-5rem)] flex-col items-center justify-center gap-6 px-4 text-center">
+      <TwinAvatarPlaceholder size="lg" completion={twin.completion_score} className="h-40 w-40 md:h-48 md:w-48" />
 
-        <div className="space-y-4">
-          <h1 className="text-4xl font-semibold tracking-tight md:text-5xl">{twinName}</h1>
-          {twin.summary && (
-            <p className="mx-auto max-w-2xl text-base text-muted-foreground md:text-lg">
-              {twin.summary}
-            </p>
-          )}
-        </div>
+      <div className="space-y-3">
+        <h1 className="text-3xl font-semibold tracking-tight md:text-5xl">{twinName}</h1>
+        {twin.summary && (
+          <p className="mx-auto max-w-2xl text-sm text-muted-foreground md:text-base">
+            {twin.summary}
+          </p>
+        )}
+      </div>
 
-        <CompletionWidget
-          completion={twin.completion_score}
-          sessionIndex={twin.next_session_index}
-          className="justify-center"
-        />
+      <CompletionWidget
+        completion={twin.completion_score}
+        sessionIndex={twin.next_session_index}
+      />
 
-        <NextSessionCTA nextSessionIndex={twin.next_session_index} />
-      </CardContent>
-    </Card>
+      <NextSessionCTA nextSessionIndex={twin.next_session_index} />
+    </div>
   );
 }
 
 export function EmptyTwinState() {
   return (
-    <Card>
-      <CardContent className="flex flex-col items-center gap-6 p-10 text-center">
-        <TwinAvatarPlaceholder size="lg" />
-        <div className="space-y-2">
-          <h1 className="text-2xl font-semibold">Tu Twin está esperando.</h1>
-          <p className="text-sm text-muted-foreground">
-            Inicia la primera sesión para que aprenda quién eres.
-          </p>
-        </div>
-        <NextSessionCTA nextSessionIndex={0} />
-      </CardContent>
-    </Card>
+    <div className="flex h-[calc(100vh-5rem)] flex-col items-center justify-center gap-6 px-4 text-center">
+      <TwinAvatarPlaceholder size="lg" />
+      <div className="space-y-2">
+        <h1 className="text-3xl font-semibold md:text-4xl">Tu Twin está esperando.</h1>
+        <p className="text-sm text-muted-foreground md:text-base">
+          Inicia la primera sesión para que aprenda quién eres.
+        </p>
+      </div>
+      <NextSessionCTA nextSessionIndex={0} />
+    </div>
   );
 }
