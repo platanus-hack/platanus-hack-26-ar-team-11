@@ -7,6 +7,7 @@ import {
   useDataChannel,
 } from "@livekit/components-react";
 import "@livekit/components-styles";
+import { CURRICULUM } from "@/lib/twin/curriculum";
 import { AvatarStage } from "@/components/training/AvatarStage";
 import { Lobby } from "@/components/training/Lobby";
 import { SessionControls } from "@/components/training/SessionControls";
@@ -103,8 +104,11 @@ export function InterviewRoom({
   }
 
   if (!conn || status !== "live") {
+    const slot =
+      CURRICULUM[Math.min(Math.max(sessionIndex, 0), CURRICULUM.length - 1)];
     return (
       <Lobby
+        slot={slot}
         status={status === "live" ? "idle" : status}
         error={error}
         onStart={start}
