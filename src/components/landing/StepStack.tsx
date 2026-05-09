@@ -91,7 +91,7 @@ export function StepStack() {
       className="relative bg-background"
       style={{ height: `${steps.length * 100}vh` }}
     >
-      <div className="sticky top-0 flex h-screen items-center overflow-hidden">
+      <div className="sticky top-0 flex h-screen items-center overflow-hidden pt-28">
         <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-12 px-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-20">
           <div className="relative">
             <span className="text-sm uppercase tracking-[0.2em] text-secondary">
@@ -110,7 +110,7 @@ export function StepStack() {
                     key={step.n}
                     aria-hidden={state !== "active"}
                     className={[
-                      "absolute inset-0 flex flex-col gap-4 transition-all duration-500",
+                      "absolute inset-0 flex flex-col justify-center gap-4 transition-all duration-500",
                       state === "active" && "translate-y-0 opacity-100",
                       state === "past" && "-translate-y-8 opacity-0",
                       state === "next" && "translate-y-8 opacity-0",
