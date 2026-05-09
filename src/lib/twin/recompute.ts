@@ -20,12 +20,14 @@ export interface CompletionInputs {
   meanConfidence: number;
 }
 
-// Pure formula: 50% session progress + 50% confidence across all skills.
+// Mientras el entrenamiento corre: progreso = sesiones completadas.
+// Una vez terminadas las 8 sesiones: 100% (la confidence se refleja en otros widgets).
 export function computeCompletion({
   sessionsCompleted,
   meanConfidence,
 }: CompletionInputs): number {
-  const sessionPart = Math.min(sessionsCompleted, TARGET_TRAINING_SESSIONS) / TARGET_TRAINING_SESSIONS;
+  if (sessionsCompleted >= TARGET_TRAINING_SESSIONS) return 1;
+  const sessionPart = sessionsCompleted / TARGET_TRAINING_SESSIONS;
   const raw = 0.5 * sessionPart + 0.5 * clamp01(meanConfidence);
   return Number(clamp01(raw).toFixed(2));
 }

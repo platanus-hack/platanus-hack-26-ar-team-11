@@ -37,10 +37,13 @@ describe("computeCompletion", () => {
     ).toBeCloseTo(0.5 * 0.5 + 0.5 * 0.7, 2);
   });
 
-  it("caps sessions at the target", () => {
+  it("caps at 100% once the training target is reached", () => {
     expect(
       computeCompletion({ sessionsCompleted: 12, meanConfidence: 0.5 })
-    ).toBeCloseTo(0.5 * 1 + 0.5 * 0.5, 2);
+    ).toBe(1);
+    expect(
+      computeCompletion({ sessionsCompleted: 8, meanConfidence: 0 })
+    ).toBe(1);
   });
 
   it("clamps mean confidence into [0,1]", () => {

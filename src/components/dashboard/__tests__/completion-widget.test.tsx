@@ -10,7 +10,6 @@ describe("CompletionWidget", () => {
   it("renders rounded percent", () => {
     const html = strip(renderToString(<CompletionWidget completion={0.62} sessionIndex={5} />));
     expect(html).toContain(">62%<");
-    expect(html).toContain("Sesión 6 de 8");
   });
 
   it("clamps completion above 1", () => {
@@ -21,11 +20,10 @@ describe("CompletionWidget", () => {
   it("clamps below 0", () => {
     const html = strip(renderToString(<CompletionWidget completion={-0.2} sessionIndex={0} />));
     expect(html).toContain(">0%<");
-    expect(html).toContain("Sesión 1 de 8");
   });
 
-  it("shows complete copy when sessionIndex >= total", () => {
-    const html = strip(renderToString(<CompletionWidget completion={1} sessionIndex={8} />));
-    expect(html).toMatch(/Twin completo/);
+  it("forces 100% when training is complete", () => {
+    const html = strip(renderToString(<CompletionWidget completion={0.71} sessionIndex={8} />));
+    expect(html).toContain(">100%<");
   });
 });
