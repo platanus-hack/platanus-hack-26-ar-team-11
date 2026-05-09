@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { CheckCircle2, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { ContinueTrainingButton } from "@/components/training/ContinueTrainingButton";
 import type { Domain, ExtractedFact, Session } from "@/types";
 
 const POLL_INTERVAL_MS = 2000;
@@ -224,13 +225,7 @@ function ReadyView({ data }: { data: SessionResponse }) {
         <Button asChild variant="outline">
           <Link href="/dashboard">Volver al dashboard</Link>
         </Button>
-        {hasMoreSessions && (
-          <Button asChild>
-            <Link href="/api/training/start" prefetch={false}>
-              Seguir entrenando
-            </Link>
-          </Button>
-        )}
+        {hasMoreSessions && <ContinueTrainingButton />}
       </div>
     </div>
   );
