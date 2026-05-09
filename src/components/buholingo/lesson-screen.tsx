@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { LinkIcon, Unplug } from "lucide-react";
 import { BuholingoHeader } from "./buholingo-header";
 import { ExerciseCard } from "./exercise-card";
+import { SpokenExerciseCard } from "./spoken-exercise-card";
 import { QueryOverlay } from "./query-overlay";
 import { GENERIC_EXERCISES } from "@/lib/buholingo/exercises";
 import {
@@ -181,6 +182,28 @@ export function LessonScreen() {
           ) : null}
         </AnimatePresence>
 
+        {/* Format-adaptation note (only when personalized) */}
+        <AnimatePresence>
+          {phase === "personalized" ? (
+            <motion.div
+              key="adaptation"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4, delay: 0.15 }}
+              className="mb-5 rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3"
+            >
+              <p className="text-sm text-neutral-700">
+                <span className="font-semibold text-neutral-900">
+                  Cambiamos a formato escrito.
+                </span>{" "}
+                Sabemos que preferís leer y escribir antes que hablar, así que
+                adaptamos el ejercicio.
+              </p>
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
+
         {/* Exercises */}
         <motion.div layout className="space-y-4">
           <AnimatePresence mode="popLayout">
@@ -193,11 +216,16 @@ export function LessonScreen() {
                 exit={{ opacity: 0, y: -12, scale: 0.96 }}
                 transition={{
                   duration: 0.45,
-                  delay: variant === "personalized" ? idx * 0.08 : 0,
+                  delay:
+                    variant === "personalized" ? 0.3 + idx * 0.08 : idx * 0.04,
                   ease: [0.22, 1, 0.36, 1],
                 }}
               >
-                <ExerciseCard exercise={ex} index={idx} variant={variant} />
+                {variant === "personalized" ? (
+                  <ExerciseCard exercise={ex} index={idx} variant={variant} />
+                ) : (
+                  <SpokenExerciseCard exercise={ex} index={idx} />
+                )}
               </motion.div>
             ))}
           </AnimatePresence>

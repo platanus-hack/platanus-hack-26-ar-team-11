@@ -139,11 +139,17 @@ function TwinBadge() {
         initial={{ scale: 0.6, opacity: 0 }}
         animate={{ scale: [0.6, 1.05, 1], opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="relative flex items-center justify-center overflow-hidden rounded-2xl border-4 border-[#A39DB3] bg-[#212842] shadow-2xl"
-        style={{ width: 88, height: 88 }}
+        className="relative flex items-center justify-center overflow-hidden rounded-2xl border-4 border-[#A39DB3] bg-[#FAF5EA] shadow-2xl"
+        style={{ width: 168, height: 88 }}
       >
-        <span className="text-3xl font-extrabold lowercase text-white">twin</span>
-        <span className="absolute right-3 top-3 h-3 w-3 rounded-full bg-[#A39DB3]" />
+        <Image
+          src="/logo.svg"
+          alt="Twin Protocol"
+          width={2444}
+          height={1112}
+          unoptimized
+          className="h-12 w-auto"
+        />
       </motion.div>
       <span className="text-xs font-bold uppercase tracking-widest text-white/80">
         Twin Protocol
