@@ -22,7 +22,7 @@ export default async function SkillsPage() {
   }
 
   return (
-    <PageShell size="wide">
+    <PageShell>
       <header className="mb-6 space-y-2">
         <h1 className="text-2xl font-semibold">Skills aprendidas</h1>
         <p className="text-sm text-muted-foreground">
