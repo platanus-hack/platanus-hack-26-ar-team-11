@@ -6,44 +6,20 @@ import {
   extractText,
   getAnthropicClient,
 } from "@/lib/query/anthropic";
+import { fetchTwinContext } from "@/lib/buholingo/twin-query";
 import type { PersonalizedLesson } from "@/lib/buholingo/types";
 
 const BodySchema = z.object({
   connection_id: z.string().min(1),
   access_token: z.string().min(1),
+  context: z
+    .object({
+      general: z.unknown(),
+      music: z.unknown(),
+      vibes: z.unknown(),
+    })
+    .optional(),
 });
-
-interface QueryConn {
-  connection_id: string;
-  access_token: string;
-}
-
-async function callTwinQuery(
-  request: NextRequest,
-  conn: QueryConn,
-  intent: string,
-  context: Record<string, unknown> | undefined,
-): Promise<unknown> {
-  const url = new URL("/api/twin/query", request.url);
-  const res = await fetch(url, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      authorization: `Bearer ${conn.access_token}`,
-    },
-    body: JSON.stringify({
-      connection_id: conn.connection_id,
-      intent,
-      context,
-    }),
-    cache: "no-store",
-  });
-  if (!res.ok) {
-    const body = await res.text();
-    throw new Error(`twin/query ${intent} ${res.status}: ${body.slice(0, 160)}`);
-  }
-  return res.json();
-}
 
 function buildPrompt(args: {
   general: unknown;
@@ -56,7 +32,7 @@ function buildPrompt(args: {
     "",
     "PROCESO MENTAL (no lo escribas, solo pensalo internamente):",
     "1) Mirá el contexto del Twin y elegí UNA situación / escenario concreto y específico — no algo genérico.",
-    "   ✅ Bien: 'Yendo a un recital de Tormenta Negra en La Trastienda', 'Recomendándole música indie a un amigo', 'Volviendo a la madrugada de un show chico', 'Discutiendo por qué preferís venues íntimos'.",
+    "   ✅ Bien: 'Yendo a un recital de <ARTISTA-DEL-TWIN> en <VENUE-DEL-TWIN>', 'Recomendándole música <GÉNERO-DEL-TWIN> a un amigo', 'Volviendo a la madrugada de un show chico'.",
     "   ❌ Mal: 'Música', 'Eventos', 'Cosas que le gustan' — son demasiado vagos.",
     "2) Escribí 5 oraciones que armen una mini-narrativa o discusión coherente DENTRO de ese tema. Las 5 oraciones tienen que tener continuidad — leídas en orden son una mini-historia o diálogo, no 5 frases sueltas.",
     "   - Ejercicio 1: setup / contexto (introduce la situación)",
@@ -66,16 +42,7 @@ function buildPrompt(args: {
     "   - Ejercicio 5: cierre / conclusión / implicancia",
     "3) Asegurate que TODAS las oraciones tengan onda de ESTE usuario, no de cualquiera. Si el Twin habla rioplatense, usá registro rioplatense en el español.",
     "",
-    "EJEMPLO DE FORMA (no copies estos placeholders, son sólo para que veas la ESTRUCTURA narrativa):",
-    "Tema: 'Yendo a un recital chico'",
-    "1. 'Esta noche tengo entradas para ver a <ARTISTA-DEL-TWIN>.'  ← setup",
-    "2. 'El recital es en <VENUE-DEL-TWIN>, un lugar <ATRIBUTO-DEL-TWIN>.'  ← desarrollo",
-    "3. 'Me gustan los <CARACTERÍSTICA-DEL-TWIN> más que los festivales gigantes.'  ← detalle",
-    "4. 'Espero que toquen <ALGO-RELACIONADO-AL-TWIN>.'  ← emoción",
-    "5. 'Después del show <ACCIÓN-AFÍN-AL-TWIN>.'  ← cierre",
-    "Notá: las 5 oraciones cuentan una mini-historia sobre la misma noche. NO son 5 datos sueltos.",
-    "",
-    "🚨 IMPORTANTÍSIMO: los placeholders <ARTISTA-DEL-TWIN>, <VENUE-DEL-TWIN>, etc. del ejemplo son SÓLO ilustrativos. NUNCA inventes nombres ni copies nombres del ejemplo. Cada nombre propio (artistas, lugares, venues, géneros, ciudades, hábitos) que aparezca en tus 5 oraciones tiene que venir LITERALMENTE del 'CONTEXTO DEL TWIN' que aparece abajo. Si en el contexto no hay datos suficientes para un tema, elegí otro tema con los datos que sí tengas — o, si todo el contexto es demasiado fino, hacé una lección sobre 'la vibe general' del usuario sin inventar nombres.",
+    "🚨 IMPORTANTÍSIMO: cada nombre propio (artistas, lugares, venues, géneros, ciudades, hábitos) que aparezca en tus 5 oraciones tiene que venir LITERALMENTE del 'CONTEXTO DEL TWIN' que aparece abajo. Si en el contexto no hay datos suficientes para un tema, elegí otro tema con los datos que sí tengas — o, si todo el contexto es demasiado fino, hacé una lección sobre 'la vibe general' del usuario sin inventar nombres.",
     "",
     "=== CONTEXTO DEL TWIN ===",
     "[General summary]",
@@ -90,40 +57,15 @@ function buildPrompt(args: {
     "",
     "Devolvé EXCLUSIVAMENTE un JSON con esta forma exacta (sin texto adicional, sin markdown, sin ```):",
     `{
-  "topic": "<título corto en español del tema/escenario elegido — máx 8 palabras, ej: 'Yendo a un recital chico'>",
+  "topic": "<título corto en español del tema/escenario elegido — máx 8 palabras>",
   "summary": "<una oración corta en español que explique por qué esta lección le va a este usuario>",
   "twin_facts_used": ["<3 a 5 bullets cortos de qué facts del Twin usaste para el tema, en español>"],
   "exercises": [
-    {
-      "id": "p1",
-      "prompt_es": "<oración 1 — setup del escenario>",
-      "answer_en": "<traducción natural>",
-      "interest_used": "<tag corto: 'Indie rock', 'Recitales íntimos', etc.>"
-    },
-    {
-      "id": "p2",
-      "prompt_es": "<oración 2 — desarrollo>",
-      "answer_en": "<traducción>",
-      "interest_used": "<tag>"
-    },
-    {
-      "id": "p3",
-      "prompt_es": "<oración 3 — detalle específico con nombres del Twin>",
-      "answer_en": "<traducción>",
-      "interest_used": "<tag>"
-    },
-    {
-      "id": "p4",
-      "prompt_es": "<oración 4 — emoción/opinión>",
-      "answer_en": "<traducción>",
-      "interest_used": "<tag>"
-    },
-    {
-      "id": "p5",
-      "prompt_es": "<oración 5 — cierre>",
-      "answer_en": "<traducción>",
-      "interest_used": "<tag>"
-    }
+    { "id": "p1", "prompt_es": "<oración 1 — setup>",         "answer_en": "<traducción>", "interest_used": "<tag>" },
+    { "id": "p2", "prompt_es": "<oración 2 — desarrollo>",    "answer_en": "<traducción>", "interest_used": "<tag>" },
+    { "id": "p3", "prompt_es": "<oración 3 — detalle>",        "answer_en": "<traducción>", "interest_used": "<tag>" },
+    { "id": "p4", "prompt_es": "<oración 4 — emoción>",        "answer_en": "<traducción>", "interest_used": "<tag>" },
+    { "id": "p5", "prompt_es": "<oración 5 — cierre>",         "answer_en": "<traducción>", "interest_used": "<tag>" }
   ]
 }`,
     "",
@@ -165,26 +107,31 @@ export async function POST(request: NextRequest) {
       { status: 400 },
     );
   }
-  const conn = parsed.data;
+  const { connection_id, access_token, context } = parsed.data;
 
   let general: unknown;
   let music: unknown;
   let vibes: unknown;
-  try {
-    [general, music, vibes] = await Promise.all([
-      callTwinQuery(request, conn, "general_summary", undefined),
-      callTwinQuery(request, conn, "domain_summary", { domain: "music_taste" }),
-      callTwinQuery(request, conn, "domain_summary", { domain: "vibes" }),
-    ]);
-  } catch (err) {
-    console.error("[personalize] twin/query failed", err);
-    return NextResponse.json(
-      { error: "twin_query_failed", message: err instanceof Error ? err.message : "unknown" },
-      { status: 502 },
-    );
+  if (context) {
+    ({ general, music, vibes } = context);
+  } else {
+    try {
+      ({ general, music, vibes } = await fetchTwinContext(request.url, {
+        connection_id,
+        access_token,
+      }));
+    } catch (err) {
+      console.error("[personalize] twin/query failed", err);
+      return NextResponse.json(
+        {
+          error: "twin_query_failed",
+          message: err instanceof Error ? err.message : "unknown",
+        },
+        { status: 502 },
+      );
+    }
   }
 
-  // Debug logging — useful while tuning the prompt to see exactly what Claude gets.
   console.log(
     "[personalize] twin context",
     JSON.stringify({ general, music, vibes }, null, 2),
@@ -207,7 +154,10 @@ export async function POST(request: NextRequest) {
   } catch (err) {
     console.error("[personalize] anthropic failed", err);
     return NextResponse.json(
-      { error: "llm_failed", message: err instanceof Error ? err.message : "unknown" },
+      {
+        error: "llm_failed",
+        message: err instanceof Error ? err.message : "unknown",
+      },
       { status: 502 },
     );
   }
@@ -225,7 +175,11 @@ export async function POST(request: NextRequest) {
   if (!lessonParse.success) {
     console.error("[personalize] lesson schema failed", lessonParse.error.issues);
     return NextResponse.json(
-      { error: "lesson_schema_failed", issues: lessonParse.error.issues, raw: json },
+      {
+        error: "lesson_schema_failed",
+        issues: lessonParse.error.issues,
+        raw: json,
+      },
       { status: 502 },
     );
   }

@@ -13,43 +13,74 @@ import {
   readStoredConnection,
 } from "@/lib/buholingo/connect";
 import type { BuholingoExercise, PersonalizedLesson } from "@/lib/buholingo/types";
+import type { TwinPreview } from "@/lib/buholingo/format";
 
 type Phase = "generic" | "loading" | "personalized";
+
+interface TwinContextResponse {
+  previews: TwinPreview[];
+  context: { general: unknown; music: unknown; vibes: unknown };
+}
 
 export function LessonScreen() {
   const [phase, setPhase] = useState<Phase>("generic");
   const [personalized, setPersonalized] = useState<PersonalizedLesson | null>(null);
+  const [previews, setPreviews] = useState<TwinPreview[] | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const conn = readStoredConnection();
     if (!conn) return;
     setPhase("loading");
+    setPreviews(null);
     const startedAt = Date.now();
     const MIN_OVERLAY_MS = 6500;
 
-    fetch("/buholingo/api/personalize", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(conn),
-    })
-      .then(async (res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return (await res.json()) as PersonalizedLesson;
-      })
-      .then(async (data) => {
+    let cancelled = false;
+
+    (async () => {
+      try {
+        // Step 1: fetch real Twin context (~1s).
+        const ctxRes = await fetch("/buholingo/api/twin-context", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(conn),
+        });
+        if (!ctxRes.ok) throw new Error(`twin-context HTTP ${ctxRes.status}`);
+        const ctx = (await ctxRes.json()) as TwinContextResponse;
+        if (cancelled) return;
+        setPreviews(ctx.previews);
+
+        // Step 2: generate the lesson with the already-fetched context.
+        const lessonRes = await fetch("/buholingo/api/personalize", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ ...conn, context: ctx.context }),
+        });
+        if (!lessonRes.ok) throw new Error(`personalize HTTP ${lessonRes.status}`);
+        const data = (await lessonRes.json()) as PersonalizedLesson;
+        if (cancelled) return;
+
         const elapsed = Date.now() - startedAt;
         const remaining = Math.max(0, MIN_OVERLAY_MS - elapsed);
         if (remaining > 0) await new Promise((r) => setTimeout(r, remaining));
+        if (cancelled) return;
+
         setPersonalized(data);
         setPhase("personalized");
-      })
-      .catch((err: unknown) => {
+      } catch (err: unknown) {
+        if (cancelled) return;
         const message = err instanceof Error ? err.message : "unknown";
         setError(`No pudimos personalizar la lección (${message})`);
         setPhase("generic");
+        setPreviews(null);
         clearStoredConnection();
-      });
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const handleConnect = () => {
@@ -59,6 +90,7 @@ export function LessonScreen() {
   const handleDisconnect = () => {
     clearStoredConnection();
     setPersonalized(null);
+    setPreviews(null);
     setPhase("generic");
   };
 
@@ -72,7 +104,7 @@ export function LessonScreen() {
 
   return (
     <div className="min-h-screen bg-[#FFF8E7]">
-      <QueryOverlay open={phase === "loading"} />
+      <QueryOverlay open={phase === "loading"} previews={previews} />
       <BuholingoHeader
         rightSlot={
           phase === "personalized" ? (
