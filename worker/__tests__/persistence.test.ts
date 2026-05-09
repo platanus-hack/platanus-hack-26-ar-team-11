@@ -90,7 +90,20 @@ describe("parseRoomMetadata", () => {
       session_index: 2,
       target_domain: null,
       target_domains: [],
+      avatar_enabled: true,
     });
+  });
+
+  it("respects avatar_enabled=false in metadata", () => {
+    const out = parseRoomMetadata(
+      JSON.stringify({
+        session_id: "s1",
+        twin_id: "t1",
+        session_index: 0,
+        avatar_enabled: false,
+      })
+    );
+    expect(out?.avatar_enabled).toBe(false);
   });
 
   it("parses a fully populated payload", () => {
