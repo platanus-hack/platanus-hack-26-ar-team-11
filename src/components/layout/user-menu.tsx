@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { LogOut, UserCog } from "lucide-react";
+import { LogOut, Settings, UserCog } from "lucide-react";
 import { useTransition } from "react";
 import {
   DropdownMenu,
@@ -45,6 +45,12 @@ export function UserMenu({ email, name }: { email: string | null; name?: string 
           <Link href="/avatar">
             <UserCog className="mr-2 h-4 w-4" />
             Personalizar avatar
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild className="cursor-pointer">
+          <Link href="/settings">
+            <Settings className="mr-2 h-4 w-4" />
+            Configuración
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />

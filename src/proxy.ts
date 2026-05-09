@@ -7,6 +7,7 @@ const PROTECTED_PREFIXES = [
   "/sessions",
   "/connected-apps",
   "/training",
+  "/settings",
 ];
 
 // /connect handles auth inline (with return_to) so the consent screen can be
