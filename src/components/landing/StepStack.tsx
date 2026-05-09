@@ -92,8 +92,8 @@ export function StepStack() {
       style={{ "--step-count": steps.length } as React.CSSProperties}
     >
       <div className="sticky top-0 flex h-screen items-center overflow-hidden pt-12">
-        <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-12 px-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-20">
-          <div className="relative">
+        <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-6 px-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-12 lg:gap-20">
+          <div className="relative order-2 md:order-1">
             <span className="text-sm uppercase tracking-[0.2em] text-secondary">
               Cómo funciona
             </span>
@@ -154,9 +154,9 @@ export function StepStack() {
             </div>
           </div>
 
-          <div className="hidden md:block">
+          <div className="order-1 md:order-2">
             <div
-              className="relative mx-auto aspect-square w-[28rem]"
+              className="relative mx-auto aspect-square w-44 sm:w-56 md:w-[28rem]"
               style={{
                 transform: `scale(${1 + progress * 0.04})`,
                 transition: "transform 600ms ease",
@@ -171,14 +171,14 @@ export function StepStack() {
                     key={step.n}
                     aria-hidden
                     className={[
-                      "absolute flex h-16 w-16 items-center justify-center rounded-2xl bg-card text-primary shadow-xl ring-1 ring-border transition-all duration-500",
+                      "absolute flex h-10 w-10 items-center justify-center rounded-2xl bg-card text-primary shadow-xl ring-1 ring-border transition-all duration-500 md:h-16 md:w-16",
                       step.orbit,
                       isActive
                         ? "scale-100 opacity-100"
                         : "scale-90 opacity-0",
                     ].join(" ")}
                   >
-                    <step.Icon className="h-7 w-7" />
+                    <step.Icon className="h-5 w-5 md:h-7 md:w-7" />
                   </span>
                 );
               })}
