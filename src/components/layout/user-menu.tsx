@@ -42,7 +42,11 @@ export function UserMenu({ email, name }: { email: string | null; name?: string 
           {initials}
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56">
+      <DropdownMenuContent
+        align="end"
+        sideOffset={8}
+        className="w-56 border-border bg-card text-card-foreground shadow-xl"
+      >
         <DropdownMenuLabel className="flex flex-col gap-0.5">
           <span className="text-sm font-medium">{name ?? email ?? "Tu cuenta"}</span>
           {email && name && (
