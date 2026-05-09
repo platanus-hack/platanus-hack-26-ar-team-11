@@ -7,8 +7,10 @@ const PROTECTED_PREFIXES = [
   "/sessions",
   "/connected-apps",
   "/training",
-  "/connect",
 ];
+
+// /connect handles auth inline (with return_to) so the consent screen can be
+// reached after login without the proxy clobbering search params.
 
 const AUTH_ONLY_PREFIXES = ["/auth/login", "/auth/signup"];
 

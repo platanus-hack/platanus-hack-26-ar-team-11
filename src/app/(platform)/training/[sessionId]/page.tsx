@@ -1,5 +1,7 @@
-// STUB — replaced by Stream B (B13).
-// See tasks/stream-b/B13-session-ui.md.
+import { notFound, redirect } from "next/navigation";
+import { getCurrentUser } from "@/lib/auth/server";
+import { createClient } from "@/lib/supabase/server";
+import { InterviewRoom } from "./InterviewRoom";
 
 export default async function TrainingSessionPage({
   params,
@@ -7,15 +9,36 @@ export default async function TrainingSessionPage({
   params: Promise<{ sessionId: string }>;
 }) {
   const { sessionId } = await params;
+
+  const user = await getCurrentUser();
+  if (!user) {
+    redirect("/auth/login");
+  }
+
+  const supabase = await createClient();
+
+  const { data: session } = await supabase
+    .from("sessions")
+    .select("id, twin_id, session_index, ended_at")
+    .eq("id", sessionId)
+    .maybeSingle();
+
+  if (!session) notFound();
+
+  const { data: twin } = await supabase
+    .from("twins")
+    .select("id, user_id")
+    .eq("id", session.twin_id)
+    .maybeSingle();
+
+  if (!twin || twin.user_id !== user.id) notFound();
+
   return (
-    <main className="flex min-h-[calc(100vh-3.5rem)] items-center justify-center px-4">
-      <div className="text-center">
-        <h1 className="mb-2 text-xl font-semibold">Training session</h1>
-        <p className="text-sm text-muted-foreground">
-          TODO: B13 — LiveKit Room + Beyond Presence avatar.
-        </p>
-        <p className="mt-2 text-xs text-muted-foreground">session: {sessionId}</p>
-      </div>
-    </main>
+    <InterviewRoom
+      sessionId={session.id}
+      twinId={session.twin_id}
+      sessionIndex={session.session_index ?? 0}
+      alreadyEnded={Boolean(session.ended_at)}
+    />
   );
 }
