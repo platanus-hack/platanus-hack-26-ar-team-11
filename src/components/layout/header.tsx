@@ -25,12 +25,12 @@ export async function Header({ variant = "default" }: { variant?: HeaderVariant 
           className="flex items-center"
         >
           <Image
-            src="/logo.png"
+            src="/logo.svg"
             alt="Twin"
             width={2444}
             height={1112}
-            quality={100}
             priority
+            unoptimized
             className="h-10 w-auto"
           />
         </Link>
