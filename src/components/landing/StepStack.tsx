@@ -154,9 +154,9 @@ export function StepStack() {
             </div>
           </div>
 
-          <div className="order-1 md:order-2">
+          <div className="hidden md:order-2 md:block">
             <div
-              className="relative mx-auto aspect-square w-44 sm:w-56 md:w-[28rem]"
+              className="relative mx-auto aspect-square w-[28rem]"
               style={{
                 transform: `scale(${1 + progress * 0.04})`,
                 transition: "transform 600ms ease",
@@ -171,14 +171,14 @@ export function StepStack() {
                     key={step.n}
                     aria-hidden
                     className={[
-                      "absolute flex h-10 w-10 items-center justify-center rounded-2xl bg-card text-primary shadow-xl ring-1 ring-border transition-all duration-500 md:h-16 md:w-16",
+                      "absolute flex h-16 w-16 items-center justify-center rounded-2xl bg-card text-primary shadow-xl ring-1 ring-border transition-all duration-500",
                       step.orbit,
                       isActive
                         ? "scale-100 opacity-100"
                         : "scale-90 opacity-0",
                     ].join(" ")}
                   >
-                    <step.Icon className="h-5 w-5 md:h-7 md:w-7" />
+                    <step.Icon className="h-7 w-7" />
                   </span>
                 );
               })}
