@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { UserAvatar } from "@/components/avatar/UserAvatar";
+import { HeroAvatar } from "@/components/landing/HeroAvatar";
 import { Button } from "@/components/ui/button";
 import { type AvatarConfig, DEFAULT_AVATAR_CONFIG } from "@/types/avatar";
 import { CompletionWidget } from "./completion-widget";
@@ -20,12 +20,11 @@ export function TwinOverview({
   const twinName = twin.name ?? (ownerName ? `Twin de ${ownerName}` : "Tu Twin");
 
   return (
-    <div className="flex h-[calc(100vh-5rem)] flex-col items-center justify-center gap-6 px-4 text-center">
-      <UserAvatar
+    <div className="flex h-[calc(100vh-7rem)] flex-col items-center justify-center gap-6 px-4 text-center">
+      <HeroAvatar
         config={avatarConfig ?? DEFAULT_AVATAR_CONFIG}
         seed={avatarSeed ?? twin.id}
-        ariaLabel={`Avatar de ${twinName}`}
-        className="h-40 w-40 overflow-hidden rounded-2xl border border-border/60 bg-card md:h-48 md:w-48"
+        className="!w-48 md:!w-56"
       />
 
       <div className="space-y-3">
@@ -55,12 +54,11 @@ export function EmptyTwinState({
   avatarSeed?: string;
 }) {
   return (
-    <div className="flex h-[calc(100vh-5rem)] flex-col items-center justify-center gap-6 px-4 text-center">
-      <UserAvatar
+    <div className="flex h-[calc(100vh-7rem)] flex-col items-center justify-center gap-6 px-4 text-center">
+      <HeroAvatar
         config={avatarConfig ?? DEFAULT_AVATAR_CONFIG}
         seed={avatarSeed ?? "twin"}
-        ariaLabel="Tu avatar"
-        className="h-40 w-40 overflow-hidden rounded-2xl border border-border/60 bg-card md:h-48 md:w-48"
+        className="!w-48 md:!w-56"
       />
       <div className="space-y-2">
         <h1 className="text-3xl font-semibold md:text-4xl">Tu Twin está esperando.</h1>

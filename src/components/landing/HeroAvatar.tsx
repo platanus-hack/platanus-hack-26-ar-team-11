@@ -19,6 +19,7 @@ export const HERO_AVATAR_CONFIG: AvatarConfig = {
 interface HeroAvatarProps {
   className?: string;
   config?: AvatarConfig;
+  seed?: string;
   swapKey?: string | number;
 }
 
@@ -26,6 +27,7 @@ interface HeroAvatarProps {
 export function HeroAvatar({
   className,
   config = HERO_AVATAR_CONFIG,
+  seed = "twin-hero",
   swapKey,
 }: HeroAvatarProps) {
   return (
@@ -44,7 +46,7 @@ export function HeroAvatar({
         <div key={swapKey} className="hero-avatar-swap">
           <UserAvatar
             config={config}
-            seed="twin-hero"
+            seed={seed}
             ariaLabel="Avatar de tu Twin"
             className="h-full w-full"
           />
