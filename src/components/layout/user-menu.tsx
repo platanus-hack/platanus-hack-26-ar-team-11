@@ -5,8 +5,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { signOutAction } from "@/lib/auth/actions";
@@ -37,15 +35,8 @@ export function UserMenu({ email, name }: { email: string | null; name?: string 
       <DropdownMenuContent
         align="end"
         sideOffset={8}
-        className="w-56 border-border bg-card text-card-foreground shadow-xl"
+        className="w-44 border-border bg-card text-card-foreground shadow-xl"
       >
-        <DropdownMenuLabel className="flex flex-col gap-0.5">
-          <span className="text-sm font-medium">{name ?? email ?? "Tu cuenta"}</span>
-          {email && name && (
-            <span className="text-xs text-muted-foreground">{email}</span>
-          )}
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator />
         <DropdownMenuItem asChild variant="destructive">
           <form action={signOutAction} className="w-full">
             <button type="submit" className="flex w-full cursor-pointer items-center">
