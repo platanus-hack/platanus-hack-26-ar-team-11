@@ -11,7 +11,7 @@ export function NextSessionCTA({
 }) {
   const isComplete = nextSessionIndex >= totalSessions;
 
-  const label = isComplete ? "Hablar con mi Twin" : "Entrenar mi agente";
+  const label = isComplete ? "Hablar con mi Twin" : "Entrenar mi Twin";
 
   return (
     <ContinueTrainingButton

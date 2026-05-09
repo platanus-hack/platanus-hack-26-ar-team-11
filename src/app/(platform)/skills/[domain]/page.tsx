@@ -195,7 +195,7 @@ function EmptyState() {
         </p>
       </div>
       <ContinueTrainingButton size="lg" className="gap-2">
-        Entrenar mi agente
+        Entrenar mi Twin
         <ArrowRight className="h-4 w-4" />
       </ContinueTrainingButton>
     </Card>
