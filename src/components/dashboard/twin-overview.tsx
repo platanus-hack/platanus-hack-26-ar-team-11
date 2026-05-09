@@ -34,7 +34,7 @@ export function TwinOverview({
   const summary = personalizeSummary(twin.summary, ownerName);
 
   return (
-    <div className="flex h-[calc(100vh-5rem)] flex-col items-center justify-center gap-6 px-4 text-center">
+    <div className="flex min-h-[calc(100dvh-5rem)] flex-col items-center justify-center gap-6 px-4 py-8 text-center">
       <HeroAvatar
         config={avatarConfig ?? DEFAULT_AVATAR_CONFIG}
         seed={avatarSeed ?? twin.id}
@@ -69,7 +69,7 @@ export function EmptyTwinState({
   avatarSeed?: string;
 }) {
   return (
-    <div className="flex h-[calc(100vh-5rem)] flex-col items-center justify-center gap-6 px-4 text-center">
+    <div className="flex min-h-[calc(100dvh-5rem)] flex-col items-center justify-center gap-6 px-4 py-8 text-center">
       <HeroAvatar
         config={avatarConfig ?? DEFAULT_AVATAR_CONFIG}
         seed={avatarSeed ?? "twin"}
