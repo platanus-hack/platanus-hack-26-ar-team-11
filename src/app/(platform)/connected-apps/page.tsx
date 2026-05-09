@@ -26,7 +26,7 @@ export default async function ConnectedAppsPage() {
           <span className="block text-sm uppercase tracking-[0.2em] text-secondary">
             Aplicaciones
           </span>
-          <h1 className="mt-6 text-balance text-3xl font-black sm:text-4xl">
+          <h1 className="mt-3 text-balance text-3xl font-black sm:text-4xl">
             Las apps que pueden consultar a tu Twin.
           </h1>
           <p className="mt-4 max-w-xl text-base text-muted-foreground">

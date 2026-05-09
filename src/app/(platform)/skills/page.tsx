@@ -34,7 +34,7 @@ export default async function SkillsPage() {
           <span className="block text-sm uppercase tracking-[0.2em] text-secondary">
             Skills
           </span>
-          <h1 className="mt-6 text-balance text-3xl font-black sm:text-4xl">
+          <h1 className="mt-3 text-balance text-3xl font-black sm:text-4xl">
             Lo que tu Twin aprendió de vos.
           </h1>
           <p className="mt-4 max-w-xl text-base text-muted-foreground">
