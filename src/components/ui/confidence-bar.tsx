@@ -23,7 +23,7 @@ export function ConfidenceBar({
         : "bg-primary";
 
   return (
-    <div className={cn("flex w-full flex-col gap-1", className)}>
+    <div className={cn("flex w-full flex-col", label ? "gap-2.5" : "gap-1", className)}>
       {(label || showValue) && (
         <div className="flex items-baseline justify-between text-xs text-muted-foreground">
           {label && <span>{label}</span>}
