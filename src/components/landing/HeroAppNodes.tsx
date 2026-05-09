@@ -102,8 +102,10 @@ export function HeroAppNodes() {
         const iconClass = `hero-app-node-icon${slot.exiting ? " is-exiting" : ""}`;
         return (
           <span key={i} className={SLOT_CLASSES[i]} aria-label={label} role="img">
-            <span key={slot.cycleKey} className={iconClass}>
-              <Icon className="h-6 w-6" aria-hidden />
+            <span className="hero-app-node-floater">
+              <span key={slot.cycleKey} className={iconClass}>
+                <Icon className="h-6 w-6" aria-hidden />
+              </span>
             </span>
           </span>
         );

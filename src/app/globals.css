@@ -220,6 +220,14 @@ body {
   width: 3.25rem;
   height: 3.25rem;
   pointer-events: none;
+}
+
+.hero-app-node-floater {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
   animation: hero-app-node-float 4.2s ease-in-out infinite;
 }
 
@@ -261,32 +269,36 @@ body {
   left: -6%;
   --node-angle: 35deg;
   --node-line: 11rem;
-  animation-delay: 0s;
 }
+
+.hero-app-node--a .hero-app-node-floater { animation-delay: 0s; }
 
 .hero-app-node--b {
   top: 28%;
   right: -12%;
   --node-angle: 165deg;
   --node-line: 10rem;
-  animation-delay: -1.4s;
 }
+
+.hero-app-node--b .hero-app-node-floater { animation-delay: -1.4s; }
 
 .hero-app-node--c {
   bottom: 6%;
   left: -2%;
   --node-angle: -35deg;
   --node-line: 10.5rem;
-  animation-delay: -2.8s;
 }
+
+.hero-app-node--c .hero-app-node-floater { animation-delay: -2.8s; }
 
 .hero-app-node--d {
   bottom: -4%;
   right: 4%;
   --node-angle: -150deg;
   --node-line: 10rem;
-  animation-delay: -4.2s;
 }
+
+.hero-app-node--d .hero-app-node-floater { animation-delay: -4.2s; }
 
 .hero-app-node-icon.is-exiting {
   animation: hero-app-node-pop-out 350ms cubic-bezier(0.55, 0, 0.55, 0.2) forwards;
