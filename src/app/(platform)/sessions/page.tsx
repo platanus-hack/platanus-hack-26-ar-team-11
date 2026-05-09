@@ -30,7 +30,7 @@ export default async function SessionsPage() {
 
   return (
     <PageShell>
-      <header className="mb-6">
+      <header className="mb-6 space-y-2">
         <h1 className="text-2xl font-semibold">Sesiones</h1>
         <p className="text-sm text-muted-foreground">
           Cada conversación con tu Twin queda guardada aquí.
