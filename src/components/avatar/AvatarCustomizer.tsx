@@ -5,6 +5,9 @@ import { toast } from "sonner";
 import { createAvatar } from "@dicebear/core";
 import * as avataaars from "@dicebear/avataaars";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import {
   type AvatarConfig,
@@ -22,6 +25,7 @@ import {
   SKIN_COLORS,
 } from "@/types/avatar";
 import { updateAvatarConfig } from "@/lib/auth/avatar-actions";
+import { updateProfileName } from "@/lib/auth/profile-actions";
 
 type CategoryKey =
   | "top"
@@ -79,13 +83,23 @@ function ThumbAvatar({ config, seed }: { config: AvatarConfig; seed: string }) {
 interface AvatarCustomizerProps {
   initialConfig: AvatarConfig;
   seed: string;
+  initialName: string;
 }
 
-export function AvatarCustomizer({ initialConfig, seed }: AvatarCustomizerProps) {
+export function AvatarCustomizer({
+  initialConfig,
+  seed,
+  initialName,
+}: AvatarCustomizerProps) {
   const [config, setConfig] = useState<AvatarConfig>(initialConfig);
   const [savedConfig, setSavedConfig] = useState<AvatarConfig>(initialConfig);
   const [activeCategory, setActiveCategory] = useState<CategoryKey>("top");
   const [isPending, startTransition] = useTransition();
+  const [name, setName] = useState(initialName);
+  const [savedName, setSavedName] = useState(initialName);
+  const [isNamePending, startNameTransition] = useTransition();
+  const nameDirty = name.trim() !== savedName.trim();
+  const nameValid = name.trim().length > 0;
 
   const previewSvg = useAvatarSvg(config, seed, 256);
 
@@ -114,16 +128,58 @@ export function AvatarCustomizer({ initialConfig, seed }: AvatarCustomizerProps)
     setConfig(savedConfig);
   }
 
+  function handleSaveName() {
+    if (!nameDirty || !nameValid) return;
+    startNameTransition(async () => {
+      const res = await updateProfileName(name);
+      if (res.ok) {
+        setSavedName(name.trim());
+        toast.success("Nombre guardado");
+      } else {
+        toast.error(res.error ?? "No se pudo guardar el nombre");
+      }
+    });
+  }
+
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col gap-10 px-4 py-10">
       <header className="text-center">
         <span className="block text-sm uppercase tracking-[0.2em] text-secondary">
-          Tu avatar
+          Tu perfil
         </span>
         <h1 className="mt-3 text-balance text-3xl font-black sm:text-4xl">
           Personalizá tu Twin
         </h1>
       </header>
+
+      <Card>
+        <CardContent className="flex flex-col gap-3 p-5 sm:flex-row sm:items-end sm:gap-4">
+          <div className="flex-1 space-y-2">
+            <Label htmlFor="profile-name" className="text-sm font-medium">
+              Nombre
+            </Label>
+            <Input
+              id="profile-name"
+              value={name}
+              maxLength={60}
+              placeholder="Cómo te llamás"
+              onChange={(e) => setName(e.target.value)}
+              disabled={isNamePending}
+            />
+            <p className="text-xs text-muted-foreground">
+              Aparece en tu dashboard y en cómo te saluda tu Twin.
+            </p>
+          </div>
+          <Button
+            type="button"
+            onClick={handleSaveName}
+            disabled={!nameDirty || !nameValid || isNamePending}
+            className="sm:self-start"
+          >
+            {isNamePending ? "Guardando…" : "Guardar"}
+          </Button>
+        </CardContent>
+      </Card>
 
       <div className="flex flex-col items-center gap-5">
         <div
