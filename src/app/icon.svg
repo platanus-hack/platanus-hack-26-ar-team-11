@@ -1,18 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-200 -866 2844 2844" preserveAspectRatio="xMidYMid meet">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="1800 -20 650 1140" preserveAspectRatio="xMidYMid meet">
 <style>
-.t { fill: #17244e; }
+.ink { fill: #17244e; }
 @media (prefers-color-scheme: dark) {
-  .t { fill: #faf5ea; }
+  .ink { fill: #faf5ea; }
 }
 </style>
-<defs>
-<radialGradient id="logo-dot" cx="2010" cy="180" r="230" gradientUnits="userSpaceOnUse">
-<stop offset="0%" stop-color="#cfe5fb"/>
-<stop offset="55%" stop-color="#7cbcec"/>
-<stop offset="100%" stop-color="#5aa3d9"/>
-</radialGradient>
-</defs>
-<g class="t" transform="translate(0.000000,1112.000000) scale(0.100000,-0.100000)" stroke="none">
+<g class="ink" transform="translate(0.000000,1112.000000) scale(0.100000,-0.100000)" stroke="none">
 <path d="M20460 10399 c-30 -5 -100 -16 -155 -24 -158 -25 -406 -105 -465
 -150 -8 -6 -44 -26 -79 -44 -203 -104 -465 -371 -583 -596 -76 -145 -116 -232
 -141 -310 -14 -44 -36 -111 -49 -150 -26 -80 -34 -546 -11 -630 6 -22 27 -101
@@ -170,5 +163,5 @@
 17 -19 38 -19 47 0 35 -181 237 -235 263 -16 7 -52 27 -80 43 -27 16 -63 30
 -78 30 -16 1 -38 6 -50 13 -69 37 -303 55 -427 34z"/>
 </g>
-<circle cx="2067" cy="236" r="168" fill="url(#logo-dot)"/>
+<circle class="ink" cx="2067" cy="236" r="168"/>
 </svg>
