@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { Sparkles, LinkIcon, Unplug } from "lucide-react";
 import { BuholingoHeader } from "./buholingo-header";
 import { ExerciseCard } from "./exercise-card";
+import { QueryOverlay } from "./query-overlay";
 import { GENERIC_EXERCISES } from "@/lib/buholingo/exercises";
 import {
   buildConnectUrl,
@@ -24,6 +25,9 @@ export function LessonScreen() {
     const conn = readStoredConnection();
     if (!conn) return;
     setPhase("loading");
+    const startedAt = Date.now();
+    const MIN_OVERLAY_MS = 4600;
+
     fetch("/buholingo/api/personalize", {
       method: "POST",
       headers: { "content-type": "application/json" },
@@ -33,7 +37,10 @@ export function LessonScreen() {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return (await res.json()) as PersonalizedLesson;
       })
-      .then((data) => {
+      .then(async (data) => {
+        const elapsed = Date.now() - startedAt;
+        const remaining = Math.max(0, MIN_OVERLAY_MS - elapsed);
+        if (remaining > 0) await new Promise((r) => setTimeout(r, remaining));
         setPersonalized(data);
         setPhase("personalized");
       })
@@ -65,6 +72,7 @@ export function LessonScreen() {
 
   return (
     <div className="min-h-screen bg-[#FFF8E7]">
+      <QueryOverlay open={phase === "loading"} />
       <BuholingoHeader
         rightSlot={
           phase === "personalized" ? (
