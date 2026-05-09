@@ -1,5 +1,5 @@
 import { defineConfig } from "vitest/config";
-import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 export default defineConfig({
   test: {
@@ -7,12 +7,14 @@ export default defineConfig({
     include: [
       "src/**/__tests__/**/*.{test,spec}.{ts,tsx}",
       "src/**/*.{test,spec}.{ts,tsx}",
+      "worker/**/__tests__/**/*.{test,spec}.{ts,tsx}",
+      "worker/**/*.{test,spec}.{ts,tsx}",
     ],
-    exclude: ["node_modules", ".next", "worker", "references"],
+    exclude: ["node_modules", ".next", "references"],
   },
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "src"),
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
 });
