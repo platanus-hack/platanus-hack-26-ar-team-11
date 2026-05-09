@@ -1,12 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="-200 -866 2844 2844" preserveAspectRatio="xMidYMid meet">
 <style>
 .t { fill: #17244e; }
-.c { fill: #5cace5; }
 @media (prefers-color-scheme: dark) {
   .t { fill: #faf5ea; }
 }
 </style>
-<circle class="c" cx="2067" cy="236" r="168"/>
+<defs>
+<radialGradient id="logo-dot" cx="35%" cy="30%" r="80%">
+<stop offset="0%" stop-color="#b9dafa"/>
+<stop offset="55%" stop-color="#7cbcec"/>
+<stop offset="100%" stop-color="#3e8fcc"/>
+</radialGradient>
+</defs>
+<circle cx="2067" cy="236" r="168" fill="url(#logo-dot)"/>
 <g class="t" transform="translate(0.000000,1112.000000) scale(0.100000,-0.100000)" stroke="none">
 <path d="M20460 10399 c-30 -5 -100 -16 -155 -24 -158 -25 -406 -105 -465
 -150 -8 -6 -44 -26 -79 -44 -203 -104 -465 -371 -583 -596 -76 -145 -116 -232
