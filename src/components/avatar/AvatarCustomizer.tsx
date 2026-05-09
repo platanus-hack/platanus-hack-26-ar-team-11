@@ -181,7 +181,7 @@ export function AvatarCustomizer({
         </h1>
       </header>
 
-      <div className="flex flex-col items-center gap-5">
+      <div className="-mt-5 flex flex-col items-center gap-5">
         {isEditingName ? (
           <Input
             ref={nameInputRef}
