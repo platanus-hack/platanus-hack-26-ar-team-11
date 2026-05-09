@@ -54,7 +54,7 @@ export function Hero({ isAuthenticated }: HeroProps) {
         </div>
 
         <div className="flex justify-center md:self-center">
-          <div className="relative">
+          <div className="relative isolate">
             <HeroAvatar />
             <HeroAppNodes />
           </div>

@@ -221,7 +221,6 @@ body {
   height: 3.25rem;
   pointer-events: none;
   animation: hero-app-node-float 4.2s ease-in-out infinite;
-  z-index: 1;
 }
 
 .hero-app-node-icon {
