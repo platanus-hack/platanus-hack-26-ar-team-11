@@ -28,6 +28,7 @@ export function buildAllAccessAppSeed(): AllAccessAppSeed {
       `${prodUrl.replace(/\/$/, "")}/twin/callback`,
     ],
     allowed_scopes_json: [
+      "persona.read.summary",
       "persona.read.music",
       "persona.read.events",
       "persona.read.vibes",
