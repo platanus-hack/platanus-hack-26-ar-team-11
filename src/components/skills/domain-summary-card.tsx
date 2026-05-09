@@ -1,0 +1,63 @@
+import Link from "next/link";
+import { ArrowRight, ChevronRight } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { ConfidenceBar } from "@/components/ui/confidence-bar";
+import { cn } from "@/lib/utils";
+import { DOMAIN_LABELS, type Domain, type Fact } from "@/types";
+
+export function DomainSummaryCard({
+  domain,
+  facts,
+  confidence,
+}: {
+  domain: Domain;
+  facts: Fact[];
+  confidence: number;
+}) {
+  const empty = facts.length === 0;
+
+  return (
+    <Link
+      href={`/skills/${domain}`}
+      className="group block focus:outline-none"
+      aria-label={`Ver detalle de ${DOMAIN_LABELS[domain]}`}
+    >
+      <Card
+        className={cn(
+          "h-full transition-all group-hover:border-primary/50 group-hover:shadow-md group-focus-visible:ring-2 group-focus-visible:ring-ring",
+        )}
+      >
+        <CardContent className="flex h-full flex-col gap-3 p-5">
+          <div className="flex items-baseline justify-between gap-2">
+            <h3 className="text-base font-semibold">{DOMAIN_LABELS[domain]}</h3>
+            <span className="text-xs text-muted-foreground">
+              {empty ? "Sin entrenar" : `${facts.length} fact${facts.length === 1 ? "" : "s"}`}
+            </span>
+          </div>
+
+          {empty ? (
+            <p className="text-sm text-muted-foreground">
+              Aún no entrenamos este dominio.
+            </p>
+          ) : (
+            <ConfidenceBar value={confidence} showValue />
+          )}
+
+          <div className="mt-auto flex items-center gap-1 text-xs font-medium text-primary opacity-0 transition-opacity group-hover:opacity-100">
+            {empty ? (
+              <>
+                Iniciar entrenamiento
+                <ArrowRight className="h-3 w-3" />
+              </>
+            ) : (
+              <>
+                Ver detalle
+                <ChevronRight className="h-3 w-3" />
+              </>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+    </Link>
+  );
+}
