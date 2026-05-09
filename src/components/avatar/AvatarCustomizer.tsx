@@ -1,13 +1,12 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
+import { useMemo, useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
 import { createAvatar } from "@dicebear/core";
 import * as avataaars from "@dicebear/avataaars";
+import { Check, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import {
   type AvatarConfig,
@@ -97,8 +96,9 @@ export function AvatarCustomizer({
   const [isPending, startTransition] = useTransition();
   const [name, setName] = useState(initialName);
   const [savedName, setSavedName] = useState(initialName);
+  const [isEditingName, setIsEditingName] = useState(false);
   const [isNamePending, startNameTransition] = useTransition();
-  const nameDirty = name.trim() !== savedName.trim();
+  const nameInputRef = useRef<HTMLInputElement>(null);
   const nameValid = name.trim().length > 0;
 
   const previewSvg = useAvatarSvg(config, seed, 256);
@@ -128,12 +128,31 @@ export function AvatarCustomizer({
     setConfig(savedConfig);
   }
 
+  function startEditingName() {
+    setIsEditingName(true);
+    queueMicrotask(() => {
+      nameInputRef.current?.focus();
+      nameInputRef.current?.select();
+    });
+  }
+
+  function cancelEditingName() {
+    setName(savedName);
+    setIsEditingName(false);
+  }
+
   function handleSaveName() {
-    if (!nameDirty || !nameValid) return;
+    if (!nameValid) return;
+    const trimmed = name.trim();
+    if (trimmed === savedName.trim()) {
+      setIsEditingName(false);
+      return;
+    }
     startNameTransition(async () => {
-      const res = await updateProfileName(name);
+      const res = await updateProfileName(trimmed);
       if (res.ok) {
-        setSavedName(name.trim());
+        setSavedName(trimmed);
+        setIsEditingName(false);
         toast.success("Nombre guardado");
       } else {
         toast.error(res.error ?? "No se pudo guardar el nombre");
@@ -152,40 +171,70 @@ export function AvatarCustomizer({
         </h1>
       </header>
 
-      <Card>
-        <CardContent className="flex flex-col gap-3 p-5 sm:flex-row sm:items-end sm:gap-4">
-          <div className="flex-1 space-y-2">
-            <Label htmlFor="profile-name" className="text-sm font-medium">
-              Nombre
-            </Label>
-            <Input
-              id="profile-name"
-              value={name}
-              maxLength={60}
-              placeholder="Cómo te llamás"
-              onChange={(e) => setName(e.target.value)}
-              disabled={isNamePending}
-            />
-            <p className="text-xs text-muted-foreground">
-              Aparece en tu dashboard y en cómo te saluda tu Twin.
-            </p>
-          </div>
-          <Button
-            type="button"
-            onClick={handleSaveName}
-            disabled={!nameDirty || !nameValid || isNamePending}
-            className="sm:self-start"
-          >
-            {isNamePending ? "Guardando…" : "Guardar"}
-          </Button>
-        </CardContent>
-      </Card>
-
       <div className="flex flex-col items-center gap-5">
         <div
           className="h-56 w-56 overflow-hidden rounded-2xl border border-border/60 bg-card sm:h-72 sm:w-72 [&>svg]:h-full [&>svg]:w-full"
           dangerouslySetInnerHTML={{ __html: previewSvg }}
         />
+
+        <div className="flex items-center gap-2">
+          {isEditingName ? (
+            <>
+              <Input
+                ref={nameInputRef}
+                value={name}
+                maxLength={60}
+                onChange={(e) => setName(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    handleSaveName();
+                  } else if (e.key === "Escape") {
+                    e.preventDefault();
+                    cancelEditingName();
+                  }
+                }}
+                disabled={isNamePending}
+                placeholder="Tu nombre"
+                className="h-8 w-48 text-center text-base"
+                aria-label="Editar nombre"
+              />
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                onClick={handleSaveName}
+                disabled={!nameValid || isNamePending}
+                className="h-7 w-7"
+                aria-label="Confirmar nombre"
+              >
+                <Check className="h-4 w-4" />
+              </Button>
+            </>
+          ) : (
+            <>
+              <span
+                className={cn(
+                  "text-base font-medium",
+                  !savedName && "text-muted-foreground italic",
+                )}
+              >
+                {savedName || "Tu nombre"}
+              </span>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                onClick={startEditingName}
+                className="h-7 w-7 text-muted-foreground"
+                aria-label="Editar nombre"
+              >
+                <Pencil className="h-3.5 w-3.5" />
+              </Button>
+            </>
+          )}
+        </div>
+
         <div className="flex w-full max-w-md items-center gap-3">
           <Button
             type="button"
