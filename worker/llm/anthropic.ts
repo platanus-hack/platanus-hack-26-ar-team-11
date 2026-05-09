@@ -10,6 +10,13 @@ export type AnthropicLLMOptions = {
   model?: string;
   temperature?: number;
   maxTokens?: number;
+  /**
+   * Called when the LLM invokes the internal `end_session` tool. The worker
+   * uses this to gracefully close the LiveKit room after Cami's farewell.
+   * Triggered as soon as the tool_use block starts, while text deltas may
+   * still be streaming to TTS.
+   */
+  onEndSession?: () => void;
 };
 
 const DEFAULTS = {
@@ -18,11 +25,24 @@ const DEFAULTS = {
   maxTokens: 256,
 };
 
-type ResolvedOpts = Required<Omit<AnthropicLLMOptions, "apiKey">>;
+type ResolvedOpts = Required<Omit<AnthropicLLMOptions, "apiKey" | "onEndSession">>;
+
+/**
+ * Internal tool that lets Cami end the call programmatically. We inject this
+ * on every chat() request — the LLM decides when to invoke it based on the
+ * system prompt's closing instructions.
+ */
+const END_SESSION_TOOL: Anthropic.Messages.Tool = {
+  name: "end_session",
+  description:
+    "Llamá esta tool DESPUÉS de tu frase de cierre, cuando estés segura de que la entrevista terminó. El sistema cerrará la llamada automáticamente unos segundos después (para que tu última oración termine de oírse). NO la menciones en voz alta.",
+  input_schema: { type: "object", properties: {} },
+};
 
 export class AnthropicLLM extends llm.LLM {
   private client: Anthropic;
   private opts: ResolvedOpts;
+  private onEndSession?: () => void;
 
   constructor(opts: AnthropicLLMOptions = {}) {
     super();
@@ -38,6 +58,7 @@ export class AnthropicLLM extends llm.LLM {
       temperature: opts.temperature ?? DEFAULTS.temperature,
       maxTokens: opts.maxTokens ?? DEFAULTS.maxTokens,
     };
+    this.onEndSession = opts.onEndSession;
   }
 
   override label(): string {
@@ -68,6 +89,7 @@ export class AnthropicLLM extends llm.LLM {
       chatCtx,
       toolCtx,
       connOptions,
+      onEndSession: this.onEndSession,
     });
   }
 }
@@ -75,6 +97,7 @@ export class AnthropicLLM extends llm.LLM {
 class AnthropicLLMStream extends llm.LLMStream {
   private client: Anthropic;
   private modelOpts: ResolvedOpts;
+  private onEndSession?: () => void;
 
   constructor(
     parent: llm.LLM,
@@ -84,11 +107,13 @@ class AnthropicLLMStream extends llm.LLMStream {
       chatCtx: llm.ChatContext;
       toolCtx?: llm.ToolContext;
       connOptions: APIConnectOptions;
+      onEndSession?: () => void;
     }
   ) {
-    super(parent, args);
+    super(parent, { chatCtx: args.chatCtx, toolCtx: args.toolCtx, connOptions: args.connOptions });
     this.client = client;
     this.modelOpts = modelOpts;
+    this.onEndSession = args.onEndSession;
   }
 
   protected async run(): Promise<void> {
@@ -100,9 +125,11 @@ class AnthropicLLMStream extends llm.LLMStream {
       temperature: this.modelOpts.temperature,
       system: system || undefined,
       messages,
+      tools: [END_SESSION_TOOL],
     });
 
     let chunkId = 0;
+    let endSessionFired = false;
 
     for await (const event of stream) {
       if (
@@ -116,6 +143,21 @@ class AnthropicLLMStream extends llm.LLMStream {
             content: event.delta.text,
           },
         });
+      } else if (
+        event.type === "content_block_start" &&
+        event.content_block.type === "tool_use" &&
+        event.content_block.name === END_SESSION_TOOL.name &&
+        !endSessionFired
+      ) {
+        // Fire as soon as the tool_use block starts. The text content has
+        // already been streamed to TTS by this point, so the worker just
+        // needs to wait for the audio to finish before disconnecting.
+        endSessionFired = true;
+        try {
+          this.onEndSession?.();
+        } catch (err) {
+          console.error("[anthropic] onEndSession callback threw:", err);
+        }
       }
     }
 
