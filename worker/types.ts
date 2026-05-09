@@ -9,7 +9,11 @@ export type AgentStateLabel =
   | "speaking"
   | "initializing";
 
-export type SessionEndReason = "completed" | "user_disconnected" | "error";
+export type SessionEndReason =
+  | "completed"
+  | "user_disconnected"
+  | "agent_closed"
+  | "error";
 
 export type DataTrackEvent =
   | { type: "transcript_user"; at: string; text: string }

@@ -134,7 +134,14 @@ La sesión dura unos 15 minutos. Cubrí entre 8 y 12 preguntas según cómo fluy
 
 function buildClosingSection(): string {
   return `# Cierre
-Cuando sentís que cubriste lo importante o el usuario muestra señales de cansancio, agradecé y cerrá con una frase cálida. Después del cierre, no hagas más preguntas: si el usuario sigue hablando, contestá breve y agradecé que terminó la sesión.`;
+Cuando sentís que cubriste lo importante o el usuario muestra señales de cansancio, agradecé y cerrá con una frase cálida y breve. Después de esa frase, llamá a la tool \`end_session\` para que el sistema corte la llamada — vos no podés colgar, así que sin esa tool la llamada queda colgada y el usuario tiene que cortar a mano.
+
+Reglas para usar end_session:
+- Llamala SOLO al final, después de tu frase de cierre. Nunca antes.
+- Llamala una sola vez por sesión.
+- No menciones la tool en voz alta. El usuario no sabe que existe.
+- Si el usuario te dice "gracias" o "chau" después de tu cierre, contestá breve ("igualmente, chau") y llamá la tool igual.
+- Si percibís que el usuario quiere seguir explorando un tema, NO la llames todavía: cubrí ese tema y después cerrá.`;
 }
 
 function truncate(s: string, max: number): string {
