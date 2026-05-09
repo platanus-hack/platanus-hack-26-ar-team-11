@@ -10,6 +10,7 @@ import type { Domain, ExtractedFact, Session } from "@/types";
 
 const POLL_INTERVAL_MS = 2000;
 const POLL_TIMEOUT_MS = 30_000;
+const FACTS_GRACE_MS = 15_000;
 
 const DOMAIN_LABELS: Record<Domain, string> = {
   music_taste: "Música",
@@ -41,6 +42,7 @@ export function EndScreen({ sessionId }: { sessionId: string }) {
   useEffect(() => {
     let cancelled = false;
     const startedAt = Date.now();
+    let endedAtSeenMs: number | null = null;
 
     async function poll() {
       try {
@@ -60,15 +62,26 @@ export function EndScreen({ sessionId }: { sessionId: string }) {
         if (cancelled) return;
 
         const facts = (data.session.extracted_facts_json ?? []) as ExtractedFact[];
-        const done = facts.length > 0 || data.session.summary !== null;
-
-        if (done) {
-          setState({ tag: "ready", data });
-          return;
+        // Worker writes ended_at via saveSession, then runPostSession populates
+        // facts/summary a few seconds later. Wait for ended_at, then give the
+        // post-session pipeline a grace window before flipping to ready.
+        if (data.session.ended_at !== null) {
+          if (endedAtSeenMs === null) endedAtSeenMs = Date.now();
+          const factsArrived =
+            facts.length > 0 || data.session.summary !== null;
+          const grace = Date.now() - endedAtSeenMs >= FACTS_GRACE_MS;
+          if (factsArrived || grace) {
+            setState({ tag: "ready", data });
+            return;
+          }
         }
 
         if (Date.now() - startedAt >= POLL_TIMEOUT_MS) {
-          setState({ tag: "timeout" });
+          if (data.session.ended_at !== null) {
+            setState({ tag: "ready", data });
+          } else {
+            setState({ tag: "timeout" });
+          }
           return;
         }
 
