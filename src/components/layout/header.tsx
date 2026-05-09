@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { getCurrentUser } from "@/lib/auth/server";
 import { Button } from "@/components/ui/button";
@@ -14,7 +15,7 @@ export async function Header({ variant = "default" }: { variant?: HeaderVariant 
     <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/80 backdrop-blur">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
         <Link href={user ? "/dashboard" : "/"} className="flex items-center gap-2 font-semibold tracking-tight">
-          <span className="inline-block h-6 w-6 rounded-full bg-gradient-to-br from-primary to-secondary" />
+          <Image src="/logo.png" alt="Twin Protocol" width={28} height={28} priority />
           <span>Twin Protocol</span>
         </Link>
 
