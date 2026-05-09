@@ -20,7 +20,7 @@ export default async function ConnectedAppsPage() {
   return (
     <PageShell>
       <header className="mb-6">
-        <h1 className="text-2xl font-semibold">Aplicaciones</h1>
+        <h1 className="text-2xl font-semibold">Aplicaciones conectadas</h1>
         <p className="text-sm text-muted-foreground">
           Apps que pueden consultar a tu Twin. Vos elegís qué acceden y cuándo desconectar.
         </p>
