@@ -14,6 +14,8 @@ import { CURRICULUM, getCurriculumSlot } from "../src/lib/twin/curriculum.js";
 import { buildSystemPrompt } from "../src/lib/twin/prompt.js";
 import type { TranscriptEntry } from "../src/types/session.js";
 import { AnthropicLLM } from "./llm/anthropic.js";
+import { saveSession, shouldDedupUserTurn } from "./persistence.js";
+import { parseRoomMetadata } from "./session-meta.js";
 import { buildStt } from "./stt.js";
 import { buildTts } from "./tts.js";
 import type {
@@ -31,12 +33,26 @@ export default defineAgent({
   },
 
   entry: async (ctx: JobContext) => {
+    const startedAtMs = Date.now();
+    const startedAt = new Date(startedAtMs).toISOString();
+
     console.log(`[worker] job started — room: ${ctx.room.name}`);
 
     await ctx.connect();
     console.log(`[worker] connected to room ${ctx.room.name}`);
 
-    const slotIndex = resolveSlotIndex(ctx.room.name ?? "");
+    const meta = parseRoomMetadata(ctx.room.metadata);
+    if (meta) {
+      console.log(
+        `[worker] session metadata: session=${meta.session_id} twin=${meta.twin_id} slot=${meta.session_index}`
+      );
+    } else {
+      console.warn(
+        `[worker] no session metadata on room — running in smoke mode (no persistence)`
+      );
+    }
+
+    const slotIndex = meta?.session_index ?? resolveSlotIndex(ctx.room.name ?? "");
     const slot = getCurriculumSlot(slotIndex);
     console.log(
       `[worker] using curriculum slot ${slot.index} (${slot.target_domain ?? slot.target_depth})`
@@ -78,31 +94,16 @@ export default defineAgent({
       }),
       turnHandling: {
         endpointing: {
-          // "dynamic" adapts the delay using the MultilingualModel's EOU
-          // probability — cuts pauses short when the user clearly finished,
-          // tolerates long pauses when the user is mid-thought.
           mode: "dynamic",
-          // Snappy floor for short confident answers without clipping breath
-          // pauses (the EOU model gates this anyway).
           minDelay: 120,
-          // Hard cap so even when the EOU model is uncertain we cut at 1.5s,
-          // avoiding the "I said it once but the bot stayed silent" feel that
-          // led users to repeat themselves.
           maxDelay: 1500,
         },
         interruption: {
           enabled: true,
-          // Sustained user speech (in ms) before the agent stops talking.
-          // Note: 0.8 here would be 0.8 *ms* — instantaneous, hence constant
-          // accidental cut-offs. 800ms is the right unit.
           minDuration: 800,
           minWords: 2,
         },
         preemptiveGeneration: {
-          // Start LLM/TTS the moment STT emits a final transcript, before
-          // the EOU detector confirms end of turn. Worst case: discard the
-          // in-flight generation. Best case (most turns): bot replies
-          // near-instantly when the user truly finishes.
           enabled: true,
         },
       } as voice.AgentOptions<unknown>["turnHandling"],
@@ -118,6 +119,13 @@ export default defineAgent({
         const at = new Date().toISOString();
 
         if (item.role === "user") {
+          const prev = transcript[transcript.length - 1];
+          if (shouldDedupUserTurn(prev, text)) {
+            console.log(
+              `[worker] dedup user turn: "${text.slice(0, 40)}..."`
+            );
+            return;
+          }
           transcript.push({ role: "user", at, text });
           void publishData({ type: "transcript_user", at, text });
         } else if (item.role === "assistant") {
@@ -171,10 +179,39 @@ export default defineAgent({
       session.on(voice.AgentSessionEventTypes.Close, () => resolve());
     });
 
-    console.log(`[worker] session closed, reason=${endedReason}`);
+    const endedAtMs = Date.now();
+    const endedAt = new Date(endedAtMs).toISOString();
+    const durationSeconds = Math.round((endedAtMs - startedAtMs) / 1000);
+
+    console.log(
+      `[worker] session closed, reason=${endedReason}, duration=${durationSeconds}s, turns=${transcript.length}`
+    );
 
     void publishData({ type: "session_end", reason: endedReason });
-    void transcript;
+
+    if (meta) {
+      try {
+        await saveSession({
+          id: meta.session_id,
+          twin_id: meta.twin_id,
+          type: "training",
+          domain: slot.target_domain,
+          session_index: meta.session_index,
+          target_domains: meta.target_domains,
+          transcript,
+          summary: null,
+          extracted_facts: [],
+          started_at: startedAt,
+          ended_at: endedAt,
+          duration_seconds: durationSeconds,
+        });
+        console.log(`[worker] session ${meta.session_id} persisted`);
+      } catch (err) {
+        console.error("[worker] saveSession failed:", err);
+      }
+    } else {
+      console.log("[worker] skipping persistence (no metadata)");
+    }
   },
 });
 
@@ -190,10 +227,9 @@ function chatMessageText(msg: llmTypes.ChatMessage): string {
   return "";
 }
 
-// Room names follow `ses_<sessionId>__slot_<idx>` when launched from
-// /api/livekit/token (B10). Anything else falls back to slot 0 so smoke tests
-// against ad-hoc room names don't crash. B09/B10 replace the encoded slot with
-// proper room metadata once /api/sessions/[id] is live.
+// Smoke-mode fallback: when the room has no session metadata (e.g. ad-hoc
+// rooms), pull the slot index from the room name (`ses_<id>__slot_<n>`).
+// Production rooms always carry metadata via /api/livekit/token (B10).
 function resolveSlotIndex(roomName: string): number {
   const match = /__slot_(\d+)/.exec(roomName);
   if (!match) return 0;
