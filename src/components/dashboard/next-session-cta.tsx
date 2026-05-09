@@ -1,21 +1,17 @@
 import { ArrowRight } from "lucide-react";
 import { ContinueTrainingButton } from "@/components/training/ContinueTrainingButton";
+import { TARGET_TRAINING_SESSIONS } from "@/lib/twin/recompute";
 
 export function NextSessionCTA({
   nextSessionIndex,
-  totalSessions = 8,
+  totalSessions = TARGET_TRAINING_SESSIONS,
 }: {
   nextSessionIndex: number;
   totalSessions?: number;
 }) {
-  const isStart = nextSessionIndex === 0;
   const isComplete = nextSessionIndex >= totalSessions;
 
-  const label = isComplete
-    ? "Hablar con mi Twin"
-    : isStart
-      ? "Iniciar entrenamiento"
-      : "Continuar entrenamiento";
+  const label = isComplete ? "Hablar con mi Twin" : "Entrenar mi agente";
 
   return (
     <ContinueTrainingButton
