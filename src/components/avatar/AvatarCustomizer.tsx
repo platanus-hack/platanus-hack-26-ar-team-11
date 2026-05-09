@@ -4,7 +4,7 @@ import { useMemo, useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
 import { createAvatar } from "@dicebear/core";
 import * as avataaars from "@dicebear/avataaars";
-import { Pencil } from "lucide-react";
+import { Check, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -182,51 +182,60 @@ export function AvatarCustomizer({
       </header>
 
       <div className="-mt-5 flex flex-col items-center gap-5">
-        {isEditingName ? (
-          <Input
-            ref={nameInputRef}
-            value={name}
-            maxLength={60}
-            onChange={(e) => setName(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                handleSaveName();
-              } else if (e.key === "Escape") {
-                e.preventDefault();
-                cancelEditingName();
-              }
-            }}
-            onBlur={handleNameBlur}
-            disabled={isNamePending}
-            placeholder="Tu nombre"
-            className="h-12 w-72 text-center !text-2xl"
-            aria-label="Editar nombre"
-          />
-        ) : (
-          <div className="relative flex w-72 items-center justify-center">
+        <div className="relative flex w-72 items-center">
+          {isEditingName ? (
+            <Input
+              ref={nameInputRef}
+              value={name}
+              maxLength={60}
+              onChange={(e) => setName(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  handleSaveName();
+                } else if (e.key === "Escape") {
+                  e.preventDefault();
+                  cancelEditingName();
+                }
+              }}
+              onBlur={handleNameBlur}
+              disabled={isNamePending}
+              placeholder="Tu nombre"
+              className="h-12 w-full px-11 text-center !text-2xl"
+              aria-label="Editar nombre"
+            />
+          ) : (
             <button
               type="button"
               onClick={startEditingName}
               className={cn(
-                "rounded text-2xl font-medium transition hover:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                "w-full px-11 text-center text-2xl font-medium transition hover:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                 !savedName && "text-muted-foreground italic",
               )}
             >
               {savedName || "Tu nombre"}
             </button>
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              onClick={startEditingName}
-              className="absolute right-0 h-11 w-11 text-muted-foreground"
-              aria-label="Editar nombre"
-            >
+          )}
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            onMouseDown={(e) => {
+              // Keep input focused so onBlur doesn't race the click handler.
+              if (isEditingName) e.preventDefault();
+            }}
+            onClick={isEditingName ? handleSaveName : startEditingName}
+            disabled={isEditingName && (!nameValid || isNamePending)}
+            className="absolute right-0 h-11 w-11 text-muted-foreground"
+            aria-label={isEditingName ? "Confirmar nombre" : "Editar nombre"}
+          >
+            {isEditingName ? (
+              <Check className="h-5 w-5" />
+            ) : (
               <Pencil className="h-5 w-5" />
-            </Button>
-          </div>
-        )}
+            )}
+          </Button>
+        </div>
 
         <div
           className="h-56 w-56 overflow-hidden rounded-2xl border border-border/60 bg-card sm:h-72 sm:w-72 [&>svg]:h-full [&>svg]:w-full"
