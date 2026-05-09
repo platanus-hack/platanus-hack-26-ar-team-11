@@ -26,7 +26,7 @@ describe("Header", () => {
     });
     const html = renderToString(await Header({}));
     expect(html).toContain("Manuel");
-    expect(html).toContain("Abrir menú de usuario");
+    expect(html).toContain("Abrir menú de Manuel");
     expect(html).not.toContain(">Login<");
   });
 

@@ -2,7 +2,6 @@
 
 import { LogOut, User as UserIcon } from "lucide-react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -35,17 +34,13 @@ export function UserMenu({ email, name }: { email: string | null; name?: string 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="flex items-center gap-2 px-2"
-          aria-label="Abrir menú de usuario"
+        <button
+          type="button"
+          aria-label={`Abrir menú de ${display}`}
+          className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/15 text-xs font-semibold text-primary outline-none transition-colors hover:bg-primary/25 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
-          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary/15 text-xs font-semibold text-primary">
-            {initials}
-          </span>
-          <span className="hidden text-sm sm:inline">{display}</span>
-        </Button>
+          {initials}
+        </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuLabel className="flex flex-col gap-0.5">
