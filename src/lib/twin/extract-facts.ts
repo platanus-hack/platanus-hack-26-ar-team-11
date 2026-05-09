@@ -1,10 +1,10 @@
 import Anthropic from "@anthropic-ai/sdk";
-import {
-  ALL_DOMAINS,
-  type Domain,
-  type ExtractedFact,
-  type TranscriptEntry,
-  type TwinSkill,
+import { ALL_DOMAINS } from "@/types/twin";
+import type {
+  Domain,
+  ExtractedFact,
+  TranscriptEntry,
+  TwinSkill,
 } from "@/types";
 
 export interface ExtractFactsInput {
