@@ -1,7 +1,7 @@
 import { UserAvatar } from "@/components/avatar/UserAvatar";
 import type { AvatarConfig } from "@/types/avatar";
 
-const HERO_AVATAR_CONFIG: AvatarConfig = {
+export const HERO_AVATAR_CONFIG: AvatarConfig = {
   top: "straight02",
   hairColor: "4a312c",
   skinColor: "edb98a",
@@ -12,12 +12,22 @@ const HERO_AVATAR_CONFIG: AvatarConfig = {
   facialHairColor: "2c1b18",
   accessories: "none",
   clothing: "blazerAndShirt",
-  clothesColor: "d4a017",
+  clothesColor: "e6dec9",
   backgroundColor: "transparent",
 };
 
+interface HeroAvatarProps {
+  className?: string;
+  config?: AvatarConfig;
+  swapKey?: string | number;
+}
+
 // Frame del Twin: cartoon avatar con halo amber + orbits indigo.
-export function HeroAvatar({ className }: { className?: string }) {
+export function HeroAvatar({
+  className,
+  config = HERO_AVATAR_CONFIG,
+  swapKey,
+}: HeroAvatarProps) {
   return (
     <div
       role="img"
@@ -31,12 +41,14 @@ export function HeroAvatar({ className }: { className?: string }) {
       <span className="hero-avatar-orbit hero-avatar-orbit--mid" aria-hidden />
       <span className="hero-avatar-halo" aria-hidden />
       <div className="hero-avatar-frame" aria-hidden>
-        <UserAvatar
-          config={HERO_AVATAR_CONFIG}
-          seed="twin-hero"
-          ariaLabel="Avatar de tu Twin"
-          className="h-full w-full"
-        />
+        <div key={swapKey} className="hero-avatar-swap">
+          <UserAvatar
+            config={config}
+            seed="twin-hero"
+            ariaLabel="Avatar de tu Twin"
+            className="h-full w-full"
+          />
+        </div>
       </div>
       <span className="hero-avatar-particle hero-avatar-particle--a" aria-hidden />
       <span className="hero-avatar-particle hero-avatar-particle--b" aria-hidden />

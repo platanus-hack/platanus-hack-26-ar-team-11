@@ -9,7 +9,18 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useScrollProgress } from "@/lib/hooks/useScrollProgress";
-import { HeroAvatar } from "./HeroAvatar";
+import { HeroAvatar, HERO_AVATAR_CONFIG } from "./HeroAvatar";
+import type { AvatarConfig } from "@/types/avatar";
+
+type Expression = Pick<AvatarConfig, "eyes" | "eyebrows" | "mouth">;
+
+const expressions: Expression[] = [
+  { eyes: "default", eyebrows: "default", mouth: "smile" },
+  { eyes: "side", eyebrows: "defaultNatural", mouth: "smile" },
+  { eyes: "default", eyebrows: "raisedExcited", mouth: "smile" },
+  { eyes: "happy", eyebrows: "defaultNatural", mouth: "smile" },
+  { eyes: "wink", eyebrows: "default", mouth: "smile" },
+];
 
 interface Step {
   n: string;
@@ -68,6 +79,10 @@ export function StepStack() {
     steps.length - 1,
     Math.floor(progress * steps.length * 0.999),
   );
+  const stepConfig: AvatarConfig = {
+    ...HERO_AVATAR_CONFIG,
+    ...expressions[activeIndex],
+  };
 
   return (
     <section
@@ -79,10 +94,10 @@ export function StepStack() {
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
         <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-12 px-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-20">
           <div className="relative">
-            <span className="text-xs uppercase tracking-[0.2em] text-secondary">
+            <span className="text-sm uppercase tracking-[0.2em] text-secondary">
               Cómo funciona
             </span>
-            <h2 className="mt-3 text-balance text-3xl font-black sm:text-4xl">
+            <h2 className="mt-3 text-balance text-4xl font-black sm:text-5xl">
               Cinco pasos para que tu Twin viva en todas tus apps.
             </h2>
 
@@ -107,14 +122,14 @@ export function StepStack() {
                       <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-sm">
                         <step.Icon className="h-5 w-5" />
                       </span>
-                      <span className="font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
+                      <span className="font-mono text-sm uppercase tracking-[0.25em] text-muted-foreground">
                         Paso {step.n}
                       </span>
                     </div>
-                    <h3 className="text-2xl font-bold leading-tight sm:text-3xl">
+                    <h3 className="text-3xl font-bold leading-tight sm:text-4xl">
                       {step.title}
                     </h3>
-                    <p className="max-w-md text-base text-muted-foreground sm:text-lg">
+                    <p className="max-w-md text-lg text-muted-foreground sm:text-xl">
                       {step.body}
                     </p>
                   </article>
@@ -147,7 +162,7 @@ export function StepStack() {
                 transition: "transform 600ms ease",
               }}
             >
-              <HeroAvatar />
+              <HeroAvatar config={stepConfig} swapKey={activeIndex} />
 
               {steps.map((step, i) => {
                 const isActive = i === activeIndex;
