@@ -22,7 +22,7 @@ export default async function ConnectedAppsPage() {
   return (
     <PageShell>
       <header className="mb-10 flex flex-col items-start gap-6 sm:flex-row sm:items-end sm:justify-between">
-        <div className="space-y-2">
+        <div className="space-y-4">
           <span className="text-sm uppercase tracking-[0.2em] text-secondary">
             Aplicaciones
           </span>
