@@ -19,6 +19,7 @@ import { runPostSession } from "./post-session.js";
 import { parseRoomMetadata } from "./session-meta.js";
 import { buildStt } from "./stt.js";
 import { buildTts } from "./tts.js";
+import { loadTwinState } from "./twin-loader.js";
 import type {
   AgentStateLabel,
   DataTrackEvent,
@@ -59,6 +60,31 @@ export default defineAgent({
       `[worker] using curriculum slot ${slot.index} (${slot.target_domain ?? slot.target_depth})`
     );
 
+    // Load twin state up-front so the system prompt has real context. If the
+    // load fails (smoke mode / DB hiccup) we still proceed with an empty twin
+    // — the prompt builder handles that gracefully.
+    const twin = meta
+      ? await loadTwinState(meta.twin_id).catch((err) => {
+          console.warn("[worker] loadTwinState failed:", err);
+          return { name: null, summary: null, skills: [] };
+        })
+      : { name: null, summary: null, skills: [] };
+    if (meta) {
+      console.log(
+        `[worker] twin loaded: skills=${twin.skills.length} summary=${twin.summary ? "yes" : "no"}`
+      );
+    }
+
+    // Validate Bey env vars BEFORE starting the session so we fail fast
+    // instead of leaving a half-running session on the user.
+    const beyApiKey = process.env.BEY_API_KEY;
+    const beyAvatarId = process.env.NEXT_PUBLIC_BEY_AVATAR_ID;
+    if (!beyApiKey || !beyAvatarId) {
+      throw new Error(
+        "BEY_API_KEY and NEXT_PUBLIC_BEY_AVATAR_ID are required in .env.local"
+      );
+    }
+
     const transcript: TranscriptEntry[] = [];
     let endedReason: SessionEndReason = "user_disconnected";
 
@@ -89,10 +115,7 @@ export default defineAgent({
     });
 
     const agent = new voice.Agent({
-      instructions: buildSystemPrompt({
-        slot,
-        twin: { name: null, summary: null, skills: [] },
-      }),
+      instructions: buildSystemPrompt({ slot, twin }),
       turnHandling: {
         endpointing: {
           mode: "dynamic",
@@ -159,13 +182,6 @@ export default defineAgent({
     // than published as a regular audio track. If we call avatar.start first,
     // session.start sees an already-set output.audio and ignores ours, leaving
     // the avatar muted. See bey-dev/bey-examples/livekit-agent/main.js.
-    const beyApiKey = process.env.BEY_API_KEY;
-    const beyAvatarId = process.env.NEXT_PUBLIC_BEY_AVATAR_ID;
-    if (!beyApiKey || !beyAvatarId) {
-      throw new Error(
-        "BEY_API_KEY and NEXT_PUBLIC_BEY_AVATAR_ID are required in .env.local"
-      );
-    }
     console.log(`[worker] starting bey avatar (avatarId=${beyAvatarId})`);
     const avatar = new bey.AvatarSession({
       avatarId: beyAvatarId,

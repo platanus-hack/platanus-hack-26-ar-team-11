@@ -111,7 +111,7 @@ export async function runPostSession(
   };
 }
 
-async function loadTwinSkills(
+export async function loadTwinSkills(
   supabase: SupabaseClient,
   twinId: string
 ): Promise<TwinSkill[]> {
