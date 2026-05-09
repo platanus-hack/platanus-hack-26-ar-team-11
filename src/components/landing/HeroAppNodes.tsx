@@ -113,9 +113,9 @@ export function HeroAppNodes() {
                 <Image
                   src={src}
                   alt=""
-                  width={40}
-                  height={40}
-                  className="h-9 w-9 rounded-full object-cover"
+                  width={48}
+                  height={48}
+                  className="h-12 w-12 rounded-full object-cover"
                 />
               </span>
             </span>
