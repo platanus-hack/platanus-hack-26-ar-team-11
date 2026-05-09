@@ -35,7 +35,7 @@ const steps: Step[] = [
     n: "01",
     title: "Creá tu Twin.",
     body:
-      "Empezás con una cuenta gratuita y un Twin vacío esperando a aprender de vos.",
+      "Registrate de forma gratuita y obtené tu Twin listo para aprender de vos.",
     Icon: UserPlus,
     orbit: "top-2 right-6",
   },
@@ -43,7 +43,7 @@ const steps: Step[] = [
     n: "02",
     title: "Entrenalo con conversaciones.",
     body:
-      "Sesiones de voz cortas: música, eventos, vibe, estilo de comunicación. El Twin va llenando su perfil.",
+      "Conversá con tu Twin en sesiones cortas de voz para que conozca tus gustos, intereses y forma de comunicarte.",
     Icon: MessagesSquare,
     orbit: "top-1/3 -right-2",
   },
@@ -51,7 +51,7 @@ const steps: Step[] = [
     n: "03",
     title: "Conectalo a tus apps favoritas.",
     body:
-      "Apps como AllAccess piden permiso por scopes. Vos decidís qué pueden consultar.",
+      "Autorizá a las apps que elijas para que puedan consultar a tu Twin. Vos decidís qué información compartir en cada caso.",
     Icon: Plug2,
     orbit: "bottom-6 right-1/4",
   },
@@ -59,7 +59,7 @@ const steps: Step[] = [
     n: "04",
     title: "Recibí experiencias personalizadas.",
     body:
-      "Desde el primer momento las apps entienden tu estilo, sin pedirte datos otra vez.",
+      "Las apps que conectes te entienden desde el primer uso, sin pedirte llenar formularios ni repetir tus preferencias.",
     Icon: Compass,
     orbit: "bottom-1/3 -left-2",
   },
@@ -67,7 +67,7 @@ const steps: Step[] = [
     n: "05",
     title: "Controlá qué sabe y qué consulta cada app.",
     body:
-      "Audit log, revoke en un click, scopes granulares. Tu Twin es tuyo.",
+      "Revisá en cualquier momento qué información comparte tu Twin con cada app y revocá los accesos cuando quieras.",
     Icon: ShieldCheck,
     orbit: "top-1/4 -left-2",
   },
