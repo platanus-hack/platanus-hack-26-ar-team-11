@@ -39,8 +39,6 @@ const SLOT_CLASSES = [
   "hero-app-node hero-app-node--b",
   "hero-app-node hero-app-node--c",
   "hero-app-node hero-app-node--d",
-  "hero-app-node hero-app-node--e",
-  "hero-app-node hero-app-node--f",
 ];
 
 const CYCLE_INTERVAL_MS = 2200;
