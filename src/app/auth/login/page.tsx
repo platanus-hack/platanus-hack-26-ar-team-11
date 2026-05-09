@@ -1,17 +1,20 @@
-// STUB — replaced by Stream A (A01) with real form + signInAction.
-// See tasks/stream-a/A01-login-page.md.
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { LoginForm } from "./login-form";
 
-export default function LoginPage() {
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ return_to?: string }>;
+}) {
+  const params = await searchParams;
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Login</CardTitle>
-        <CardDescription>Stub. A01 implements the real form.</CardDescription>
+        <CardTitle>Bienvenido de nuevo</CardTitle>
+        <CardDescription>Inicia sesión para continuar entrenando tu Twin.</CardDescription>
       </CardHeader>
       <CardContent>
-        <p className="text-sm text-muted-foreground">TODO: A01 — login form + server action.</p>
+        <LoginForm returnTo={params.return_to} />
       </CardContent>
     </Card>
   );
