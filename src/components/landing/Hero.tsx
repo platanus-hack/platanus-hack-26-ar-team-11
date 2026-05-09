@@ -1,18 +1,12 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { HeroAvatar } from "./HeroAvatar";
-import { ArrowDown, Music, Ticket, Plug2, ShoppingBag } from "lucide-react";
+import { HeroAppNodes } from "./HeroAppNodes";
+import { ArrowDown } from "lucide-react";
 
 interface HeroProps {
   isAuthenticated: boolean;
 }
-
-const appNodes = [
-  { Icon: Ticket, label: "AllAccess", className: "hero-app-node hero-app-node--a" },
-  { Icon: Music, label: "App de música", className: "hero-app-node hero-app-node--b" },
-  { Icon: ShoppingBag, label: "App de e-commerce", className: "hero-app-node hero-app-node--c" },
-  { Icon: Plug2, label: "Otras apps", className: "hero-app-node hero-app-node--d" },
-];
 
 export function Hero({ isAuthenticated }: HeroProps) {
   const primary = isAuthenticated
@@ -62,11 +56,7 @@ export function Hero({ isAuthenticated }: HeroProps) {
         <div className="flex justify-center md:self-center">
           <div className="relative">
             <HeroAvatar />
-            {appNodes.map(({ Icon, label, className }) => (
-              <span key={label} className={className} aria-label={label} role="img">
-                <Icon className="h-6 w-6" aria-hidden />
-              </span>
-            ))}
+            <HeroAppNodes />
           </div>
         </div>
       </div>
