@@ -29,7 +29,7 @@ export function SessionDetail({ session }: { session: Session }) {
         </CardHeader>
       </Card>
 
-      <Card className="gap-3 pb-3">
+      <Card className="gap-3">
         <CardHeader>
           <CardTitle className="text-base">Transcripción</CardTitle>
         </CardHeader>
@@ -61,7 +61,7 @@ export function SessionDetail({ session }: { session: Session }) {
       </Card>
 
       {session.extracted_facts_json.length > 0 && (
-        <Card className="gap-3 pb-3">
+        <Card className="gap-3">
           <CardHeader>
             <CardTitle className="text-base">Facts extraídos</CardTitle>
           </CardHeader>
