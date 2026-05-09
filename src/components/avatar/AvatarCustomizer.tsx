@@ -1,0 +1,306 @@
+"use client";
+
+import { useMemo, useState, useTransition } from "react";
+import { toast } from "sonner";
+import { createAvatar } from "@dicebear/core";
+import * as avataaars from "@dicebear/avataaars";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import {
+  type AvatarConfig,
+  AVATAR_ACCESSORIES_OPTIONS,
+  AVATAR_CLOTHING_OPTIONS,
+  AVATAR_EYEBROWS_OPTIONS,
+  AVATAR_EYES_OPTIONS,
+  AVATAR_FACIAL_HAIR_OPTIONS,
+  AVATAR_MOUTH_OPTIONS,
+  AVATAR_TOP_OPTIONS,
+  type AvatarOption,
+  BACKGROUND_COLORS,
+  CLOTHES_COLORS,
+  configToOptions,
+  HAIR_COLORS,
+  SKIN_COLORS,
+} from "@/types/avatar";
+import { updateAvatarConfig } from "@/lib/auth/avatar-actions";
+
+type CategoryKey =
+  | "top"
+  | "hairColor"
+  | "skinColor"
+  | "eyes"
+  | "eyebrows"
+  | "mouth"
+  | "facialHair"
+  | "accessories"
+  | "clothing"
+  | "clothesColor"
+  | "backgroundColor";
+
+interface CategoryDef {
+  key: CategoryKey;
+  label: string;
+  kind: "style" | "color";
+}
+
+const CATEGORIES: CategoryDef[] = [
+  { key: "top", label: "Pelo", kind: "style" },
+  { key: "hairColor", label: "Color de pelo", kind: "color" },
+  { key: "eyes", label: "Ojos", kind: "style" },
+  { key: "eyebrows", label: "Cejas", kind: "style" },
+  { key: "mouth", label: "Boca", kind: "style" },
+  { key: "facialHair", label: "Barba", kind: "style" },
+  { key: "accessories", label: "Lentes", kind: "style" },
+  { key: "skinColor", label: "Piel", kind: "color" },
+  { key: "clothing", label: "Ropa", kind: "style" },
+  { key: "clothesColor", label: "Color ropa", kind: "color" },
+  { key: "backgroundColor", label: "Fondo", kind: "color" },
+];
+
+function useAvatarSvg(config: AvatarConfig, seed: string, size = 256): string {
+  return useMemo(
+    () =>
+      createAvatar(avataaars, {
+        seed,
+        size,
+        ...configToOptions(config),
+      }).toString(),
+    [config, seed, size],
+  );
+}
+
+function ThumbAvatar({ config, seed }: { config: AvatarConfig; seed: string }) {
+  const svg = useAvatarSvg(config, seed, 80);
+  return (
+    <div
+      className="h-full w-full [&>svg]:h-full [&>svg]:w-full"
+      dangerouslySetInnerHTML={{ __html: svg }}
+    />
+  );
+}
+
+interface AvatarCustomizerProps {
+  initialConfig: AvatarConfig;
+  seed: string;
+}
+
+export function AvatarCustomizer({ initialConfig, seed }: AvatarCustomizerProps) {
+  const [config, setConfig] = useState<AvatarConfig>(initialConfig);
+  const [savedConfig, setSavedConfig] = useState<AvatarConfig>(initialConfig);
+  const [activeCategory, setActiveCategory] = useState<CategoryKey>("top");
+  const [isPending, startTransition] = useTransition();
+
+  const previewSvg = useAvatarSvg(config, seed, 256);
+
+  const dirty = useMemo(
+    () => JSON.stringify(config) !== JSON.stringify(savedConfig),
+    [config, savedConfig],
+  );
+
+  function setField<K extends CategoryKey>(key: K, value: AvatarConfig[K]) {
+    setConfig((prev) => ({ ...prev, [key]: value }));
+  }
+
+  function handleSave() {
+    startTransition(async () => {
+      const res = await updateAvatarConfig(config);
+      if (res.ok) {
+        setSavedConfig(config);
+        toast.success("Avatar guardado");
+      } else {
+        toast.error(res.error ?? "No se pudo guardar el avatar");
+      }
+    });
+  }
+
+  function handleReset() {
+    setConfig(savedConfig);
+  }
+
+  return (
+    <div className="mx-auto flex w-full max-w-3xl flex-col gap-8 px-4 py-10">
+      <header className="text-center">
+        <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+          Tu avatar
+        </p>
+        <h1 className="mt-2 text-2xl font-semibold tracking-tight">
+          Personalizá tu Twin
+        </h1>
+      </header>
+
+      <div className="flex flex-col items-center gap-4">
+        <div
+          className="h-48 w-48 overflow-hidden rounded-2xl border border-border/60 bg-card sm:h-64 sm:w-64 [&>svg]:h-full [&>svg]:w-full"
+          dangerouslySetInnerHTML={{ __html: previewSvg }}
+        />
+        <div className="flex items-center gap-2">
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            onClick={handleReset}
+            disabled={!dirty || isPending}
+          >
+            Descartar
+          </Button>
+          <Button
+            type="button"
+            size="sm"
+            onClick={handleSave}
+            disabled={!dirty || isPending}
+            className="min-w-32"
+          >
+            {isPending ? "Guardando…" : "Guardar avatar"}
+          </Button>
+        </div>
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        {CATEGORIES.map((cat) => (
+          <button
+            key={cat.key}
+            type="button"
+            onClick={() => setActiveCategory(cat.key)}
+            className={cn(
+              "rounded-full border px-3 py-1.5 text-xs font-medium transition",
+              activeCategory === cat.key
+                ? "border-primary bg-primary text-primary-foreground"
+                : "border-border bg-card text-foreground/80 hover:border-primary/40",
+            )}
+          >
+            {cat.label}
+          </button>
+        ))}
+      </div>
+
+      <CategoryGrid
+        category={activeCategory}
+        config={config}
+        seed={seed}
+        onChange={setField}
+      />
+    </div>
+  );
+}
+
+function CategoryGrid({
+  category,
+  config,
+  seed,
+  onChange,
+}: {
+  category: CategoryKey;
+  config: AvatarConfig;
+  seed: string;
+  onChange: <K extends CategoryKey>(key: K, value: AvatarConfig[K]) => void;
+}) {
+  switch (category) {
+    case "top":
+      return <StyleGrid options={AVATAR_TOP_OPTIONS} fieldKey="top" config={config} seed={seed} onChange={onChange} />;
+    case "eyes":
+      return <StyleGrid options={AVATAR_EYES_OPTIONS} fieldKey="eyes" config={config} seed={seed} onChange={onChange} />;
+    case "eyebrows":
+      return <StyleGrid options={AVATAR_EYEBROWS_OPTIONS} fieldKey="eyebrows" config={config} seed={seed} onChange={onChange} />;
+    case "mouth":
+      return <StyleGrid options={AVATAR_MOUTH_OPTIONS} fieldKey="mouth" config={config} seed={seed} onChange={onChange} />;
+    case "facialHair":
+      return <StyleGrid options={AVATAR_FACIAL_HAIR_OPTIONS} fieldKey="facialHair" config={config} seed={seed} onChange={onChange} />;
+    case "accessories":
+      return <StyleGrid options={AVATAR_ACCESSORIES_OPTIONS} fieldKey="accessories" config={config} seed={seed} onChange={onChange} />;
+    case "clothing":
+      return <StyleGrid options={AVATAR_CLOTHING_OPTIONS} fieldKey="clothing" config={config} seed={seed} onChange={onChange} />;
+    case "hairColor":
+      return <ColorGrid colors={HAIR_COLORS} fieldKey="hairColor" config={config} onChange={onChange} />;
+    case "skinColor":
+      return <ColorGrid colors={SKIN_COLORS} fieldKey="skinColor" config={config} onChange={onChange} />;
+    case "clothesColor":
+      return <ColorGrid colors={CLOTHES_COLORS} fieldKey="clothesColor" config={config} onChange={onChange} />;
+    case "backgroundColor":
+      return <ColorGrid colors={BACKGROUND_COLORS} fieldKey="backgroundColor" config={config} onChange={onChange} />;
+  }
+}
+
+function StyleGrid<K extends CategoryKey>({
+  options,
+  fieldKey,
+  config,
+  seed,
+  onChange,
+}: {
+  options: AvatarOption<AvatarConfig[K] & string>[];
+  fieldKey: K;
+  config: AvatarConfig;
+  seed: string;
+  onChange: (key: K, value: AvatarConfig[K]) => void;
+}) {
+  const current = config[fieldKey];
+  return (
+    <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-5">
+      {options.map((opt) => {
+        const previewConfig = { ...config, [fieldKey]: opt.value } as AvatarConfig;
+        const selected = current === opt.value;
+        return (
+          <button
+            key={opt.value}
+            type="button"
+            onClick={() => onChange(fieldKey, opt.value as AvatarConfig[K])}
+            className={cn(
+              "group flex flex-col items-center gap-1 rounded-xl border p-2 transition",
+              selected
+                ? "border-primary bg-primary/5 ring-2 ring-primary/30"
+                : "border-border/60 bg-card hover:border-primary/40",
+            )}
+          >
+            <div className="h-16 w-16 overflow-hidden rounded-lg bg-muted/40">
+              <ThumbAvatar config={previewConfig} seed={seed} />
+            </div>
+            <span className="line-clamp-1 text-[11px] text-foreground/80">
+              {opt.label}
+            </span>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function ColorGrid<K extends CategoryKey>({
+  colors,
+  fieldKey,
+  config,
+  onChange,
+}: {
+  colors: string[];
+  fieldKey: K;
+  config: AvatarConfig;
+  onChange: (key: K, value: AvatarConfig[K]) => void;
+}) {
+  const current = config[fieldKey];
+  return (
+    <div className="grid grid-cols-7 gap-3 sm:grid-cols-9 md:grid-cols-12">
+      {colors.map((color) => {
+        const selected = current === color;
+        const isTransparent = color === "transparent";
+        return (
+          <button
+            key={color}
+            type="button"
+            onClick={() => onChange(fieldKey, color as AvatarConfig[K])}
+            aria-label={isTransparent ? "Transparente" : `#${color}`}
+            className={cn(
+              "h-10 w-10 rounded-full border transition",
+              selected
+                ? "border-foreground ring-2 ring-primary/40"
+                : "border-border/60 hover:border-foreground/40",
+            )}
+            style={{
+              background: isTransparent
+                ? "repeating-conic-gradient(#ddd 0 25%, #fff 0 50%) 50% / 14px 14px"
+                : `#${color}`,
+            }}
+          />
+        );
+      })}
+    </div>
+  );
+}
