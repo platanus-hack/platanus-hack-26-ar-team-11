@@ -99,15 +99,12 @@ export function HeroAppNodes() {
     <>
       {slots.map((slot, i) => {
         const { Icon, label } = slot.app;
-        const className = `${SLOT_CLASSES[i]}${slot.exiting ? " is-exiting" : ""}`;
+        const iconClass = `hero-app-node-icon${slot.exiting ? " is-exiting" : ""}`;
         return (
-          <span
-            key={`${i}-${slot.cycleKey}`}
-            className={className}
-            aria-label={label}
-            role="img"
-          >
-            <Icon className="h-6 w-6" aria-hidden />
+          <span key={i} className={SLOT_CLASSES[i]} aria-label={label} role="img">
+            <span key={slot.cycleKey} className={iconClass}>
+              <Icon className="h-6 w-6" aria-hidden />
+            </span>
           </span>
         );
       })}

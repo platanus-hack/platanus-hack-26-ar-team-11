@@ -219,19 +219,24 @@ body {
   justify-content: center;
   width: 3.25rem;
   height: 3.25rem;
+  pointer-events: none;
+  animation: hero-app-node-float 4.2s ease-in-out infinite;
+  z-index: 1;
+}
+
+.hero-app-node-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
   border-radius: 9999px;
   background: var(--color-card);
   color: var(--color-indigo);
   box-shadow:
     0 18px 40px -16px rgba(33, 40, 66, 0.45),
     0 0 0 1px rgba(33, 40, 66, 0.08);
-  pointer-events: none;
-  animation-name: hero-app-node-float, hero-app-node-pop-in;
-  animation-duration: 4.2s, 380ms;
-  animation-timing-function: ease-in-out, cubic-bezier(0.34, 1.56, 0.64, 1);
-  animation-iteration-count: infinite, 1;
-  animation-fill-mode: none, backwards;
-  z-index: 1;
+  animation: hero-app-node-pop-in 380ms cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
 }
 
 .hero-app-node::before {
@@ -257,7 +262,7 @@ body {
   left: -6%;
   --node-angle: 35deg;
   --node-line: 11rem;
-  animation-delay: 0s, 0s;
+  animation-delay: 0s;
 }
 
 .hero-app-node--b {
@@ -265,7 +270,7 @@ body {
   right: -12%;
   --node-angle: 165deg;
   --node-line: 10rem;
-  animation-delay: -1.4s, 0s;
+  animation-delay: -1.4s;
 }
 
 .hero-app-node--c {
@@ -273,7 +278,7 @@ body {
   left: -2%;
   --node-angle: -35deg;
   --node-line: 10.5rem;
-  animation-delay: -2.8s, 0s;
+  animation-delay: -2.8s;
 }
 
 .hero-app-node--d {
@@ -281,16 +286,11 @@ body {
   right: 4%;
   --node-angle: -150deg;
   --node-line: 10rem;
-  animation-delay: -4.2s, 0s;
+  animation-delay: -4.2s;
 }
 
-.hero-app-node.is-exiting {
-  animation-name: hero-app-node-pop-out;
-  animation-duration: 350ms;
-  animation-timing-function: cubic-bezier(0.55, 0, 0.55, 0.2);
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-delay: 0s;
+.hero-app-node-icon.is-exiting {
+  animation: hero-app-node-pop-out 350ms cubic-bezier(0.55, 0, 0.55, 0.2) forwards;
 }
 
 @keyframes hero-app-node-float {
