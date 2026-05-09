@@ -9,7 +9,7 @@ function formatTime(iso: string): string {
 }
 
 export function SessionDetail({ session }: { session: Session }) {
-  const slot = session.session_index !== null ? `Slot ${session.session_index + 1}` : "Chat";
+  const slot = session.session_index !== null ? `Sesión ${session.session_index + 1}` : "Chat";
   const domainLabel = session.domain ? DOMAIN_LABELS[session.domain] : "Síntesis";
 
   return (

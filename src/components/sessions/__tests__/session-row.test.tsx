@@ -45,14 +45,14 @@ describe("truncateSummary", () => {
     expect(truncateSummary("corto", 80)).toBe("corto");
   });
   it("handles null", () => {
-    expect(truncateSummary(null)).toBe("Sin resumen.");
+    expect(truncateSummary(null)).toBe("Sin resumen disponible.");
   });
 });
 
 describe("SessionRow", () => {
   it("renders training slot label", () => {
     const html = renderToString(<SessionRow session={baseSession} />);
-    expect(html).toContain("Slot 3");
+    expect(html).toContain("Sesión 3");
     expect(html).toContain("Music taste");
     expect(html).toContain("12 min");
   });
