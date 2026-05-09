@@ -2,16 +2,16 @@ import { UserAvatar } from "@/components/avatar/UserAvatar";
 import type { AvatarConfig } from "@/types/avatar";
 
 const HERO_AVATAR_CONFIG: AvatarConfig = {
-  top: "bigHair",
+  top: "longButNotTooLong",
   hairColor: "d6b370",
   skinColor: "ffdbb4",
   eyes: "wink",
-  eyebrows: "defaultNatural",
+  eyebrows: "default",
   mouth: "smile",
   facialHair: "none",
   facialHairColor: "2c1b18",
   accessories: "none",
-  clothing: "shirtScoopNeck",
+  clothing: "blazerAndShirt",
   clothesColor: "d4a017",
   backgroundColor: "transparent",
 };
