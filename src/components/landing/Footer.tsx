@@ -26,7 +26,7 @@ export function LandingFooter({ isAuthenticated }: Props) {
             {isAuthenticated ? "Dashboard" : "Crear cuenta"}
           </Link>
           <a
-            href="https://github.com/"
+            href="https://github.com/platanus-hack/platanus-hack-26-ar-team-11"
             rel="noopener noreferrer"
             target="_blank"
             className="inline-flex items-center gap-1.5 hover:text-foreground"
