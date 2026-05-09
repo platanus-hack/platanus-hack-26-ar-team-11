@@ -122,7 +122,7 @@ export function StepStack() {
                       <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-sm">
                         <step.Icon className="h-5 w-5" />
                       </span>
-                      <span className="font-mono text-sm uppercase tracking-[0.25em] text-muted-foreground">
+                      <span className="text-sm uppercase tracking-[0.2em] text-secondary">
                         Paso {step.n}
                       </span>
                     </div>
