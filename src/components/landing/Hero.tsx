@@ -56,7 +56,7 @@ export function Hero({ isAuthenticated }: HeroProps) {
               <Link href={secondary.href}>{secondary.label}</Link>
             </Button>
           </div>
-          <p className="mt-6 text-sm text-muted-foreground/80">
+          <p className="mt-6 text-base text-muted-foreground/80 sm:text-lg">
             Tus datos quedan bajo tu control en todo momento.
           </p>
         </div>
