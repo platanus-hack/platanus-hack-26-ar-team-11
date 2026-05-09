@@ -15,6 +15,7 @@ import { buildSystemPrompt } from "../src/lib/twin/prompt.js";
 import type { TranscriptEntry } from "../src/types/session.js";
 import { AnthropicLLM } from "./llm/anthropic.js";
 import { saveSession, shouldDedupUserTurn } from "./persistence.js";
+import { runPostSession } from "./post-session.js";
 import { parseRoomMetadata } from "./session-meta.js";
 import { buildStt } from "./stt.js";
 import { buildTts } from "./tts.js";
@@ -208,6 +209,20 @@ export default defineAgent({
         console.log(`[worker] session ${meta.session_id} persisted`);
       } catch (err) {
         console.error("[worker] saveSession failed:", err);
+      }
+
+      try {
+        const result = await runPostSession({
+          sessionId: meta.session_id,
+          twinId: meta.twin_id,
+          targetDomain: slot.target_domain,
+          transcript,
+        });
+        console.log(
+          `[worker] post-session: ${result.facts.length} facts extracted, summary_update=${result.summaryUpdate ? "yes" : "no"}`
+        );
+      } catch (err) {
+        console.error("[worker] post-session pipeline failed:", err);
       }
     } else {
       console.log("[worker] skipping persistence (no metadata)");
