@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { HeroAvatar } from "./HeroAvatar";
-import { HeroAppNodes } from "./HeroAppNodes";
 import { ArrowDown } from "lucide-react";
 
 interface HeroProps {
@@ -56,7 +55,6 @@ export function Hero({ isAuthenticated }: HeroProps) {
         <div className="flex justify-center md:self-center">
           <div className="relative">
             <HeroAvatar />
-            <HeroAppNodes />
           </div>
         </div>
       </div>
