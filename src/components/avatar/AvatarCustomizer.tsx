@@ -205,14 +205,16 @@ export function AvatarCustomizer({
           />
         ) : (
           <div className="relative flex w-72 items-center justify-center">
-            <span
+            <button
+              type="button"
+              onClick={startEditingName}
               className={cn(
-                "text-2xl font-medium",
+                "rounded text-2xl font-medium transition hover:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                 !savedName && "text-muted-foreground italic",
               )}
             >
               {savedName || "Tu nombre"}
-            </span>
+            </button>
             <Button
               type="button"
               variant="ghost"
