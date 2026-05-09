@@ -10,7 +10,7 @@ export function LandingFooter({ isAuthenticated }: Props) {
     <footer className="border-t border-border/60 bg-background">
       <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-6 px-6 py-10 text-sm text-muted-foreground md:flex-row md:items-center">
         <div>
-          <p className="font-semibold text-foreground">Twin Protocol</p>
+          <p className="font-semibold text-foreground">Twin</p>
           <p className="mt-1 max-w-md">
             Plataforma para crear, entrenar y compartir tu agente gemelo.
           </p>
