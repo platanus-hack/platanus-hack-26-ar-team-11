@@ -61,14 +61,16 @@ export function Hero({ isAuthenticated }: HeroProps) {
           </p>
         </div>
 
-        <div className="relative flex justify-center">
-          <HeroAvatar />
-          {chips.map(({ Icon, label, className }) => (
-            <span key={label} className={className} aria-hidden>
-              <Icon className="h-4 w-4" />
-              <span>{label}</span>
-            </span>
-          ))}
+        <div className="flex justify-center">
+          <div className="relative">
+            <HeroAvatar />
+            {chips.map(({ Icon, label, className }) => (
+              <span key={label} className={className} aria-hidden>
+                <Icon className="h-4 w-4" />
+                <span>{label}</span>
+              </span>
+            ))}
+          </div>
         </div>
       </div>
 
