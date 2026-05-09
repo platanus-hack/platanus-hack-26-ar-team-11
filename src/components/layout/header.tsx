@@ -14,21 +14,25 @@ export async function Header({ variant = "default" }: { variant?: HeaderVariant 
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/80 backdrop-blur">
-      <div className="flex h-20 w-full items-center justify-between gap-6 px-4 sm:px-6">
-        <div className="flex items-center gap-8">
-          <Link
-            href={user ? "/dashboard" : "/"}
-            aria-label="Twin"
-            className="flex items-center"
-          >
-            <Image src="/logo.png" alt="Twin" width={48} height={48} priority />
-          </Link>
+      <div className="relative flex h-20 w-full items-center px-4 sm:px-6">
+        <Link
+          href={user ? "/dashboard" : "/"}
+          aria-label="Twin"
+          className="flex items-center"
+        >
+          <Image src="/logo.png" alt="Twin" width={48} height={48} priority />
+        </Link>
 
-          {variant === "default" && user && <PrimaryNav />}
-        </div>
+        {variant === "default" && user && (
+          <div className="pointer-events-none absolute inset-0 hidden items-center justify-center md:flex">
+            <div className="pointer-events-auto">
+              <PrimaryNav />
+            </div>
+          </div>
+        )}
 
         {variant === "default" && (
-          <nav className="flex items-center gap-2 text-sm">
+          <nav className="ml-auto flex items-center gap-2 text-sm">
             {user ? (
               <UserMenu email={email} name={name} />
             ) : (
