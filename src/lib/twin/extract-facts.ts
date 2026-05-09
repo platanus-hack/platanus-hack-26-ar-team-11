@@ -56,23 +56,35 @@ export async function extractFacts(
 export function buildExtractionSystemPrompt(
   targetDomain: Domain | null
 ): string {
+  const domainUnion = ALL_DOMAINS.map((d) => `"${d}"`).join(" | ");
+
   return `Sos un sistema de extracción de facts para el "Twin" de un usuario. Recibís el transcript de una sesión + el estado actual del Twin y devolvés un JSON con los facts más relevantes que aprendiste sobre el usuario.
 
 # Output schema (estricto)
 Devolvé EXCLUSIVAMENTE un JSON con esta forma, sin texto antes ni después, sin markdown:
 {
   "facts": [
-    { "domain": "music_taste" | "event_preferences" | "vibes" | "communication_style", "text": "string corto declarativo", "confidence": 0..1 }
+    { "domain": ${domainUnion}, "text": "string corto declarativo", "confidence": 0..1 }
   ],
   "summary_update": null | "string corto que reemplaza el summary previo"
 }
 
+# Dominios y qué capturar en cada uno
+- vibes: personalidad, energía social, valores, estética personal, mood predominante.
+- communication_style: tono, formalidad, verbosidad, nivel técnico que prefiere.
+- spending_profile: sensibilidad al precio, mentalidad de gasto (value-driven / experience-first / status-driven), categorías donde splurgea vs ahorra, tope cómodo en distintas ocasiones.
+- music_taste: géneros, artistas, contextos de escucha, cómo descubre música nueva.
+- event_preferences: tamaño de venue, festival vs íntimo, presupuesto por entrada, horarios, con quién va.
+- fashion_taste: estilo (minimal / streetwear / clásico), paleta de colores, fits, brands queridas u odiadas, ocasiones.
+- food_taste: cocinas favoritas, restricciones alimentarias, paladar (picante / dulce / umami), hábitos (delivery / cocina / sale).
+- travel_style: vibe viajero (mochilero / confort / lujo), tipo de destino, presupuesto típico, con quién viaja, qué evita.
+
 # Reglas
-- "domain" debe ser uno de los 4 valores listados.
+- "domain" debe ser uno de los valores listados arriba.
 - "text" en español, ≤ ${MAX_FACT_TEXT_CHARS} caracteres, declarativo (ej: "Top genres: indie, rock, alternative").
 - "confidence" entre 0 y 1 según qué tan fuerte fue la señal en el transcript.
 - Si no hay nada útil que extraer, devolvé {"facts":[],"summary_update":null}.
-- Aunque el target_domain de la sesión sea ${targetDomain ?? "transversal"}, podés sumar facts de otros dominios si aparecen señales claras (especialmente communication_style se infiere transversalmente).
+- Aunque el target_domain de la sesión sea ${targetDomain ?? "transversal"}, podés sumar facts de otros dominios si aparecen señales claras (especialmente communication_style y spending_profile se infieren transversalmente).
 - No inventes. Si una afirmación no está en el transcript, no la incluyas.
 - "summary_update" solo si tenés una versión clara y compacta (≤ 240 chars) que mejore el resumen previo. Sino null.`;
 }

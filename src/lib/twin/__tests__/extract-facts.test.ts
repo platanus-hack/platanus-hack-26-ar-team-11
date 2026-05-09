@@ -47,6 +47,26 @@ describe("parseExtractionPayload", () => {
     expect(out.facts[0].domain).toBe("music_taste");
   });
 
+  it("accepts the new lifestyle domains", () => {
+    const out = parseExtractionPayload(
+      JSON.stringify({
+        facts: [
+          { domain: "spending_profile", text: "Cazador de ofertas", confidence: 0.7 },
+          { domain: "fashion_taste", text: "Estilo minimal en tonos neutros", confidence: 0.8 },
+          { domain: "food_taste", text: "Vegetariano, le gusta el picante", confidence: 0.9 },
+          { domain: "travel_style", text: "Viajero confort, prioriza buena comida", confidence: 0.75 },
+        ],
+        summary_update: null,
+      })
+    );
+    expect(out.facts.map((f) => f.domain)).toEqual([
+      "spending_profile",
+      "fashion_taste",
+      "food_taste",
+      "travel_style",
+    ]);
+  });
+
   it("clamps confidence into [0,1] and defaults non-numeric to 0.5", () => {
     const out = parseExtractionPayload(
       JSON.stringify({
@@ -104,6 +124,22 @@ describe("prompt builders", () => {
     const out = buildExtractionSystemPrompt("music_taste");
     expect(out).toContain("music_taste");
     expect(out).toContain("JSON");
+  });
+
+  it("system prompt enumerates all 8 domains", () => {
+    const out = buildExtractionSystemPrompt(null);
+    for (const domain of [
+      "vibes",
+      "communication_style",
+      "spending_profile",
+      "music_taste",
+      "event_preferences",
+      "fashion_taste",
+      "food_taste",
+      "travel_style",
+    ]) {
+      expect(out).toContain(domain);
+    }
   });
 
   it("system prompt says transversal when target is null", () => {
