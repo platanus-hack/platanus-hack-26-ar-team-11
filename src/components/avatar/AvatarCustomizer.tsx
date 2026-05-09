@@ -172,12 +172,7 @@ export function AvatarCustomizer({
       </header>
 
       <div className="flex flex-col items-center gap-5">
-        <div
-          className="h-56 w-56 overflow-hidden rounded-2xl border border-border/60 bg-card sm:h-72 sm:w-72 [&>svg]:h-full [&>svg]:w-full"
-          dangerouslySetInnerHTML={{ __html: previewSvg }}
-        />
-
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           {isEditingName ? (
             <>
               <Input
@@ -196,7 +191,7 @@ export function AvatarCustomizer({
                 }}
                 disabled={isNamePending}
                 placeholder="Tu nombre"
-                className="h-8 w-48 text-center text-base"
+                className="h-12 w-72 text-center !text-2xl"
                 aria-label="Editar nombre"
               />
               <Button
@@ -205,17 +200,17 @@ export function AvatarCustomizer({
                 size="icon"
                 onClick={handleSaveName}
                 disabled={!nameValid || isNamePending}
-                className="h-7 w-7"
+                className="h-11 w-11"
                 aria-label="Confirmar nombre"
               >
-                <Check className="h-4 w-4" />
+                <Check className="h-6 w-6" />
               </Button>
             </>
           ) : (
             <>
               <span
                 className={cn(
-                  "text-base font-medium",
+                  "text-2xl font-medium",
                   !savedName && "text-muted-foreground italic",
                 )}
               >
@@ -226,14 +221,19 @@ export function AvatarCustomizer({
                 variant="ghost"
                 size="icon"
                 onClick={startEditingName}
-                className="h-7 w-7 text-muted-foreground"
+                className="h-11 w-11 text-muted-foreground"
                 aria-label="Editar nombre"
               >
-                <Pencil className="h-3.5 w-3.5" />
+                <Pencil className="h-5 w-5" />
               </Button>
             </>
           )}
         </div>
+
+        <div
+          className="h-56 w-56 overflow-hidden rounded-2xl border border-border/60 bg-card sm:h-72 sm:w-72 [&>svg]:h-full [&>svg]:w-full"
+          dangerouslySetInnerHTML={{ __html: previewSvg }}
+        />
 
         <div className="flex w-full max-w-md items-center gap-3">
           <Button
