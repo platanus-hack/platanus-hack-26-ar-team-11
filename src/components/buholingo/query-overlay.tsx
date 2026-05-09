@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
+import { Loader2 } from "lucide-react";
 
 interface QueryOverlayProps {
   open: boolean;
@@ -31,7 +32,8 @@ const BEATS: Beat[] = [
   },
 ];
 
-const TOTAL_DURATION = 4.6;
+const QUERIES_END = 4.8;
+const TOTAL_DURATION = 6.5;
 
 export function QueryOverlay({ open }: QueryOverlayProps) {
   return (
@@ -45,7 +47,7 @@ export function QueryOverlay({ open }: QueryOverlayProps) {
           transition={{ duration: 0.25 }}
           className="fixed inset-0 z-50 flex items-center justify-center bg-[#0e132a]/80 backdrop-blur-sm"
         >
-          <div className="relative flex w-full max-w-3xl flex-col items-center gap-8 px-6">
+          <div className="relative flex w-full max-w-3xl flex-col items-center gap-10 px-6">
             {/* Logos with channel between them */}
             <div className="flex w-full items-center justify-between">
               <LogoBadge
@@ -57,11 +59,25 @@ export function QueryOverlay({ open }: QueryOverlayProps) {
               <TwinBadge />
             </div>
 
-            {/* Beats */}
-            <div className="relative h-44 w-full max-w-2xl">
+            {/* Beats area + generating fallback overlapping in same space */}
+            <div className="relative h-72 w-full max-w-2xl">
               {BEATS.map((beat, i) => (
-                <BeatRow key={i} beat={beat} index={i} total={BEATS.length} />
+                <BeatRow key={i} beat={beat} index={i} />
               ))}
+
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: QUERIES_END }}
+                className="absolute inset-0 flex items-center justify-center"
+              >
+                <div className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-5 py-3 text-white shadow-lg backdrop-blur">
+                  <Loader2 className="h-5 w-5 animate-spin text-[#FFD700]" />
+                  <span className="text-base font-semibold">
+                    Generando contenido personalizado…
+                  </span>
+                </div>
+              </motion.div>
             </div>
 
             {/* Bottom progress */}
@@ -119,7 +135,7 @@ function TwinBadge() {
         initial={{ scale: 0.6, opacity: 0 }}
         animate={{ scale: [0.6, 1.05, 1], opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="relative flex h-22 w-22 items-center justify-center overflow-hidden rounded-2xl border-4 border-[#A39DB3] bg-[#212842] shadow-2xl"
+        className="relative flex items-center justify-center overflow-hidden rounded-2xl border-4 border-[#A39DB3] bg-[#212842] shadow-2xl"
         style={{ width: 88, height: 88 }}
       >
         <span className="text-3xl font-extrabold lowercase text-white">twin</span>
@@ -144,15 +160,14 @@ function PulseChannel() {
   );
 }
 
-function BeatRow({ beat, index, total }: { beat: Beat; index: number; total: number }) {
-  void total;
-  const baseY = index * 56;
+function BeatRow({ beat, index }: { beat: Beat; index: number }) {
+  const baseY = index * 88;
   return (
     <>
       {/* Question — flies from left to right */}
       <motion.div
         initial={{ opacity: 0, x: -30, y: baseY }}
-        animate={{ opacity: [0, 1, 1, 0.4], x: [-30, 0, 240, 320], y: baseY }}
+        animate={{ opacity: [0, 1, 1, 0], x: [-30, 0, 240, 320], y: baseY }}
         transition={{
           duration: 1.0,
           delay: beat.delay,
@@ -167,8 +182,8 @@ function BeatRow({ beat, index, total }: { beat: Beat; index: number; total: num
 
       {/* Answer — flies from right to left */}
       <motion.div
-        initial={{ opacity: 0, x: 30, y: baseY + 22 }}
-        animate={{ opacity: [0, 1, 1, 0.4], x: [30, 0, -240, -320], y: baseY + 22 }}
+        initial={{ opacity: 0, x: 30, y: baseY + 38 }}
+        animate={{ opacity: [0, 1, 1, 0], x: [30, 0, -240, -320], y: baseY + 38 }}
         transition={{
           duration: 1.0,
           delay: beat.delay + 0.7,

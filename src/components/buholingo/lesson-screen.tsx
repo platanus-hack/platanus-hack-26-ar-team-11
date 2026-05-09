@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { Sparkles, LinkIcon, Unplug } from "lucide-react";
+import { LinkIcon, Unplug } from "lucide-react";
 import { BuholingoHeader } from "./buholingo-header";
 import { ExerciseCard } from "./exercise-card";
 import { QueryOverlay } from "./query-overlay";
@@ -26,7 +26,7 @@ export function LessonScreen() {
     if (!conn) return;
     setPhase("loading");
     const startedAt = Date.now();
-    const MIN_OVERLAY_MS = 4600;
+    const MIN_OVERLAY_MS = 6500;
 
     fetch("/buholingo/api/personalize", {
       method: "POST",
@@ -89,8 +89,8 @@ export function LessonScreen() {
       />
 
       <main className="mx-auto max-w-3xl px-4 pb-24 pt-8">
-        {/* Banner */}
-        <AnimatePresence mode="wait">
+        {/* Connect banner — only in generic phase */}
+        <AnimatePresence>
           {phase !== "personalized" ? (
             <motion.div
               key="banner-generic"
@@ -119,28 +119,7 @@ export function LessonScreen() {
                 </button>
               </div>
             </motion.div>
-          ) : (
-            <motion.div
-              key="banner-personalized"
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mb-6 rounded-2xl border-2 border-[#58CC02] bg-white p-5 shadow-sm"
-            >
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#58CC02] text-white">
-                  <Sparkles className="h-5 w-5" />
-                </div>
-                <div className="flex-1">
-                  <h2 className="text-lg font-extrabold text-neutral-900">
-                    Personalizado para vos · powered by your Twin
-                  </h2>
-                  {personalized?.summary ? (
-                    <p className="text-sm text-neutral-600">{personalized.summary}</p>
-                  ) : null}
-                </div>
-              </div>
-            </motion.div>
-          )}
+          ) : null}
         </AnimatePresence>
 
         {error ? (
@@ -148,35 +127,6 @@ export function LessonScreen() {
             {error}
           </div>
         ) : null}
-
-        {/* Twin facts panel (transparency) */}
-        <AnimatePresence>
-          {phase === "personalized" && personalized?.twin_facts_used.length ? (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              className="mb-6 overflow-hidden"
-            >
-              <div className="rounded-xl border border-[#212842]/15 bg-white p-4">
-                <p className="mb-2 text-xs font-bold uppercase tracking-wider text-neutral-500">
-                  Tu Twin nos contó
-                </p>
-                <ul className="space-y-1.5">
-                  {personalized.twin_facts_used.map((fact, i) => (
-                    <li
-                      key={i}
-                      className="flex items-start gap-2 text-sm text-neutral-700"
-                    >
-                      <Sparkles className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#D4A017]" />
-                      <span>{fact}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </motion.div>
-          ) : null}
-        </AnimatePresence>
 
         {/* Exercises */}
         <motion.div layout className="space-y-4">

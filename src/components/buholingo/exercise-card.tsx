@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Check, X, Sparkles } from "lucide-react";
+import { Check, X } from "lucide-react";
 import { motion } from "motion/react";
 import { isCorrect } from "@/lib/buholingo/match";
 import type { BuholingoExercise } from "@/lib/buholingo/types";
@@ -49,16 +49,10 @@ export function ExerciseCard({ exercise, index, variant }: ExerciseCardProps) {
       layout
       className={`relative rounded-2xl border-2 ${borderColor} bg-white p-5 shadow-[0_2px_0_rgba(0,0,0,0.06)] transition-colors`}
     >
-      <div className="mb-3 flex items-center justify-between">
+      <div className="mb-3 flex items-center">
         <span className="text-xs font-bold uppercase tracking-wider text-neutral-500">
           Ejercicio {index + 1}
         </span>
-        {variant === "personalized" && exercise.interest_used ? (
-          <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-semibold text-amber-800">
-            <Sparkles className="h-3 w-3" />
-            {exercise.interest_used}
-          </span>
-        ) : null}
       </div>
 
       <p className="mb-1 text-sm font-medium text-neutral-500">Traducí al inglés</p>
