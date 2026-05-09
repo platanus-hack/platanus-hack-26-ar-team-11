@@ -67,11 +67,11 @@ export default async function SkillDetailPage({
           <Icon className="h-7 w-7 sm:h-10 sm:w-10" />
         </div>
 
-        <div className="space-y-2 sm:flex-1 sm:space-y-3">
+        <div className="min-w-0 space-y-2 sm:flex-1 sm:space-y-3">
           <span className="block text-xs uppercase tracking-[0.2em] text-secondary sm:text-sm">
             Skill
           </span>
-          <h1 className="text-balance text-3xl font-black leading-tight sm:text-5xl">
+          <h1 className="text-balance text-2xl font-black leading-tight sm:text-5xl">
             {DOMAIN_LABELS[domain]}
           </h1>
           <p className="max-w-xl text-base text-muted-foreground">
