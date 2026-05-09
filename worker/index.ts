@@ -90,6 +90,24 @@ export default defineAgent({
     const transcript: TranscriptEntry[] = [];
     let endedReason: SessionEndReason = "user_disconnected";
 
+    // Grace window after Cami invokes end_session: lets the TTS finish speaking
+    // her closing sentence before we tear down the room. Tuned for the typical
+    // length of a one-sentence farewell + a small buffer.
+    const END_SESSION_GRACE_MS = 6_000;
+    let endSessionTimer: ReturnType<typeof setTimeout> | null = null;
+    const scheduleAgentEnd = () => {
+      if (endSessionTimer) return;
+      console.log(
+        `[worker] end_session tool fired — disconnecting room in ${END_SESSION_GRACE_MS}ms`
+      );
+      endedReason = "agent_closed";
+      endSessionTimer = setTimeout(() => {
+        ctx.room.disconnect().catch((err) => {
+          console.warn("[worker] room.disconnect failed:", err);
+        });
+      }, END_SESSION_GRACE_MS);
+    };
+
     const publishData = async (event: DataTrackEvent) => {
       try {
         const payload = new TextEncoder().encode(JSON.stringify(event));
@@ -112,6 +130,7 @@ export default defineAgent({
         model: ANTHROPIC_MODEL,
         temperature: 0.7,
         maxTokens: 256,
+        onEndSession: scheduleAgentEnd,
       }),
       tts: buildTts(),
     });
