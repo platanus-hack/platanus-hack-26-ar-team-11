@@ -18,7 +18,7 @@ export function SkillsList({
     <div className="space-y-5">
       <div>
         <h3 className="mb-3 text-sm font-medium uppercase tracking-wider text-muted-foreground">
-          Skills aprendidas
+          Atributos aprendidos
         </h3>
         {learned.length === 0 ? (
           <p className="text-sm text-muted-foreground">Aún no entrenamos nada.</p>

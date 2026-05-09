@@ -1,23 +1,23 @@
-import { Music, Calendar, Boxes } from "lucide-react";
+import Image from "next/image";
 
 const cards = [
   {
-    Icon: Music,
-    title: "Apps de música y entradas",
+    logo: "/integrations/duolingo.png",
+    title: "Duolingo",
     body:
-      "Tu Twin conoce tus gustos musicales y ayuda a las apps a recomendarte shows y artistas alineados con tus preferencias.",
+      "A través de tu Twin, Duolingo entiende qué te motiva y cómo aprendés mejor, y diseña lecciones que mantengan tu interés y te hagan progresar.",
   },
   {
-    Icon: Calendar,
-    title: "Asistentes y planners",
+    logo: "/integrations/mercadolibre.png",
+    title: "Mercado Libre",
     body:
-      "Tus apps de organización entienden cómo planificás tu semana y se adaptan a tu ritmo y estilo desde el primer uso.",
+      "A través de tu Twin, Mercado Libre conoce tus gustos y tu economía, y te recomienda productos justo cuando los vas a necesitar.",
   },
   {
-    Icon: Boxes,
-    title: "Productos nuevos",
+    logo: "/integrations/despegar.png",
+    title: "Despegar",
     body:
-      "Las apps que pruebes por primera vez te reconocen automáticamente y se adaptan a vos, sin procesos largos de configuración.",
+      "A través de tu Twin, Despegar conoce cómo viajás, qué presupuesto manejás y cuándo tenés tiempo libre, para sugerirte planes hechos a tu medida.",
   },
 ];
 
@@ -40,14 +40,20 @@ export function UseCases() {
         </div>
 
         <div className="mt-14 grid gap-6 md:grid-cols-3">
-          {cards.map(({ Icon, title, body }, i) => (
+          {cards.map(({ logo, title, body }, i) => (
             <article
               key={title}
               style={{ "--reveal-delay": `${i * 0.12}s` } as React.CSSProperties}
               className="reveal-up rounded-2xl border border-border bg-card p-6 shadow-sm transition hover:-translate-y-1 hover:border-accent/60 hover:shadow-md"
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent/15 text-accent">
-                <Icon className="h-6 w-6" />
+              <div className="h-12 w-12 overflow-hidden rounded-xl">
+                <Image
+                  src={logo}
+                  alt={`Logo de ${title}`}
+                  width={48}
+                  height={48}
+                  className="h-full w-full object-cover"
+                />
               </div>
               <h3 className="mt-4 text-xl font-bold">{title}</h3>
               <p className="mt-2 text-base text-muted-foreground">{body}</p>

@@ -53,7 +53,7 @@ export default async function SkillDetailPage({
         className="inline-flex items-center gap-2 text-base font-medium text-muted-foreground hover:text-foreground"
       >
         <ArrowLeft className="h-5 w-5" />
-        Volver a skills
+        Volver a atributos
       </Link>
 
       <header className="mt-8 grid grid-cols-[auto_minmax(0,1fr)_auto] items-start gap-x-3 sm:flex sm:flex-row sm:items-center sm:gap-8">
@@ -69,7 +69,7 @@ export default async function SkillDetailPage({
 
         <div className="min-w-0 space-y-2 sm:flex-1 sm:space-y-3">
           <span className="block text-xs uppercase tracking-[0.2em] text-secondary sm:text-sm">
-            Skill
+            Atributo
           </span>
           <h1 className="text-balance text-2xl font-black leading-tight sm:text-5xl">
             {DOMAIN_LABELS[domain]}

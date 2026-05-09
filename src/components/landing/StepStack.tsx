@@ -96,11 +96,11 @@ export function StepStack() {
             <span className="text-sm uppercase tracking-[0.2em] text-secondary md:text-sm">
               Cómo funciona
             </span>
-            <h2 className="mt-4 text-balance text-5xl font-black md:mt-3 md:text-5xl">
+            <h2 className="mt-4 text-balance text-4xl font-black sm:text-5xl md:mt-3">
               Cinco pasos para que tu Twin viva en todas tus apps.
             </h2>
 
-            <div className="relative mt-16 h-80 md:mt-10 md:h-64">
+            <div className="relative mt-12 h-72 sm:mt-16 sm:h-80 md:mt-10 md:h-64">
               {steps.map((step, i) => {
                 const state =
                   i === activeIndex ? "active" : i < activeIndex ? "past" : "next";
