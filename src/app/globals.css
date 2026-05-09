@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+/*
+ * Twin Protocol — design tokens
+ * Source: IDEA.md §10
+ */
+
+@theme {
+  --color-indigo: #212842;
+  --color-cream: #f0e7d5;
+  --color-dusty: #485d7a;
+  --color-lilac: #a39db3;
+  --color-amber: #d4a017;
+
+  --color-background: var(--color-cream);
+  --color-foreground: var(--color-indigo);
+
+  --color-primary: var(--color-indigo);
+  --color-primary-foreground: var(--color-cream);
+
+  --color-secondary: var(--color-dusty);
+  --color-secondary-foreground: var(--color-cream);
+
+  --color-accent: var(--color-amber);
+  --color-accent-foreground: var(--color-indigo);
+
+  --color-muted: #e6dcc7;
+  --color-muted-foreground: #4f5564;
+
+  --color-card: #faf4e6;
+  --color-card-foreground: var(--color-indigo);
+
+  --color-border: #d8cfb8;
+  --color-input: #d8cfb8;
+  --color-ring: var(--color-amber);
+
+  --color-destructive: #b94a4a;
+  --color-destructive-foreground: #faf4e6;
+
+  --font-sans: "Inter", "ui-sans-serif", "system-ui", "sans-serif";
+  --font-mono: "JetBrains Mono", "ui-monospace", "monospace";
+
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+}
+
+:root {
+  color-scheme: light;
+  --radius: 0.5rem;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  border-color: var(--color-border);
+}
