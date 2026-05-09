@@ -20,7 +20,7 @@ export function DomainSummaryCard({
       className="group block focus:outline-none"
       aria-label={`Ver detalle de ${DOMAIN_LABELS[domain]}`}
     >
-      <Card className="h-full gap-2 py-3 transition-all group-hover:-translate-y-0.5 group-hover:border-primary/50 group-hover:shadow-md group-focus-visible:ring-2 group-focus-visible:ring-ring">
+      <Card className="h-full gap-2 pt-3 pb-6 transition-all group-hover:-translate-y-0.5 group-hover:border-primary/50 group-hover:shadow-md group-focus-visible:ring-2 group-focus-visible:ring-ring">
         <CardContent className="flex h-full flex-col gap-2 px-5">
           <div className="flex items-baseline justify-between gap-2">
             <h3 className="text-base font-semibold">{DOMAIN_LABELS[domain]}</h3>
