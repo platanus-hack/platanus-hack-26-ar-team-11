@@ -14,13 +14,13 @@ export async function Header({ variant = "default" }: { variant?: HeaderVariant 
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/80 backdrop-blur">
-      <div className="relative flex h-20 w-full items-center px-6 sm:px-10">
+      <div className="relative flex h-28 w-full items-center px-8 sm:px-12">
         <Link
           href={user ? "/dashboard" : "/"}
           aria-label="Twin"
           className="flex items-center"
         >
-          <Image src="/logo.png" alt="Twin" width={48} height={48} priority />
+          <Image src="/logo.png" alt="Twin" width={72} height={72} priority />
         </Link>
 
         {variant === "default" && user && (
@@ -32,7 +32,7 @@ export async function Header({ variant = "default" }: { variant?: HeaderVariant 
         )}
 
         {variant === "default" && (
-          <nav className="ml-auto flex items-center gap-5 text-sm sm:gap-6">
+          <nav className="ml-auto flex items-center gap-7 text-base sm:gap-8">
             {user ? (
               <UserMenu email={email} name={name} />
             ) : (
@@ -40,7 +40,7 @@ export async function Header({ variant = "default" }: { variant?: HeaderVariant 
                 <Link href="/auth/login" className="text-muted-foreground hover:text-foreground">
                   Iniciar sesión
                 </Link>
-                <Button asChild size="sm">
+                <Button asChild size="lg">
                   <Link href="/auth/signup">Crea tu Twin</Link>
                 </Button>
               </>
