@@ -42,13 +42,14 @@ export function ContinueTrainingButton({
   };
 
   return (
-    <div className={className}>
+    <div className="inline-flex flex-col items-stretch">
       <Button
         type="button"
         variant={variant}
         size={size}
         onClick={start}
         disabled={busy}
+        className={className}
       >
         {busy ? "Creando sesión…" : children}
       </Button>

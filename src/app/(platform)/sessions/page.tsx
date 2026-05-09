@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PageShell } from "@/components/layout/page-shell";
 import { SessionRow } from "@/components/sessions/session-row";
+import { ContinueTrainingButton } from "@/components/training/ContinueTrainingButton";
 import { requireUser } from "@/lib/auth/server";
 import { getTwinForUser } from "@/lib/db/twins";
 import { listSessionsForTwin } from "@/lib/db/sessions";
@@ -41,9 +42,7 @@ export default async function SessionsPage() {
         <Card>
           <CardContent className="space-y-3 p-6 text-center">
             <p className="text-sm text-muted-foreground">Aún no tienes sesiones.</p>
-            <Button asChild>
-              <Link href="/training/start">Iniciar entrenamiento</Link>
-            </Button>
+            <ContinueTrainingButton>Iniciar entrenamiento</ContinueTrainingButton>
           </CardContent>
         </Card>
       ) : (

@@ -1,4 +1,4 @@
-import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+import { getWorkerSupabase } from "./supabase.js";
 import type {
   Domain,
   ExtractedFact,
@@ -21,19 +21,7 @@ export interface SessionRecord {
   duration_seconds: number;
 }
 
-let cachedClient: SupabaseClient | null = null;
-
-function getAdminClient(): SupabaseClient {
-  if (cachedClient) return cachedClient;
-  const url = process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url) throw new Error("Missing SUPABASE_URL / NEXT_PUBLIC_SUPABASE_URL");
-  if (!key) throw new Error("Missing SUPABASE_SERVICE_ROLE_KEY");
-  cachedClient = createClient(url, key, {
-    auth: { persistSession: false, autoRefreshToken: false },
-  });
-  return cachedClient;
-}
+const getAdminClient = getWorkerSupabase;
 
 export async function saveSession(record: SessionRecord): Promise<void> {
   const supabase = getAdminClient();
