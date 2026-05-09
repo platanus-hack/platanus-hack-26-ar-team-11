@@ -25,7 +25,7 @@ export function Hero({ isAuthenticated }: HeroProps) {
     <section className="relative min-h-[100svh] overflow-hidden bg-background text-foreground">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_45%_at_50%_10%,rgba(212,160,23,0.18),transparent_70%)]" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(45%_30%_at_85%_85%,rgba(163,157,179,0.18),transparent_70%)]" />
-      <div className="relative mx-auto grid min-h-[100svh] max-w-6xl items-center gap-12 px-6 py-24 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:py-32 lg:gap-20">
+      <div className="relative mx-auto grid min-h-[100svh] max-w-6xl items-start gap-12 px-6 pt-12 pb-28 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:pt-16 md:pb-32 lg:gap-20">
         <div className="flex flex-col items-start text-left">
           <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-sm uppercase tracking-[0.2em] text-secondary shadow-sm">
             Twin Protocol
