@@ -1,4 +1,3 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { LoginForm } from "./login-form";
 
 export default async function LoginPage({
@@ -8,14 +7,16 @@ export default async function LoginPage({
 }) {
   const params = await searchParams;
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Bienvenido de nuevo</CardTitle>
-        <CardDescription>Inicia sesión para continuar entrenando tu Twin.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <LoginForm returnTo={params.return_to} />
-      </CardContent>
-    </Card>
+    <div>
+      <div className="mb-8">
+        <h1 className="text-balance text-3xl font-black leading-tight sm:text-4xl">
+          Bienvenido de nuevo
+        </h1>
+        <p className="mt-3 text-base text-muted-foreground">
+          Iniciá sesión para continuar entrenando tu Twin.
+        </p>
+      </div>
+      <LoginForm returnTo={params.return_to} />
+    </div>
   );
 }

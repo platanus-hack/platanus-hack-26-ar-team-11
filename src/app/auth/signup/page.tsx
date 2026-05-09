@@ -1,16 +1,17 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { SignupForm } from "./signup-form";
 
 export default function SignupPage() {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Crea tu Twin</CardTitle>
-        <CardDescription>Tu Twin aprende de ti para responder por ti.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <SignupForm />
-      </CardContent>
-    </Card>
+    <div>
+      <div className="mb-8">
+        <h1 className="text-balance text-3xl font-black leading-tight sm:text-4xl">
+          Creá tu Twin
+        </h1>
+        <p className="mt-3 text-base text-muted-foreground">
+          Tu Twin aprende de vos para responder por vos.
+        </p>
+      </div>
+      <SignupForm />
+    </div>
   );
 }

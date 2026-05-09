@@ -12,7 +12,12 @@ import { signInAction, type SignInResult } from "./actions";
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
-    <Button type="submit" className="w-full" disabled={pending}>
+    <Button
+      type="submit"
+      disabled={pending}
+      size="lg"
+      className="h-12 w-full text-base bg-accent text-accent-foreground hover:bg-accent/90"
+    >
       {pending ? (
         <>
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -32,11 +37,13 @@ export function LoginForm({ returnTo }: { returnTo?: string }) {
   );
 
   return (
-    <form action={formAction} className="space-y-4" noValidate>
+    <form action={formAction} className="space-y-5" noValidate>
       <input type="hidden" name="return_to" value={returnTo ?? ""} />
 
       <div className="space-y-2">
-        <Label htmlFor="email">Email</Label>
+        <Label htmlFor="email" className="text-base">
+          Email
+        </Label>
         <Input
           id="email"
           name="email"
@@ -44,11 +51,14 @@ export function LoginForm({ returnTo }: { returnTo?: string }) {
           autoComplete="email"
           required
           placeholder="tu@email.com"
+          className="h-12 text-base md:text-base"
         />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="password">Contraseña</Label>
+        <Label htmlFor="password" className="text-base">
+          Contraseña
+        </Label>
         <Input
           id="password"
           name="password"
@@ -57,6 +67,7 @@ export function LoginForm({ returnTo }: { returnTo?: string }) {
           required
           minLength={8}
           placeholder="Mínimo 8 caracteres"
+          className="h-12 text-base md:text-base"
         />
       </div>
 
@@ -69,9 +80,9 @@ export function LoginForm({ returnTo }: { returnTo?: string }) {
       <SubmitButton />
 
       <p className="text-center text-sm text-muted-foreground">
-        ¿No tienes cuenta?{" "}
-        <Link href="/auth/signup" className="font-medium text-primary hover:underline">
-          Crea tu Twin
+        ¿No tenés cuenta?{" "}
+        <Link href="/auth/signup" className="font-semibold text-primary hover:underline">
+          Creá tu Twin
         </Link>
       </p>
     </form>

@@ -12,14 +12,19 @@ import { signUpAction, type SignUpResult } from "./actions";
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
-    <Button type="submit" className="w-full" disabled={pending}>
+    <Button
+      type="submit"
+      disabled={pending}
+      size="lg"
+      className="h-12 w-full text-base bg-accent text-accent-foreground hover:bg-accent/90"
+    >
       {pending ? (
         <>
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           Creando…
         </>
       ) : (
-        "Crea mi Twin"
+        "Crear mi Twin"
       )}
     </Button>
   );
@@ -32,14 +37,26 @@ export function SignupForm() {
   );
 
   return (
-    <form action={formAction} className="space-y-4" noValidate>
+    <form action={formAction} className="space-y-5" noValidate>
       <div className="space-y-2">
-        <Label htmlFor="email">Email</Label>
-        <Input id="email" name="email" type="email" autoComplete="email" required />
+        <Label htmlFor="email" className="text-base">
+          Email
+        </Label>
+        <Input
+          id="email"
+          name="email"
+          type="email"
+          autoComplete="email"
+          required
+          placeholder="tu@email.com"
+          className="h-12 text-base md:text-base"
+        />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="password">Contraseña</Label>
+        <Label htmlFor="password" className="text-base">
+          Contraseña
+        </Label>
         <Input
           id="password"
           name="password"
@@ -48,11 +65,14 @@ export function SignupForm() {
           required
           minLength={8}
           placeholder="Mínimo 8 caracteres"
+          className="h-12 text-base md:text-base"
         />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="confirm_password">Repite la contraseña</Label>
+        <Label htmlFor="confirm_password" className="text-base">
+          Repetí la contraseña
+        </Label>
         <Input
           id="confirm_password"
           name="confirm_password"
@@ -60,6 +80,7 @@ export function SignupForm() {
           autoComplete="new-password"
           required
           minLength={8}
+          className="h-12 text-base md:text-base"
         />
       </div>
 
@@ -72,9 +93,9 @@ export function SignupForm() {
       <SubmitButton />
 
       <p className="text-center text-sm text-muted-foreground">
-        ¿Ya tienes cuenta?{" "}
-        <Link href="/auth/login" className="font-medium text-primary hover:underline">
-          Inicia sesión
+        ¿Ya tenés cuenta?{" "}
+        <Link href="/auth/login" className="font-semibold text-primary hover:underline">
+          Iniciá sesión
         </Link>
       </p>
     </form>
