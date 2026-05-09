@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Twin",
-  description: "Your AI self, connected to every app.",
+  description: "Tu yo en IA, conectado a todas tus aplicaciones.",
 };
 
 export default function RootLayout({

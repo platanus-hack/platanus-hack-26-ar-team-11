@@ -8,10 +8,10 @@ export default function HomePage() {
         Twin
       </h1>
       <p className="max-w-md text-lg text-muted-foreground">
-        Your AI self, connected to every app.
+        Tu yo en IA, conectado a todas tus aplicaciones.
       </p>
       <p className="mt-4 text-sm text-muted-foreground">
-        Bootstrapping in progress — full landing arrives with task D11.
+        Estamos preparando todo. La landing completa llega con la tarea D11.
       </p>
     </main>
   );
