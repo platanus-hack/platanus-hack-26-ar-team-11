@@ -27,7 +27,7 @@ const DOMAIN_VISUALS: Record<Domain, { icon: typeof Music; tone: string }> = {
   },
   event_preferences: {
     icon: MapPin,
-    tone: "bg-secondary/15 text-secondary-foreground",
+    tone: "bg-secondary/15 text-secondary",
   },
   vibes: {
     icon: Sparkles,
@@ -41,7 +41,7 @@ const DOMAIN_VISUALS: Record<Domain, { icon: typeof Music; tone: string }> = {
 
 const SYNTHESIS_VISUAL = {
   icon: Sparkles,
-  tone: "bg-muted text-muted-foreground",
+  tone: "bg-muted text-foreground",
 };
 
 export function SessionRow({ session }: { session: Session }) {
