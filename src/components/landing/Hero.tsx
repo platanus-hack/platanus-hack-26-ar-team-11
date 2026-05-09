@@ -40,18 +40,18 @@ export function Hero({ isAuthenticated }: HeroProps) {
             <Button
               asChild
               size="lg"
-              className="gap-2 bg-accent text-accent-foreground hover:bg-accent/90"
+              className="h-14 gap-3 px-8 text-lg bg-accent text-accent-foreground hover:bg-accent/90 [&_svg]:size-5"
             >
               <Link href={primary.href}>
                 {primary.label}
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-5 w-5" />
               </Link>
             </Button>
             <Button
               asChild
               size="lg"
               variant="ghost"
-              className="text-foreground hover:bg-primary/5 hover:text-foreground"
+              className="h-14 px-6 text-lg text-foreground hover:bg-primary/5 hover:text-foreground"
             >
               <Link href={secondary.href}>{secondary.label}</Link>
             </Button>
