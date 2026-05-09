@@ -152,7 +152,6 @@ export function AvatarCustomizer({
       if (res.ok) {
         setSavedName(trimmed);
         setIsEditingName(false);
-        toast.success("Nombre guardado");
       } else {
         toast.error(res.error ?? "No se pudo guardar el nombre");
       }
