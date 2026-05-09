@@ -107,35 +107,35 @@ export default async function SkillDetailPage({
 }
 
 function BigDial({ percent }: { percent: number }) {
-  const radius = 44;
+  const radius = 64;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference * (1 - percent / 100);
 
   return (
-    <div className="relative h-28 w-28 shrink-0">
-      <svg viewBox="0 0 112 112" className="h-full w-full -rotate-90">
+    <div className="relative h-40 w-40 shrink-0">
+      <svg viewBox="0 0 160 160" className="h-full w-full -rotate-90">
         <circle
-          cx="56"
-          cy="56"
+          cx="80"
+          cy="80"
           r={radius}
           fill="none"
           className="stroke-muted"
-          strokeWidth="6"
+          strokeWidth="8"
         />
         <circle
-          cx="56"
-          cy="56"
+          cx="80"
+          cy="80"
           r={radius}
           fill="none"
           className="stroke-primary"
-          strokeWidth="6"
+          strokeWidth="8"
           strokeLinecap="round"
           strokeDasharray={circumference}
           strokeDashoffset={offset}
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-2xl font-black tabular-nums">{percent}%</span>
+        <span className="text-3xl font-black tabular-nums">{percent}%</span>
         <span className="text-xs uppercase tracking-wider text-muted-foreground">
           Confianza
         </span>

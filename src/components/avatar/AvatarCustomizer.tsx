@@ -16,7 +16,6 @@ import {
   AVATAR_MOUTH_OPTIONS,
   AVATAR_TOP_OPTIONS,
   type AvatarOption,
-  BACKGROUND_COLORS,
   CLOTHES_COLORS,
   configToOptions,
   HAIR_COLORS,
@@ -34,8 +33,7 @@ type CategoryKey =
   | "facialHair"
   | "accessories"
   | "clothing"
-  | "clothesColor"
-  | "backgroundColor";
+  | "clothesColor";
 
 interface CategoryDef {
   key: CategoryKey;
@@ -54,7 +52,6 @@ const CATEGORIES: CategoryDef[] = [
   { key: "skinColor", label: "Piel", kind: "color" },
   { key: "clothing", label: "Ropa", kind: "style" },
   { key: "clothesColor", label: "Color ropa", kind: "color" },
-  { key: "backgroundColor", label: "Fondo", kind: "color" },
 ];
 
 function useAvatarSvg(config: AvatarConfig, seed: string, size = 256): string {
@@ -118,26 +115,26 @@ export function AvatarCustomizer({ initialConfig, seed }: AvatarCustomizerProps)
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-3xl flex-col gap-8 px-4 py-10">
+    <div className="mx-auto flex w-full max-w-3xl flex-col gap-10 px-4 py-10">
       <header className="text-center">
-        <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+        <span className="block text-sm uppercase tracking-[0.2em] text-secondary">
           Tu avatar
-        </p>
-        <h1 className="mt-2 text-2xl font-semibold tracking-tight">
+        </span>
+        <h1 className="mt-3 text-balance text-3xl font-black sm:text-4xl">
           Personalizá tu Twin
         </h1>
       </header>
 
-      <div className="flex flex-col items-center gap-4">
+      <div className="flex flex-col items-center gap-5">
         <div
-          className="h-48 w-48 overflow-hidden rounded-2xl border border-border/60 bg-card sm:h-64 sm:w-64 [&>svg]:h-full [&>svg]:w-full"
+          className="h-56 w-56 overflow-hidden rounded-2xl border border-border/60 bg-card sm:h-72 sm:w-72 [&>svg]:h-full [&>svg]:w-full"
           dangerouslySetInnerHTML={{ __html: previewSvg }}
         />
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <Button
             type="button"
             variant="ghost"
-            size="sm"
+            size="lg"
             onClick={handleReset}
             disabled={!dirty || isPending}
           >
@@ -145,10 +142,10 @@ export function AvatarCustomizer({ initialConfig, seed }: AvatarCustomizerProps)
           </Button>
           <Button
             type="button"
-            size="sm"
+            size="lg"
             onClick={handleSave}
             disabled={!dirty || isPending}
-            className="min-w-32"
+            className="min-w-40"
           >
             {isPending ? "Guardando…" : "Guardar avatar"}
           </Button>
@@ -162,7 +159,7 @@ export function AvatarCustomizer({ initialConfig, seed }: AvatarCustomizerProps)
             type="button"
             onClick={() => setActiveCategory(cat.key)}
             className={cn(
-              "rounded-full border px-3 py-1.5 text-xs font-medium transition",
+              "rounded-full border px-4 py-2 text-sm font-medium transition",
               activeCategory === cat.key
                 ? "border-primary bg-primary text-primary-foreground"
                 : "border-border bg-card text-foreground/80 hover:border-primary/40",
@@ -215,8 +212,6 @@ function CategoryGrid({
       return <ColorGrid colors={SKIN_COLORS} fieldKey="skinColor" config={config} onChange={onChange} />;
     case "clothesColor":
       return <ColorGrid colors={CLOTHES_COLORS} fieldKey="clothesColor" config={config} onChange={onChange} />;
-    case "backgroundColor":
-      return <ColorGrid colors={BACKGROUND_COLORS} fieldKey="backgroundColor" config={config} onChange={onChange} />;
   }
 }
 
@@ -251,10 +246,10 @@ function StyleGrid<K extends CategoryKey>({
                 : "border-border/60 bg-card hover:border-primary/40",
             )}
           >
-            <div className="h-16 w-16 overflow-hidden rounded-lg bg-muted/40">
+            <div className="h-20 w-20 overflow-hidden rounded-lg bg-muted/40">
               <ThumbAvatar config={previewConfig} seed={seed} />
             </div>
-            <span className="line-clamp-1 text-[11px] text-foreground/80">
+            <span className="line-clamp-1 text-sm text-foreground/80">
               {opt.label}
             </span>
           </button>
