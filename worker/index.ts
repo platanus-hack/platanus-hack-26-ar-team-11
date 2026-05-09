@@ -75,13 +75,15 @@ export default defineAgent({
       );
     }
 
-    // Validate Bey env vars BEFORE starting the session so we fail fast
-    // instead of leaving a half-running session on the user.
+    // Avatar enabled by default; the user can disable it from /settings to
+    // train in audio-only mode (saves Bey credits, lets us fall back if Bey
+    // is misbehaving). When the avatar is enabled we still need its env vars.
+    const avatarEnabled = meta?.avatar_enabled ?? true;
     const beyApiKey = process.env.BEY_API_KEY;
     const beyAvatarId = process.env.NEXT_PUBLIC_BEY_AVATAR_ID;
-    if (!beyApiKey || !beyAvatarId) {
+    if (avatarEnabled && (!beyApiKey || !beyAvatarId)) {
       throw new Error(
-        "BEY_API_KEY and NEXT_PUBLIC_BEY_AVATAR_ID are required in .env.local"
+        "BEY_API_KEY and NEXT_PUBLIC_BEY_AVATAR_ID are required when avatar is enabled (toggle in /settings)"
       );
     }
 
@@ -182,13 +184,17 @@ export default defineAgent({
     // than published as a regular audio track. If we call avatar.start first,
     // session.start sees an already-set output.audio and ignores ours, leaving
     // the avatar muted. See bey-dev/bey-examples/livekit-agent/main.js.
-    console.log(`[worker] starting bey avatar (avatarId=${beyAvatarId})`);
-    const avatar = new bey.AvatarSession({
-      avatarId: beyAvatarId,
-      apiKey: beyApiKey,
-    });
-    await avatar.start(session, ctx.room);
-    console.log(`[worker] bey avatar session started`);
+    if (avatarEnabled) {
+      console.log(`[worker] starting bey avatar (avatarId=${beyAvatarId})`);
+      const avatar = new bey.AvatarSession({
+        avatarId: beyAvatarId!,
+        apiKey: beyApiKey!,
+      });
+      await avatar.start(session, ctx.room);
+      console.log(`[worker] bey avatar session started`);
+    } else {
+      console.log(`[worker] avatar disabled — running in audio-only mode`);
+    }
 
     await session.generateReply({});
 
