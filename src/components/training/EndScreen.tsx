@@ -17,6 +17,10 @@ const DOMAIN_LABELS: Record<Domain, string> = {
   event_preferences: "Eventos",
   vibes: "Vibes",
   communication_style: "Comunicación",
+  spending_profile: "Gastos",
+  fashion_taste: "Moda",
+  food_taste: "Comida",
+  travel_style: "Viajes",
 };
 
 interface SessionResponse {

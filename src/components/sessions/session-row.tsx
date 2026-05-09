@@ -1,5 +1,18 @@
 import Link from "next/link";
-import { Calendar, ChevronRight, Clock, Heart, Layers, MapPin, MessageCircle, Music } from "lucide-react";
+import {
+  Calendar,
+  ChevronRight,
+  Clock,
+  Heart,
+  Layers,
+  MapPin,
+  MessageCircle,
+  Music,
+  Plane,
+  Shirt,
+  UtensilsCrossed,
+  Wallet,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DOMAIN_LABELS, type Domain, type Session } from "@/types";
 
@@ -36,6 +49,22 @@ const DOMAIN_VISUALS: Record<Domain, { icon: typeof Music; tone: string }> = {
   communication_style: {
     icon: MessageCircle,
     tone: "bg-muted text-foreground",
+  },
+  spending_profile: {
+    icon: Wallet,
+    tone: "bg-muted text-foreground",
+  },
+  fashion_taste: {
+    icon: Shirt,
+    tone: "bg-secondary/15 text-secondary",
+  },
+  food_taste: {
+    icon: UtensilsCrossed,
+    tone: "bg-accent/20 text-accent-foreground",
+  },
+  travel_style: {
+    icon: Plane,
+    tone: "bg-primary/10 text-primary",
   },
 };
 

@@ -16,6 +16,10 @@ const DOMAIN_ES_LABELS: Record<Domain, string> = {
   event_preferences: "Preferencias de eventos en vivo",
   vibes: "Personalidad y energía",
   communication_style: "Estilo de comunicación",
+  spending_profile: "Mentalidad de gasto",
+  fashion_taste: "Estilo y moda",
+  food_taste: "Gustos gastronómicos",
+  travel_style: "Estilo viajero",
 };
 
 const DEPTH_BLURBS: Record<CurriculumSlot["target_depth"], string> = {

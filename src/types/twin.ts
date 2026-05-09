@@ -1,14 +1,22 @@
 export type Domain =
+  | "vibes"
+  | "communication_style"
+  | "spending_profile"
   | "music_taste"
   | "event_preferences"
-  | "vibes"
-  | "communication_style";
+  | "fashion_taste"
+  | "food_taste"
+  | "travel_style";
 
 export const ALL_DOMAINS: readonly Domain[] = [
-  "music_taste",
-  "event_preferences",
   "vibes",
   "communication_style",
+  "spending_profile",
+  "music_taste",
+  "event_preferences",
+  "fashion_taste",
+  "food_taste",
+  "travel_style",
 ] as const;
 
 export interface Fact {
@@ -50,8 +58,12 @@ export interface Twin {
 }
 
 export const DOMAIN_LABELS: Record<Domain, string> = {
-  music_taste: "Music taste",
-  event_preferences: "Event preferences",
   vibes: "Vibes",
   communication_style: "Communication style",
+  spending_profile: "Spending profile",
+  music_taste: "Music taste",
+  event_preferences: "Event preferences",
+  fashion_taste: "Fashion taste",
+  food_taste: "Food taste",
+  travel_style: "Travel style",
 };
