@@ -14,13 +14,13 @@ export async function Header({ variant = "default" }: { variant?: HeaderVariant 
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/80 backdrop-blur">
-      <div className="relative flex h-28 w-full items-center px-8 sm:px-12">
+      <div className="relative flex h-20 w-full items-center px-8 sm:px-12">
         <Link
           href={user ? "/dashboard" : "/"}
           aria-label="Twin"
           className="flex items-center"
         >
-          <Image src="/logo.png" alt="Twin" width={72} height={72} priority />
+          <Image src="/logo.png" alt="Twin" width={88} height={88} priority />
         </Link>
 
         {variant === "default" && user && (
