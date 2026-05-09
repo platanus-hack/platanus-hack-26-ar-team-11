@@ -9,8 +9,10 @@ interface Props {
 
 export function CallToAction({ isAuthenticated }: Props) {
   return (
-    <section className="px-6 py-20">
-      <div className="mx-auto max-w-4xl rounded-3xl bg-primary px-8 py-14 text-center text-primary-foreground md:px-14 md:py-20">
+    <section className="relative px-6 py-24 md:py-32">
+      <div className="cta-glow" aria-hidden />
+      <div className="reveal-up relative mx-auto max-w-4xl overflow-hidden rounded-3xl bg-primary px-8 py-14 text-center text-primary-foreground shadow-xl md:px-14 md:py-20">
+        <div className="cta-shine" aria-hidden />
         <h2 className="text-balance text-3xl font-black sm:text-4xl">
           Tu Twin te espera.
         </h2>

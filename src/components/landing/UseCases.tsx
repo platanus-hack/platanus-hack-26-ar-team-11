@@ -23,9 +23,9 @@ const cards = [
 
 export function UseCases() {
   return (
-    <section className="bg-muted/40 py-20 md:py-28">
+    <section className="relative bg-muted/40 py-24 md:py-32">
       <div className="mx-auto max-w-6xl px-6">
-        <div className="mx-auto max-w-2xl text-center">
+        <div className="mx-auto max-w-2xl text-center reveal-up">
           <span className="text-xs uppercase tracking-[0.2em] text-secondary">
             Para qué sirve
           </span>
@@ -38,11 +38,12 @@ export function UseCases() {
           </p>
         </div>
 
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
-          {cards.map(({ Icon, title, body }) => (
+        <div className="mt-14 grid gap-6 md:grid-cols-3">
+          {cards.map(({ Icon, title, body }, i) => (
             <article
               key={title}
-              className="rounded-2xl border border-border bg-card p-6 shadow-sm"
+              style={{ "--reveal-delay": `${i * 0.12}s` } as React.CSSProperties}
+              className="reveal-up rounded-2xl border border-border bg-card p-6 shadow-sm transition hover:-translate-y-1 hover:border-accent/60 hover:shadow-md"
             >
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/15 text-accent">
                 <Icon className="h-5 w-5" />
