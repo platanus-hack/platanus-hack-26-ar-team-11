@@ -11,11 +11,11 @@ vi.mock("next/link", () => ({
 }));
 
 describe("Hero", () => {
-  it("muestra el mensaje principal en inglés y subtítulo en español", () => {
+  it("muestra el mensaje principal y subtítulo en español", () => {
     render(<Hero isAuthenticated={false} />);
     expect(
       screen.getByRole("heading", { level: 1 }),
-    ).toHaveTextContent("Your AI self, connected to every app.");
+    ).toHaveTextContent("Tu yo digital, conectado a todas tus apps.");
     expect(
       screen.getByText(/Creá tu Twin una vez\. Usalo en todas tus apps\./),
     ).toBeInTheDocument();

@@ -6,7 +6,7 @@ import { CallToAction } from "@/components/landing/CallToAction";
 import { LandingFooter } from "@/components/landing/Footer";
 
 export const metadata = {
-  title: "Twin Protocol — Your AI self, connected to every app",
+  title: "Twin Protocol — Tu yo digital, conectado a todas tus apps",
   description:
     "Creá tu Twin una vez y usalo en todas tus apps. Recomendaciones personalizadas, sin perder el control de tus datos.",
 };

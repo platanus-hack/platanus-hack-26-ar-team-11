@@ -31,7 +31,7 @@ export function Hero({ isAuthenticated }: HeroProps) {
             Twin Protocol
           </span>
           <h1 className="mt-6 text-balance text-4xl font-black leading-[1.05] sm:text-5xl lg:text-6xl">
-            Your AI self, connected to every app.
+            Tu yo digital, conectado a todas tus apps.
           </h1>
           <p className="mt-5 max-w-xl text-lg text-cream/85 sm:text-xl">
             Creá tu Twin una vez. Usalo en todas tus apps.
@@ -53,7 +53,7 @@ export function Hero({ isAuthenticated }: HeroProps) {
             </Button>
           </div>
           <p className="mt-6 text-xs text-cream/60">
-            Demo público. Tus datos quedan bajo tu control en todo momento.
+            Tus datos quedan bajo tu control en todo momento.
           </p>
         </div>
 
