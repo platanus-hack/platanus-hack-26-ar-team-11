@@ -56,22 +56,22 @@ export default async function SkillDetailPage({
         Volver a skills
       </Link>
 
-      <header className="mt-8 flex flex-col items-start gap-8 sm:flex-row sm:items-center">
+      <header className="mt-8 grid grid-cols-[auto_1fr] items-start gap-x-4 gap-y-6 sm:flex sm:flex-row sm:items-center sm:gap-8">
         <div
           className={cn(
-            "flex h-24 w-24 shrink-0 items-center justify-center rounded-3xl ring-1",
+            "flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl ring-1 sm:h-24 sm:w-24 sm:rounded-3xl",
             visual.tone,
             visual.ring,
           )}
         >
-          <Icon className="h-10 w-10" />
+          <Icon className="h-7 w-7 sm:h-10 sm:w-10" />
         </div>
 
-        <div className="flex-1 space-y-3">
-          <span className="block text-sm uppercase tracking-[0.2em] text-secondary">
+        <div className="space-y-2 sm:flex-1 sm:space-y-3">
+          <span className="block text-xs uppercase tracking-[0.2em] text-secondary sm:text-sm">
             Skill
           </span>
-          <h1 className="text-balance text-4xl font-black leading-tight sm:text-5xl">
+          <h1 className="text-balance text-3xl font-black leading-tight sm:text-5xl">
             {DOMAIN_LABELS[domain]}
           </h1>
           <p className="max-w-xl text-base text-muted-foreground">
@@ -79,7 +79,11 @@ export default async function SkillDetailPage({
           </p>
         </div>
 
-        {!empty && <BigDial percent={percent} />}
+        {!empty && (
+          <div className="col-span-2 flex justify-center sm:col-auto sm:block">
+            <BigDial percent={percent} />
+          </div>
+        )}
       </header>
 
       <section className="mt-12">
