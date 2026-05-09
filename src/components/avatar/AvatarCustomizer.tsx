@@ -228,7 +228,8 @@ export function AvatarCustomizer({
             disabled={isEditingName && (!nameValid || isNamePending)}
             className={cn(
               "absolute right-0 h-12 w-12 text-muted-foreground",
-              isEditingName && "hover:bg-transparent",
+              isEditingName &&
+                "hover:!bg-transparent dark:hover:!bg-transparent",
             )}
             aria-label={isEditingName ? "Confirmar nombre" : "Editar nombre"}
           >
