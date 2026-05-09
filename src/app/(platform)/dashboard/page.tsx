@@ -1,21 +1,14 @@
-// STUB — replaced by Stream A (A04) with real Twin overview.
-// See tasks/stream-a/A04-dashboard.md.
+import { TwinOverview, EmptyTwinState } from "@/components/dashboard/twin-overview";
+import { requireUser } from "@/lib/auth/server";
+import { getTwinForUser } from "@/lib/db/twins";
 
-import { PageShell } from "@/components/layout/page-shell";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+export default async function DashboardPage() {
+  const user = await requireUser();
+  const data = await getTwinForUser(user.id);
 
-export default function DashboardPage() {
-  return (
-    <PageShell>
-      <Card>
-        <CardHeader>
-          <CardTitle>Dashboard</CardTitle>
-          <CardDescription>Stub. A04 builds the Twin overview here.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p className="text-sm text-muted-foreground">TODO: A04 — completion %, skills, sessions, CTA.</p>
-        </CardContent>
-      </Card>
-    </PageShell>
-  );
+  if (!data) return <EmptyTwinState />;
+
+  const ownerName = (user.user_metadata?.name as string | undefined) ?? user.email ?? null;
+
+  return <TwinOverview twin={data.twin} ownerName={ownerName} />;
 }
