@@ -1,18 +1,27 @@
-// Stub — replaced by Stream D (D11) with the real landing page.
-// See tasks/stream-d/D11-landing.md.
+import { getCurrentUser } from "@/lib/auth/server";
+import { Hero } from "@/components/landing/Hero";
+import { StepStack } from "@/components/landing/StepStack";
+import { UseCases } from "@/components/landing/UseCases";
+import { CallToAction } from "@/components/landing/CallToAction";
+import { LandingFooter } from "@/components/landing/Footer";
 
-export default function HomePage() {
+export const metadata = {
+  title: "Twin Protocol — Your AI self, connected to every app",
+  description:
+    "Creá tu Twin una vez y usalo en todas tus apps. Recomendaciones personalizadas, sin perder el control de tus datos.",
+};
+
+export default async function HomePage() {
+  const user = await getCurrentUser();
+  const isAuthenticated = Boolean(user);
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-4 px-6 text-center">
-      <h1 className="text-4xl font-black tracking-tight text-primary md:text-6xl">
-        Twin
-      </h1>
-      <p className="max-w-md text-lg text-muted-foreground">
-        Tu yo en IA, conectado a todas tus aplicaciones.
-      </p>
-      <p className="mt-4 text-sm text-muted-foreground">
-        Estamos preparando todo. La landing completa llega con la tarea D11.
-      </p>
-    </main>
+    <>
+      <Hero isAuthenticated={isAuthenticated} />
+      <StepStack />
+      <UseCases />
+      <CallToAction isAuthenticated={isAuthenticated} />
+      <LandingFooter isAuthenticated={isAuthenticated} />
+    </>
   );
 }

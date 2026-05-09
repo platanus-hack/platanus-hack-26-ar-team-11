@@ -62,3 +62,136 @@ body {
 * {
   border-color: var(--color-border);
 }
+
+/* HeroAvatar (landing) — animaciones CSS-only */
+.hero-avatar-core {
+  position: absolute;
+  inset: 18%;
+  border-radius: 9999px;
+  background:
+    radial-gradient(circle at 30% 28%, var(--color-lilac) 0%, transparent 38%),
+    radial-gradient(circle at 70% 75%, var(--color-amber) 0%, transparent 28%),
+    linear-gradient(135deg, var(--color-indigo) 0%, var(--color-dusty) 100%);
+  box-shadow:
+    0 18px 60px -10px rgba(33, 40, 66, 0.5),
+    inset 0 -16px 28px rgba(0, 0, 0, 0.3),
+    inset 0 16px 36px rgba(212, 160, 23, 0.18);
+  animation: hero-breath 6s ease-in-out infinite;
+}
+
+.hero-avatar-halo {
+  position: absolute;
+  inset: 6%;
+  border-radius: 9999px;
+  background: conic-gradient(
+    from 0deg,
+    rgba(212, 160, 23, 0.0),
+    rgba(212, 160, 23, 0.55),
+    rgba(212, 160, 23, 0.0)
+  );
+  filter: blur(14px);
+  animation: hero-halo-spin 14s linear infinite;
+  opacity: 0.85;
+}
+
+.hero-avatar-orbit {
+  position: absolute;
+  border-radius: 9999px;
+  border: 1px dashed rgba(33, 40, 66, 0.25);
+  animation: hero-orbit-rot 24s linear infinite;
+}
+
+.hero-avatar-orbit--outer {
+  inset: 0;
+}
+
+.hero-avatar-orbit--mid {
+  inset: 10%;
+  border-style: solid;
+  border-color: rgba(33, 40, 66, 0.12);
+  animation-duration: 36s;
+  animation-direction: reverse;
+}
+
+.hero-avatar-particle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  background: var(--color-amber);
+  box-shadow: 0 0 16px rgba(212, 160, 23, 0.7);
+  transform-origin: center;
+}
+
+.hero-avatar-particle--a {
+  top: 4%;
+  left: 50%;
+  animation: hero-particle-a 12s linear infinite;
+}
+
+.hero-avatar-particle--b {
+  bottom: 8%;
+  left: 14%;
+  background: var(--color-lilac);
+  box-shadow: 0 0 12px rgba(163, 157, 179, 0.8);
+  animation: hero-particle-b 18s linear infinite;
+}
+
+.hero-avatar-particle--c {
+  top: 26%;
+  right: 6%;
+  background: var(--color-cream);
+  box-shadow: 0 0 10px rgba(240, 231, 213, 0.8);
+  animation: hero-particle-c 20s linear infinite;
+}
+
+.hero-avatar-particle--d {
+  bottom: 22%;
+  right: 24%;
+  width: 6px;
+  height: 6px;
+  background: var(--color-amber);
+  animation: hero-particle-d 14s linear infinite;
+}
+
+@keyframes hero-breath {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+
+@keyframes hero-halo-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes hero-orbit-rot {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes hero-particle-a {
+  0% { transform: rotate(0deg) translateY(-44%) rotate(0deg); }
+  100% { transform: rotate(360deg) translateY(-44%) rotate(-360deg); }
+}
+
+@keyframes hero-particle-b {
+  0% { transform: rotate(0deg) translateY(40%) rotate(0deg); }
+  100% { transform: rotate(-360deg) translateY(40%) rotate(360deg); }
+}
+
+@keyframes hero-particle-c {
+  0% { transform: rotate(0deg) translateX(38%) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(38%) rotate(-360deg); }
+}
+
+@keyframes hero-particle-d {
+  0% { transform: rotate(0deg) translateX(-30%) rotate(0deg); }
+  100% { transform: rotate(-360deg) translateX(-30%) rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-avatar-core,
+  .hero-avatar-halo,
+  .hero-avatar-orbit,
+  .hero-avatar-particle {
+    animation: none;
+  }
+}
