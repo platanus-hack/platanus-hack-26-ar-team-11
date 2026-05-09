@@ -27,13 +27,13 @@ export function Hero({ isAuthenticated }: HeroProps) {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(45%_30%_at_85%_85%,rgba(163,157,179,0.18),transparent_70%)]" />
       <div className="relative mx-auto grid min-h-[100svh] max-w-6xl items-center gap-12 px-6 py-24 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:py-32 lg:gap-20">
         <div className="flex flex-col items-start text-left">
-          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs uppercase tracking-[0.2em] text-secondary shadow-sm">
+          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-sm uppercase tracking-[0.2em] text-secondary shadow-sm">
             Twin Protocol
           </span>
-          <h1 className="mt-6 text-balance text-4xl font-black leading-[1.05] sm:text-5xl lg:text-6xl">
+          <h1 className="mt-6 text-balance text-5xl font-black leading-[1.05] sm:text-6xl lg:text-7xl">
             Tu yo digital, conectado a todas tus apps.
           </h1>
-          <p className="mt-5 max-w-xl text-lg text-muted-foreground sm:text-xl">
+          <p className="mt-6 max-w-xl text-xl text-muted-foreground sm:text-2xl">
             Creá tu Twin una vez. Usalo en todas tus apps.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
@@ -56,7 +56,7 @@ export function Hero({ isAuthenticated }: HeroProps) {
               <Link href={secondary.href}>{secondary.label}</Link>
             </Button>
           </div>
-          <p className="mt-6 text-xs text-muted-foreground/80">
+          <p className="mt-6 text-sm text-muted-foreground/80">
             Tus datos quedan bajo tu control en todo momento.
           </p>
         </div>
@@ -74,10 +74,10 @@ export function Hero({ isAuthenticated }: HeroProps) {
 
       <a
         href="#como-funciona"
-        className="hero-scroll-cue absolute bottom-8 left-1/2 -translate-x-1/2 text-xs uppercase tracking-[0.3em] text-muted-foreground hover:text-foreground"
+        className="hero-scroll-cue absolute bottom-10 left-1/2 -translate-x-1/2 text-sm uppercase tracking-[0.3em] text-muted-foreground hover:text-foreground"
       >
         <span>Scroll</span>
-        <ArrowDown className="mx-auto mt-2 h-4 w-4" aria-hidden />
+        <ArrowDown className="mx-auto mt-2 h-5 w-5" aria-hidden />
       </a>
     </section>
   );

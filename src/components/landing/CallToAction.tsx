@@ -13,10 +13,10 @@ export function CallToAction({ isAuthenticated }: Props) {
       <div className="cta-glow" aria-hidden />
       <div className="reveal-up relative mx-auto max-w-4xl overflow-hidden rounded-3xl bg-primary px-8 py-14 text-center text-primary-foreground shadow-xl md:px-14 md:py-20">
         <div className="cta-shine" aria-hidden />
-        <h2 className="text-balance text-3xl font-black sm:text-4xl">
+        <h2 className="text-balance text-4xl font-black sm:text-5xl">
           Tu Twin te espera.
         </h2>
-        <p className="mx-auto mt-3 max-w-xl text-base text-cream/85">
+        <p className="mx-auto mt-4 max-w-xl text-lg text-cream/85">
           Cinco minutos de conversación y tus apps empiezan a entenderte. Sin
           formularios, sin ceder tus datos a cada plataforma.
         </p>
