@@ -8,12 +8,19 @@ import {
   type JobContext,
 } from "@livekit/agents";
 import * as silero from "@livekit/agents-plugin-silero";
+import { CURRICULUM, getCurriculumSlot } from "../src/lib/twin/curriculum.js";
+import { buildSystemPrompt } from "../src/lib/twin/prompt.js";
 import type { TranscriptEntry } from "../src/types/session.js";
+import { AnthropicLLM } from "./llm/anthropic.js";
+import { buildStt } from "./stt.js";
+import { buildTts } from "./tts.js";
 import type {
   AgentStateLabel,
   DataTrackEvent,
   SessionEndReason,
 } from "./types.js";
+
+const ANTHROPIC_MODEL = process.env.ANTHROPIC_MODEL ?? "claude-sonnet-4-6";
 
 export default defineAgent({
   prewarm: async (proc) => {
@@ -26,6 +33,12 @@ export default defineAgent({
 
     await ctx.connect();
     console.log(`[worker] connected to room ${ctx.room.name}`);
+
+    const slotIndex = resolveSlotIndex(ctx.room.name ?? "");
+    const slot = getCurriculumSlot(slotIndex);
+    console.log(
+      `[worker] using curriculum slot ${slot.index} (${slot.target_domain ?? slot.target_depth})`
+    );
 
     const transcript: TranscriptEntry[] = [];
     let endedReason: SessionEndReason = "user_disconnected";
@@ -43,11 +56,20 @@ export default defineAgent({
 
     const session = new voice.AgentSession({
       vad: ctx.proc.userData.vad as silero.VAD,
-      // stt/llm/tts wired in B05–B07.
+      stt: buildStt(),
+      llm: new AnthropicLLM({
+        model: ANTHROPIC_MODEL,
+        temperature: 0.7,
+        maxTokens: 256,
+      }),
+      tts: buildTts(),
     });
 
     const agent = new voice.Agent({
-      instructions: "placeholder — B04 replaces this with the dynamic prompt.",
+      instructions: buildSystemPrompt({
+        slot,
+        twin: { name: null, summary: null, skills: [] },
+      }),
     });
 
     session.on(
@@ -83,15 +105,19 @@ export default defineAgent({
       endedReason = "error";
     });
 
-    console.log(`[worker] session skeleton ready (stt/llm/tts pending)`);
+    await session.start({ agent, room: ctx.room });
+    console.log(`[worker] session started`);
 
-    // Note: session.start is intentionally NOT called here. Without real
-    // stt/llm/tts plugins it would fail at first turn. B05–B07 wire those up
-    // and call session.start({ agent, room: ctx.room }) at the end of entry.
-    void agent;
-    void session;
+    await session.generateReply({});
+
+    await new Promise<void>((resolve) => {
+      session.on(voice.AgentSessionEventTypes.Close, () => resolve());
+    });
+
+    console.log(`[worker] session closed, reason=${endedReason}`);
+
+    void publishData({ type: "session_end", reason: endedReason });
     void transcript;
-    void endedReason;
   },
 });
 
@@ -105,6 +131,18 @@ function chatMessageText(msg: llmTypes.ChatMessage): string {
       .trim();
   }
   return "";
+}
+
+// Room names follow `ses_<sessionId>__slot_<idx>` when launched from
+// /api/livekit/token (B10). Anything else falls back to slot 0 so smoke tests
+// against ad-hoc room names don't crash. B09/B10 replace the encoded slot with
+// proper room metadata once /api/sessions/[id] is live.
+function resolveSlotIndex(roomName: string): number {
+  const match = /__slot_(\d+)/.exec(roomName);
+  if (!match) return 0;
+  const idx = Number.parseInt(match[1], 10);
+  if (Number.isNaN(idx) || idx < 0 || idx >= CURRICULUM.length) return 0;
+  return idx;
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
