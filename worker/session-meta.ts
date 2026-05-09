@@ -9,6 +9,7 @@ export interface RoomSessionMetadata {
   session_index: number;
   target_domain: Domain | null;
   target_domains: Domain[];
+  avatar_enabled: boolean;
 }
 
 export function parseRoomMetadata(raw: string | null | undefined): RoomSessionMetadata | null {
@@ -30,6 +31,10 @@ export function parseRoomMetadata(raw: string | null | undefined): RoomSessionMe
       target_domains: Array.isArray(parsed.target_domains)
         ? (parsed.target_domains as Domain[])
         : [],
+      // Default true preserves the original behavior for any room metadata
+      // created before the avatar toggle existed.
+      avatar_enabled:
+        typeof parsed.avatar_enabled === "boolean" ? parsed.avatar_enabled : true,
     };
   } catch {
     return null;

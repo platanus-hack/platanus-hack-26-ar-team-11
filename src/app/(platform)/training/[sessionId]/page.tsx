@@ -1,6 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth/server";
 import { createClient } from "@/lib/supabase/server";
+import { parseTrainingSettings } from "@/types/settings";
 import { InterviewRoom } from "./InterviewRoom";
 
 export default async function TrainingSessionPage({
@@ -33,12 +34,17 @@ export default async function TrainingSessionPage({
 
   if (!twin || twin.user_id !== user.id) notFound();
 
+  const trainingSettings = parseTrainingSettings(
+    user.user_metadata?.training_settings,
+  );
+
   return (
     <InterviewRoom
       sessionId={session.id}
       twinId={session.twin_id}
       sessionIndex={session.session_index ?? 0}
       alreadyEnded={Boolean(session.ended_at)}
+      avatarEnabled={trainingSettings.avatar_enabled}
     />
   );
 }

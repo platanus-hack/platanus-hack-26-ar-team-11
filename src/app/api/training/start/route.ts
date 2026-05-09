@@ -4,6 +4,7 @@ import { RoomServiceClient } from "livekit-server-sdk";
 import { getCurrentUser } from "@/lib/auth/server";
 import { createClient } from "@/lib/supabase/server";
 import { CURRICULUM, getCurriculumSlot } from "@/lib/twin/curriculum";
+import { parseTrainingSettings } from "@/types/settings";
 
 // Idle rooms close themselves once everyone leaves; keep the room alive long
 // enough for the worker to dispatch and the user to (re)join.
@@ -39,6 +40,10 @@ export async function POST() {
   const startedAt = new Date().toISOString();
 
   const targetDomains = slot.target_domain ? [slot.target_domain] : [];
+
+  const trainingSettings = parseTrainingSettings(
+    user.user_metadata?.training_settings,
+  );
 
   const { error: insertErr } = await supabase.from("sessions").insert({
     id: sessionId,
@@ -78,6 +83,7 @@ export async function POST() {
           target_domain: slot.target_domain,
           target_domains: targetDomains,
           user_id: user.id,
+          avatar_enabled: trainingSettings.avatar_enabled,
         }),
       });
     } catch (err) {

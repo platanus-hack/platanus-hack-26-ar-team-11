@@ -46,6 +46,7 @@ export interface InterviewRoomProps {
   twinId: string;
   sessionIndex: number;
   alreadyEnded: boolean;
+  avatarEnabled: boolean;
 }
 
 export function InterviewRoom({
@@ -53,6 +54,7 @@ export function InterviewRoom({
   twinId,
   sessionIndex,
   alreadyEnded,
+  avatarEnabled,
 }: InterviewRoomProps) {
   const [status, setStatus] = useState<Status>(
     alreadyEnded ? "ended" : "idle"
@@ -119,12 +121,12 @@ export function InterviewRoom({
       className="mx-auto max-w-3xl px-4 py-6"
     >
       <RoomAudioRenderer />
-      <Stage onEnd={() => setStatus("ended")} />
+      <Stage onEnd={() => setStatus("ended")} audioOnly={!avatarEnabled} />
     </LiveKitRoom>
   );
 }
 
-function Stage({ onEnd }: { onEnd: () => void }) {
+function Stage({ onEnd, audioOnly }: { onEnd: () => void; audioOnly: boolean }) {
   const [agentState, setAgentState] = useState<AgentState>("initializing");
   const [transcript, setTranscript] = useState<TranscriptItem[]>([]);
 
@@ -164,7 +166,7 @@ function Stage({ onEnd }: { onEnd: () => void }) {
   return (
     <div className="flex flex-col gap-4">
       <div className="relative">
-        <AvatarStage />
+        <AvatarStage audioOnly={audioOnly} />
         <div className="absolute right-3 top-3">
           <StateIndicator state={agentState} />
         </div>
