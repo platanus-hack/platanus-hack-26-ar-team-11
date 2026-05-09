@@ -1,10 +1,12 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
+import { useMemo, useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
 import { createAvatar } from "@dicebear/core";
 import * as avataaars from "@dicebear/avataaars";
+import { Check, Loader2, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import {
   type AvatarConfig,
@@ -22,7 +24,7 @@ import {
   SKIN_COLORS,
 } from "@/types/avatar";
 import { updateAvatarConfig } from "@/lib/auth/avatar-actions";
-import { Loader2 } from "lucide-react";
+import { updateProfileName } from "@/lib/auth/profile-actions";
 
 type CategoryKey =
   | "top"
@@ -80,13 +82,24 @@ function ThumbAvatar({ config, seed }: { config: AvatarConfig; seed: string }) {
 interface AvatarCustomizerProps {
   initialConfig: AvatarConfig;
   seed: string;
+  initialName: string;
 }
 
-export function AvatarCustomizer({ initialConfig, seed }: AvatarCustomizerProps) {
+export function AvatarCustomizer({
+  initialConfig,
+  seed,
+  initialName,
+}: AvatarCustomizerProps) {
   const [config, setConfig] = useState<AvatarConfig>(initialConfig);
   const [savedConfig, setSavedConfig] = useState<AvatarConfig>(initialConfig);
   const [activeCategory, setActiveCategory] = useState<CategoryKey>("top");
   const [isPending, startTransition] = useTransition();
+  const [name, setName] = useState(initialName);
+  const [savedName, setSavedName] = useState(initialName);
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [isNamePending, startNameTransition] = useTransition();
+  const nameInputRef = useRef<HTMLInputElement>(null);
+  const nameValid = name.trim().length > 0;
 
   const previewSvg = useAvatarSvg(config, seed, 256);
 
@@ -114,22 +127,124 @@ export function AvatarCustomizer({ initialConfig, seed }: AvatarCustomizerProps)
     setConfig(savedConfig);
   }
 
+  function startEditingName() {
+    setIsEditingName(true);
+    queueMicrotask(() => {
+      nameInputRef.current?.focus();
+      nameInputRef.current?.select();
+    });
+  }
+
+  function cancelEditingName() {
+    setName(savedName);
+    setIsEditingName(false);
+  }
+
+  function handleSaveName() {
+    if (!nameValid) return;
+    const trimmed = name.trim();
+    if (trimmed === savedName.trim()) {
+      setIsEditingName(false);
+      return;
+    }
+    startNameTransition(async () => {
+      const res = await updateProfileName(trimmed);
+      if (res.ok) {
+        setSavedName(trimmed);
+        setIsEditingName(false);
+        toast.success("Nombre guardado");
+      } else {
+        toast.error(res.error ?? "No se pudo guardar el nombre");
+      }
+    });
+  }
+
+  function handleNameBlur() {
+    if (isNamePending) return;
+    // Click outside while empty → discard, no toast.
+    if (!nameValid) {
+      cancelEditingName();
+      return;
+    }
+    handleSaveName();
+  }
+
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col gap-10 px-4 py-10">
       <header className="text-center">
         <span className="block text-sm uppercase tracking-[0.2em] text-secondary">
-          Tu avatar
+          Tu perfil
         </span>
         <h1 className="mt-3 text-balance text-3xl font-black sm:text-4xl">
           Personalizá tu Twin
         </h1>
       </header>
 
-      <div className="flex flex-col items-center gap-5">
+      <div className="-mt-5 flex flex-col items-center gap-5">
+        <div className="relative flex w-72 items-center">
+          {isEditingName ? (
+            <Input
+              ref={nameInputRef}
+              value={name}
+              maxLength={60}
+              onChange={(e) => setName(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  handleSaveName();
+                } else if (e.key === "Escape") {
+                  e.preventDefault();
+                  cancelEditingName();
+                }
+              }}
+              onBlur={handleNameBlur}
+              disabled={isNamePending}
+              placeholder="Tu nombre"
+              className="h-12 w-full px-11 text-center !text-2xl"
+              aria-label="Editar nombre"
+            />
+          ) : (
+            <button
+              type="button"
+              onClick={startEditingName}
+              className={cn(
+                "w-full cursor-pointer px-11 text-center text-2xl font-medium transition hover:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                !savedName && "text-muted-foreground italic",
+              )}
+            >
+              {savedName || "Tu nombre"}
+            </button>
+          )}
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            onMouseDown={(e) => {
+              // Keep input focused so onBlur doesn't race the click handler.
+              if (isEditingName) e.preventDefault();
+            }}
+            onClick={isEditingName ? handleSaveName : startEditingName}
+            disabled={isEditingName && (!nameValid || isNamePending)}
+            className={cn(
+              "absolute right-0 h-12 w-12 cursor-pointer text-muted-foreground",
+              isEditingName &&
+                "hover:!bg-transparent dark:hover:!bg-transparent",
+            )}
+            aria-label={isEditingName ? "Confirmar nombre" : "Editar nombre"}
+          >
+            {isEditingName ? (
+              <Check className="h-5 w-5" />
+            ) : (
+              <Pencil className="h-5 w-5" />
+            )}
+          </Button>
+        </div>
+
         <div
           className="h-56 w-56 overflow-hidden rounded-2xl border border-border/60 bg-card sm:h-72 sm:w-72 [&>svg]:h-full [&>svg]:w-full"
           dangerouslySetInnerHTML={{ __html: previewSvg }}
         />
+
         <div className="flex w-full max-w-md items-center gap-3">
           <Button
             type="button"

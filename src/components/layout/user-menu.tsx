@@ -55,7 +55,7 @@ export function UserMenu({
         <DropdownMenuItem asChild className="cursor-pointer">
           <Link href="/avatar">
             <UserCog className="mr-2 h-4 w-4" />
-            Personalizar avatar
+            Personalizar perfil
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild className="cursor-pointer">
