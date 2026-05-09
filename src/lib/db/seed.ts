@@ -1,6 +1,8 @@
 import { randomUUID } from "node:crypto";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { buildAllAccessAppSeed } from "./seed-data/allaccess-app";
+import { buildBuholingoAppSeed } from "./seed-data/buholingo-app";
+import type { Scope } from "@/types";
 import {
   DEMO_USERS,
   getDemoPassword,
@@ -204,12 +206,20 @@ async function ensureSession(
   counters.sessions.created += 1;
 }
 
-async function ensureAllAccessApp(
+interface DeveloperAppSeed {
+  client_id: string;
+  name: string;
+  description: string;
+  client_secret_hash: string;
+  redirect_uris_json: string[];
+  allowed_scopes_json: Scope[];
+}
+
+async function ensureDeveloperApp(
   admin: ReturnType<typeof createAdminClient>,
+  seed: DeveloperAppSeed,
   counters: Counters,
 ): Promise<void> {
-  const seed = buildAllAccessAppSeed();
-
   const { data: existing, error: selectErr } = await admin
     .from("developer_apps")
     .select("id")
@@ -262,7 +272,8 @@ export async function runSeed(): Promise<Counters> {
     }
   }
 
-  await ensureAllAccessApp(admin, counters);
+  await ensureDeveloperApp(admin, buildAllAccessAppSeed(), counters);
+  await ensureDeveloperApp(admin, buildBuholingoAppSeed(), counters);
 
   return counters;
 }

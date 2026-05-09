@@ -143,7 +143,7 @@ describe("runSeed", () => {
 
     expect(first.users.created).toBe(2);
     expect(twinsAfterFirst).toBe(2);
-    expect(appsAfterFirst).toBe(1);
+    expect(appsAfterFirst).toBe(2);
 
     const second = await runSeed();
     expect(authUsers.length).toBe(usersAfterFirst);
@@ -155,6 +155,6 @@ describe("runSeed", () => {
     expect(second.users.updated).toBe(2);
     expect(second.sessions.created).toBe(0);
     expect(second.apps.created).toBe(0);
-    expect(second.apps.updated).toBe(1);
+    expect(second.apps.updated).toBe(2);
   });
 });
