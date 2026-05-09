@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { Card, CardContent } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
@@ -43,13 +44,18 @@ export function SettingsForm({ initial }: { initial: TrainingSettings }) {
             consumir créditos del avatar).
           </p>
         </div>
-        <Switch
-          id="avatar-toggle"
-          checked={settings.avatar_enabled}
-          onCheckedChange={setAvatarEnabled}
-          disabled={isPending}
-          aria-label="Avatar en entrenamiento"
-        />
+        <div className="flex items-center gap-2">
+          {isPending && (
+            <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+          )}
+          <Switch
+            id="avatar-toggle"
+            checked={settings.avatar_enabled}
+            onCheckedChange={setAvatarEnabled}
+            disabled={isPending}
+            aria-label="Avatar en entrenamiento"
+          />
+        </div>
       </CardContent>
     </Card>
   );

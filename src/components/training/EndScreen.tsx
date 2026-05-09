@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { CheckCircle2, Loader2 } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { ContinueTrainingButton } from "@/components/training/ContinueTrainingButton";
+import { LoadingScreen } from "@/components/common/LoadingScreen";
 import { TARGET_TRAINING_SESSIONS } from "@/lib/twin/recompute";
 import type { Domain, ExtractedFact, Session } from "@/types";
 
@@ -106,7 +107,7 @@ export function EndScreen({ sessionId }: { sessionId: string }) {
   }, [sessionId]);
 
   if (state.tag === "loading") {
-    return <Loading />;
+    return <LoadingScreen />;
   }
 
   if (state.tag === "timeout") {
@@ -128,19 +129,6 @@ export function EndScreen({ sessionId }: { sessionId: string }) {
   }
 
   return <ReadyView data={state.data} />;
-}
-
-function Loading() {
-  return (
-    <div className="mx-auto flex min-h-[60vh] max-w-md flex-col items-center justify-center gap-4 px-4 text-center">
-      <Loader2 className="h-8 w-8 animate-spin text-amber-500" />
-      <h1 className="text-xl font-semibold">Procesando lo que charlaron…</h1>
-      <p className="text-sm text-neutral-600">
-        Tu Twin está aprendiendo de la sesión. Esto suele tardar unos
-        segundos.
-      </p>
-    </div>
-  );
 }
 
 function FallbackMessage({ title, body }: { title: string; body: string }) {

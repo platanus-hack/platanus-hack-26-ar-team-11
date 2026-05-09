@@ -4,7 +4,7 @@ import { useMemo, useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
 import { createAvatar } from "@dicebear/core";
 import * as avataaars from "@dicebear/avataaars";
-import { Check, Pencil } from "lucide-react";
+import { Check, Loader2, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -117,7 +117,6 @@ export function AvatarCustomizer({
       const res = await updateAvatarConfig(config);
       if (res.ok) {
         setSavedConfig(config);
-        toast.success("Avatar guardado");
       } else {
         toast.error(res.error ?? "No se pudo guardar el avatar");
       }
@@ -264,7 +263,14 @@ export function AvatarCustomizer({
             disabled={!dirty || isPending}
             className="flex-1"
           >
-            {isPending ? "Guardando…" : "Guardar avatar"}
+            {isPending ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Guardando…
+              </>
+            ) : (
+              "Guardar avatar"
+            )}
           </Button>
         </div>
       </div>

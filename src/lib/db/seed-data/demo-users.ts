@@ -47,7 +47,7 @@ const t = (role: "user" | "assistant", text: string, minutesOffset = 0): Transcr
 export const DEMO_USER_1: DemoUserSeed = {
   email: "demo1@twin-protocol.example",
   name: "Manuel",
-  twin_name: "Manuel's Twin",
+  twin_name: "Twin de Manuel",
   next_session_index: 9,
   completion_score: 0.71,
   twin_summary:
@@ -291,7 +291,7 @@ export const DEMO_USER_1: DemoUserSeed = {
 export const DEMO_USER_2: DemoUserSeed = {
   email: "demo2@twin-protocol.example",
   name: "Sofía",
-  twin_name: "Sofía's Twin",
+  twin_name: "Twin de Sofía",
   next_session_index: 11,
   completion_score: 0.88,
   twin_summary:
