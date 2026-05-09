@@ -4,6 +4,10 @@ export type Scope =
   | "persona.read.events"
   | "persona.read.vibes"
   | "persona.read.communication"
+  | "persona.read.spending"
+  | "persona.read.fashion"
+  | "persona.read.food"
+  | "persona.read.travel"
   | "persona.ask.recommendation"
   | "persona.write.feedback";
 
@@ -13,6 +17,10 @@ export const ALL_SCOPES: readonly Scope[] = [
   "persona.read.events",
   "persona.read.vibes",
   "persona.read.communication",
+  "persona.read.spending",
+  "persona.read.fashion",
+  "persona.read.food",
+  "persona.read.travel",
   "persona.ask.recommendation",
   "persona.write.feedback",
 ] as const;
@@ -61,6 +69,10 @@ export const SCOPE_LABELS: Record<Scope, string> = {
   "persona.read.events": "Event preferences",
   "persona.read.vibes": "Personality & vibes",
   "persona.read.communication": "Communication style",
+  "persona.read.spending": "Spending profile",
+  "persona.read.fashion": "Fashion taste",
+  "persona.read.food": "Food taste",
+  "persona.read.travel": "Travel style",
   "persona.ask.recommendation": "Personalized recommendations",
   "persona.write.feedback": "Feedback writing",
 };

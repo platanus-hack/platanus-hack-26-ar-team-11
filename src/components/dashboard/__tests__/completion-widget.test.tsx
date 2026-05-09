@@ -13,7 +13,7 @@ describe("CompletionWidget", () => {
   });
 
   it("clamps completion above 1", () => {
-    const html = strip(renderToString(<CompletionWidget completion={1.5} sessionIndex={8} />));
+    const html = strip(renderToString(<CompletionWidget completion={1.5} sessionIndex={12} />));
     expect(html).toContain(">100%<");
   });
 
@@ -23,7 +23,7 @@ describe("CompletionWidget", () => {
   });
 
   it("forces 100% when training is complete", () => {
-    const html = strip(renderToString(<CompletionWidget completion={0.71} sessionIndex={8} />));
+    const html = strip(renderToString(<CompletionWidget completion={0.71} sessionIndex={12} />));
     expect(html).toContain(">100%<");
   });
 });

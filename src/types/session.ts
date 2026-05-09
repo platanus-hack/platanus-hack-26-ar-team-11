@@ -4,7 +4,7 @@ export type SessionType = "training" | "chat";
 export type CurriculumDepth = "broad" | "deep" | "synthesis" | "gap_filling";
 
 export interface CurriculumSlot {
-  index: number; // 0..7
+  index: number; // 0..11
   target_domain: Domain | null; // null para synthesis y gap_filling
   target_depth: CurriculumDepth;
   focus_areas: string[];
@@ -31,7 +31,7 @@ export interface Session {
   transcript_json: TranscriptEntry[];
   summary: string | null;
   extracted_facts_json: ExtractedFact[];
-  session_index: number | null; // 0..7 si type=training, null si chat
+  session_index: number | null; // 0..11 si type=training, null si chat
   target_domains_json: Domain[];
   duration_seconds: number | null;
   started_at: string;

@@ -1,13 +1,14 @@
+import { TARGET_TRAINING_SESSIONS } from "@/lib/twin/recompute";
 import { cn } from "@/lib/utils";
 
 export function CompletionWidget({
   completion,
   sessionIndex,
-  totalSessions = 8,
+  totalSessions = TARGET_TRAINING_SESSIONS,
   className,
 }: {
   completion: number; // 0..1
-  sessionIndex: number; // 0..8
+  sessionIndex: number; // 0..TARGET_TRAINING_SESSIONS
   totalSessions?: number;
   className?: string;
 }) {

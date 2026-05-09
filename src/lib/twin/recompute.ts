@@ -7,7 +7,7 @@ import type {
   TwinSkill,
 } from "@/types";
 
-export const TARGET_TRAINING_SESSIONS = 8;
+export const TARGET_TRAINING_SESSIONS = 12;
 export const MAX_SESSION_INDEX = TARGET_TRAINING_SESSIONS;
 
 export interface RecomputeOptions {
@@ -21,7 +21,7 @@ export interface CompletionInputs {
 }
 
 // Mientras el entrenamiento corre: progreso = sesiones completadas.
-// Una vez terminadas las 8 sesiones: 100% (la confidence se refleja en otros widgets).
+// Al llegar al target: 100% (la confidence se refleja en otros widgets).
 export function computeCompletion({
   sessionsCompleted,
   meanConfidence,

@@ -3,7 +3,11 @@ import type {
   CommunicationStyleData,
   DomainSummaryData,
   EventPreferencesData,
+  FashionTasteData,
+  FoodTasteData,
   MusicTasteData,
+  SpendingProfileData,
+  TravelStyleData,
   VibesData,
 } from "@/types/api";
 import { createAdminClient } from "@/lib/supabase/admin";
@@ -37,6 +41,30 @@ const DOMAIN_SHAPES: Record<Domain, string> = {
   "formality": string | null,
   "technical_detail": string | null
 }`,
+  spending_profile: `{
+  "price_sensitivity": string | null,    // "high" | "medium" | "low" | null
+  "splurge_categories": string[],        // categorías donde no le importa pagar
+  "save_categories": string[],           // categorías donde busca ahorrar
+  "budget_mindset": string | null        // p. ej. "value-driven", "experience-first", "status-driven"
+}`,
+  fashion_taste: `{
+  "style_tags": string[],                // p. ej. ["minimal", "streetwear"]
+  "color_palette": string[],
+  "fit_preference": string | null,
+  "brands_loved": string[]
+}`,
+  food_taste: `{
+  "cuisines": string[],
+  "dietary_restrictions": string[],
+  "palate": string | null,
+  "habit": string | null                 // p. ej. "delivery frecuente", "cocina casa"
+}`,
+  travel_style: `{
+  "vibe": string | null,                 // "mochilero" | "confort" | "lujo" | null
+  "destinations_loved": string[],
+  "budget_typical": string | null,
+  "travel_companions": string | null
+}`,
 };
 
 const EMPTY_SHAPES: Record<Domain, DomainSummaryData> = {
@@ -62,6 +90,30 @@ const EMPTY_SHAPES: Record<Domain, DomainSummaryData> = {
     formality: null,
     technical_detail: null,
   } satisfies CommunicationStyleData,
+  spending_profile: {
+    price_sensitivity: null,
+    splurge_categories: [],
+    save_categories: [],
+    budget_mindset: null,
+  } satisfies SpendingProfileData,
+  fashion_taste: {
+    style_tags: [],
+    color_palette: [],
+    fit_preference: null,
+    brands_loved: [],
+  } satisfies FashionTasteData,
+  food_taste: {
+    cuisines: [],
+    dietary_restrictions: [],
+    palate: null,
+    habit: null,
+  } satisfies FoodTasteData,
+  travel_style: {
+    vibe: null,
+    destinations_loved: [],
+    budget_typical: null,
+    travel_companions: null,
+  } satisfies TravelStyleData,
 };
 
 interface SkillFactRow {

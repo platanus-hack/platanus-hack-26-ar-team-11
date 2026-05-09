@@ -6,6 +6,10 @@ const DOMAIN_TO_READ_SCOPE: Record<Domain, Scope> = {
   event_preferences: "persona.read.events",
   vibes: "persona.read.vibes",
   communication_style: "persona.read.communication",
+  spending_profile: "persona.read.spending",
+  fashion_taste: "persona.read.fashion",
+  food_taste: "persona.read.food",
+  travel_style: "persona.read.travel",
 };
 
 export const INTENT_TO_SCOPES = {
