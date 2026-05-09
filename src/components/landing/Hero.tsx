@@ -61,7 +61,7 @@ export function Hero({ isAuthenticated }: HeroProps) {
           </p>
         </div>
 
-        <div className="flex justify-center">
+        <div className="flex justify-center md:self-center">
           <div className="relative">
             <HeroAvatar />
             {chips.map(({ Icon, label, className }) => (
