@@ -2,9 +2,9 @@ import { UserAvatar } from "@/components/avatar/UserAvatar";
 import type { AvatarConfig } from "@/types/avatar";
 
 const HERO_AVATAR_CONFIG: AvatarConfig = {
-  top: "longButNotTooLong",
-  hairColor: "d6b370",
-  skinColor: "ffdbb4",
+  top: "straight02",
+  hairColor: "4a312c",
+  skinColor: "edb98a",
   eyes: "wink",
   eyebrows: "default",
   mouth: "smile",
