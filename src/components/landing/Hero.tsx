@@ -64,10 +64,10 @@ export function Hero({ isAuthenticated }: HeroProps) {
       <div className="pointer-events-none absolute inset-x-0 bottom-10 flex justify-center">
         <a
           href="#como-funciona"
-          className="hero-scroll-cue pointer-events-auto text-sm uppercase tracking-[0.3em] text-muted-foreground hover:text-foreground"
+          aria-label="Scroll"
+          className="hero-scroll-cue pointer-events-auto text-muted-foreground hover:text-foreground"
         >
-          <span>Scroll</span>
-          <ArrowDown className="mx-auto mt-2 h-5 w-5" aria-hidden />
+          <ArrowDown className="mx-auto h-5 w-5" aria-hidden />
         </a>
       </div>
     </section>

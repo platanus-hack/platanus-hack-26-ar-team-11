@@ -1,37 +1,43 @@
 "use client";
 
-import {
-  Music,
-  Ticket,
-  Plug2,
-  ShoppingBag,
-  Gamepad2,
-  Headphones,
-  Camera,
-  Pizza,
-  Plane,
-  Heart,
-  type LucideIcon,
-} from "lucide-react";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 interface AppItem {
   id: string;
-  Icon: LucideIcon;
+  src: string;
   label: string;
 }
 
 const APP_POOL: AppItem[] = [
-  { id: "allaccess", Icon: Ticket, label: "AllAccess" },
-  { id: "music", Icon: Music, label: "App de música" },
-  { id: "ecommerce", Icon: ShoppingBag, label: "App de e-commerce" },
-  { id: "plug", Icon: Plug2, label: "Otras apps" },
-  { id: "games", Icon: Gamepad2, label: "App de gaming" },
-  { id: "podcast", Icon: Headphones, label: "App de podcasts" },
-  { id: "photos", Icon: Camera, label: "App de fotos" },
-  { id: "food", Icon: Pizza, label: "App de delivery" },
-  { id: "travel", Icon: Plane, label: "App de viajes" },
-  { id: "dating", Icon: Heart, label: "App social" },
+  { id: "spotify", src: "/integrations/spotify.png", label: "Spotify" },
+  { id: "netflix", src: "/integrations/netflix.png", label: "Netflix" },
+  { id: "uber", src: "/integrations/uber.png", label: "Uber" },
+  { id: "airbnb", src: "/integrations/airbnb.png", label: "Airbnb" },
+  { id: "amazon", src: "/integrations/amazon.png", label: "Amazon" },
+  { id: "rappi", src: "/integrations/rappi.png", label: "Rappi" },
+  { id: "mercadolibre", src: "/integrations/mercadolibre.png", label: "Mercado Libre" },
+  { id: "linkedin", src: "/integrations/linkedin.png", label: "LinkedIn" },
+  { id: "notion", src: "/integrations/notion.png", label: "Notion" },
+  { id: "slack", src: "/integrations/slack.png", label: "Slack" },
+  { id: "youtube-music", src: "/integrations/youtube-music.png", label: "YouTube Music" },
+  { id: "disney-plus", src: "/integrations/disney-plus.png", label: "Disney+" },
+  { id: "doordash", src: "/integrations/doordash.png", label: "DoorDash" },
+  { id: "pedidosya", src: "/integrations/pedidosya.png", label: "PedidosYa" },
+  { id: "duolingo", src: "/integrations/duolingo.png", label: "Duolingo" },
+  { id: "coursera", src: "/integrations/coursera.png", label: "Coursera" },
+  { id: "khan-academy", src: "/integrations/khan-academy.png", label: "Khan Academy" },
+  { id: "chatgpt", src: "/integrations/chatgpt.png", label: "ChatGPT" },
+  { id: "perplexity", src: "/integrations/perplexity.png", label: "Perplexity" },
+  { id: "booking", src: "/integrations/booking.png", label: "Booking" },
+  { id: "despegar", src: "/integrations/despegar.png", label: "Despegar" },
+  { id: "kayak", src: "/integrations/kayak.png", label: "Kayak" },
+  { id: "cabify", src: "/integrations/cabify.png", label: "Cabify" },
+  { id: "shein", src: "/integrations/shein.png", label: "Shein" },
+  { id: "zara", src: "/integrations/zara.png", label: "Zara" },
+  { id: "thefork", src: "/integrations/thefork.png", label: "TheFork" },
+  { id: "indeed", src: "/integrations/indeed.png", label: "Indeed" },
+  { id: "zonaprop", src: "/integrations/zonaprop.png", label: "Zonaprop" },
 ];
 
 const SLOT_CLASSES = [
@@ -98,13 +104,19 @@ export function HeroAppNodes() {
   return (
     <>
       {slots.map((slot, i) => {
-        const { Icon, label } = slot.app;
+        const { src, label } = slot.app;
         const iconClass = `hero-app-node-icon${slot.exiting ? " is-exiting" : ""}`;
         return (
           <span key={i} className={SLOT_CLASSES[i]} aria-label={label} role="img">
             <span className="hero-app-node-floater">
               <span key={slot.cycleKey} className={iconClass}>
-                <Icon className="h-6 w-6" aria-hidden />
+                <Image
+                  src={src}
+                  alt=""
+                  width={40}
+                  height={40}
+                  className="h-9 w-9 rounded-full object-cover"
+                />
               </span>
             </span>
           </span>

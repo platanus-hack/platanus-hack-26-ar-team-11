@@ -403,7 +403,8 @@ body {
   .hero-avatar-halo,
   .hero-avatar-orbit,
   .hero-avatar-particle,
-  .hero-app-node,
+  .hero-app-node-floater,
+  .hero-app-node-icon,
   .hero-scroll-cue,
   .reveal-up {
     animation: none;
