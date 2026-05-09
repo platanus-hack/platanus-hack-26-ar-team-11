@@ -104,7 +104,6 @@ export function AvatarCustomizer({ initialConfig, seed }: AvatarCustomizerProps)
       const res = await updateAvatarConfig(config);
       if (res.ok) {
         setSavedConfig(config);
-        toast.success("Avatar guardado");
       } else {
         toast.error(res.error ?? "No se pudo guardar el avatar");
       }
