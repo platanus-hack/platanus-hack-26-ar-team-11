@@ -6,7 +6,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
   return (
     <>
       <Header variant="auth" />
-      <main className="grid min-h-[calc(100vh-7rem)] grid-cols-1 md:grid-cols-2">
+      <main className="grid min-h-[calc(100vh-5rem)] grid-cols-1 md:grid-cols-2">
         <aside className="relative hidden overflow-hidden bg-muted/40 md:flex md:flex-col md:items-center md:justify-center md:gap-10 md:px-12 md:py-16">
           <div
             aria-hidden
