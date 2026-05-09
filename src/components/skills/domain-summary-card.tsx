@@ -24,7 +24,7 @@ export function DomainSummaryCard({
     >
       <Card
         className={cn(
-          "h-full gap-2 py-3 transition-all group-hover:border-primary/50 group-hover:shadow-md group-focus-visible:ring-2 group-focus-visible:ring-ring",
+          "relative h-full gap-2 py-3 transition-all group-hover:border-primary/50 group-hover:shadow-md group-focus-visible:ring-2 group-focus-visible:ring-ring",
         )}
       >
         <CardContent className="flex h-full flex-col gap-2 px-5">
@@ -42,21 +42,21 @@ export function DomainSummaryCard({
           ) : (
             <ConfidenceBar value={confidence} showValue />
           )}
-
-          <div className="mt-auto flex items-center gap-1 text-xs font-medium text-primary opacity-0 transition-opacity group-hover:opacity-100">
-            {empty ? (
-              <>
-                Iniciar entrenamiento
-                <ArrowRight className="h-3 w-3" />
-              </>
-            ) : (
-              <>
-                Ver detalle
-                <ChevronRight className="h-3 w-3" />
-              </>
-            )}
-          </div>
         </CardContent>
+
+        <div className="pointer-events-none absolute bottom-2 right-4 flex items-center gap-1 text-xs font-medium text-primary opacity-0 transition-opacity group-hover:opacity-100">
+          {empty ? (
+            <>
+              Iniciar entrenamiento
+              <ArrowRight className="h-3 w-3" />
+            </>
+          ) : (
+            <>
+              Ver detalle
+              <ChevronRight className="h-3 w-3" />
+            </>
+          )}
+        </div>
       </Card>
     </Link>
   );
