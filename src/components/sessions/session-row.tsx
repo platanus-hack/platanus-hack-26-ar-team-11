@@ -45,9 +45,11 @@ const SYNTHESIS_VISUAL = {
 };
 
 export function SessionRow({ session }: { session: Session }) {
-  const visual = session.domain ? DOMAIN_VISUALS[session.domain] : SYNTHESIS_VISUAL;
+  const visual =
+    (session.domain ? DOMAIN_VISUALS[session.domain] : null) ?? SYNTHESIS_VISUAL;
   const Icon = visual.icon;
-  const domainLabel = session.domain ? DOMAIN_LABELS[session.domain] : "Síntesis";
+  const domainLabel =
+    (session.domain ? DOMAIN_LABELS[session.domain] : null) ?? "Síntesis";
   const slotLabel =
     session.session_index !== null ? `Sesión ${session.session_index + 1}` : "Chat";
 
