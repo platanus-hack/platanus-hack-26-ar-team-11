@@ -1,21 +1,35 @@
-// STUB — replaced by Stream A (A04) with real Twin overview.
-// See tasks/stream-a/A04-dashboard.md.
-
 import { PageShell } from "@/components/layout/page-shell";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { TwinOverview, EmptyTwinState } from "@/components/dashboard/twin-overview";
+import { requireUser } from "@/lib/auth/server";
+import { getTwinForUser, pendingDomains } from "@/lib/db/twins";
+import { listSessionsForTwin } from "@/lib/db/sessions";
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const user = await requireUser();
+  const data = await getTwinForUser(user.id);
+
+  if (!data) {
+    return (
+      <PageShell>
+        <EmptyTwinState />
+      </PageShell>
+    );
+  }
+
+  const { twin, skills } = data;
+  const pending = pendingDomains(skills);
+  const recent = await listSessionsForTwin(twin.id, 3);
+  const ownerName = (user.user_metadata?.name as string | undefined) ?? user.email ?? null;
+
   return (
-    <PageShell>
-      <Card>
-        <CardHeader>
-          <CardTitle>Dashboard</CardTitle>
-          <CardDescription>Stub. A04 builds the Twin overview here.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p className="text-sm text-muted-foreground">TODO: A04 — completion %, skills, sessions, CTA.</p>
-        </CardContent>
-      </Card>
+    <PageShell size="wide">
+      <TwinOverview
+        twin={twin}
+        skills={skills}
+        pending={pending}
+        recentSessions={recent}
+        ownerName={ownerName}
+      />
     </PageShell>
   );
 }
