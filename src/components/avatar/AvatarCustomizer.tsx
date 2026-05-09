@@ -209,7 +209,7 @@ export function AvatarCustomizer({
               type="button"
               onClick={startEditingName}
               className={cn(
-                "w-full px-11 text-center text-2xl font-medium transition hover:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                "w-full cursor-pointer px-11 text-center text-2xl font-medium transition hover:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                 !savedName && "text-muted-foreground italic",
               )}
             >
@@ -227,7 +227,7 @@ export function AvatarCustomizer({
             onClick={isEditingName ? handleSaveName : startEditingName}
             disabled={isEditingName && (!nameValid || isNamePending)}
             className={cn(
-              "absolute right-0 h-12 w-12 text-muted-foreground",
+              "absolute right-0 h-12 w-12 cursor-pointer text-muted-foreground",
               isEditingName &&
                 "hover:!bg-transparent dark:hover:!bg-transparent",
             )}
