@@ -27,11 +27,10 @@ export async function Header({ variant = "default" }: { variant?: HeaderVariant 
           <Image
             src="/logo.png"
             alt="Twin"
-            width={611}
-            height={278}
+            width={2444}
+            height={1112}
             quality={100}
             priority
-            unoptimized
             className="h-10 w-auto"
           />
         </Link>
