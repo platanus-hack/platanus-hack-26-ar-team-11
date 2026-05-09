@@ -34,7 +34,7 @@ export default async function ConnectedAppsPage() {
             sigue siendo tuyo.
           </p>
         </div>
-        <div className="flex shrink-0 gap-3 text-center">
+        <div className="flex shrink-0 gap-3 self-center text-center sm:self-auto">
           <Stat label="Conectadas" value={connections.length.toString()} />
           <Stat label="Activas" value={activeCount.toString()} />
         </div>

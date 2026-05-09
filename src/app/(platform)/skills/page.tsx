@@ -42,7 +42,7 @@ export default async function SkillsPage() {
             detalle de los datos y su nivel de confianza.
           </p>
         </div>
-        <div className="flex shrink-0 gap-3 text-center">
+        <div className="flex shrink-0 gap-3 self-center text-center sm:self-auto">
           <Stat label="Dominios" value={`${trained.length}/${ALL_DOMAINS.length}`} />
           <Stat label="Datos" value={totalFacts.toString()} />
         </div>

@@ -45,7 +45,7 @@ export default async function SessionsPage() {
             duración de la conversación.
           </p>
         </div>
-        <div className="flex shrink-0 gap-3 text-center">
+        <div className="flex shrink-0 gap-3 self-center text-center sm:self-auto">
           <Stat label="Total" value={sessions.length.toString()} />
           <Stat label="Entrenamiento" value={trainingCount.toString()} />
         </div>
