@@ -12,6 +12,7 @@ export interface ContinueTrainingButtonProps {
   variant?: ButtonVariants["variant"];
   size?: ButtonVariants["size"];
   className?: string;
+  mode?: "training" | "chat";
 }
 
 export function ContinueTrainingButton({
@@ -19,16 +20,19 @@ export function ContinueTrainingButton({
   variant = "default",
   size = "default",
   className,
+  mode = "training",
 }: ContinueTrainingButtonProps) {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const endpoint = mode === "chat" ? "/api/chat/start" : "/api/training/start";
+
   const start = async () => {
     setBusy(true);
     setError(null);
     try {
-      const res = await fetch("/api/training/start", { method: "POST" });
+      const res = await fetch(endpoint, { method: "POST" });
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
         throw new Error(body?.error?.message ?? `Error ${res.status}`);

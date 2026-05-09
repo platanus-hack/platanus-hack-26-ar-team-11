@@ -36,12 +36,13 @@ export function TwinOverview({
         )}
       </div>
 
-      <CompletionWidget
-        completion={twin.completion_score}
-        sessionIndex={twin.next_session_index}
-      />
-
-      <NextSessionCTA nextSessionIndex={twin.next_session_index} />
+      <div className="flex flex-col items-center gap-6 sm:flex-row sm:gap-8">
+        <CompletionWidget
+          completion={twin.completion_score}
+          sessionIndex={twin.next_session_index}
+        />
+        <NextSessionCTA nextSessionIndex={twin.next_session_index} />
+      </div>
     </div>
   );
 }
@@ -66,7 +67,9 @@ export function EmptyTwinState({
           Inicia la primera sesión para que aprenda quién eres.
         </p>
       </div>
-      <NextSessionCTA nextSessionIndex={0} />
+      <div className="flex flex-col items-center gap-6 sm:flex-row sm:gap-8">
+        <NextSessionCTA nextSessionIndex={0} />
+      </div>
       <Button asChild variant="ghost" size="sm">
         <Link href="/avatar">Personalizar avatar</Link>
       </Button>

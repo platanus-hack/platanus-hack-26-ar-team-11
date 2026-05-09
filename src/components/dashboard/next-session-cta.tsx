@@ -12,7 +12,7 @@ export function NextSessionCTA({
   const isComplete = nextSessionIndex >= totalSessions;
 
   const label = isComplete
-    ? "Sesión extra"
+    ? "Hablar con mi Twin"
     : isStart
       ? "Iniciar entrenamiento"
       : "Continuar entrenamiento";
@@ -21,6 +21,7 @@ export function NextSessionCTA({
     <ContinueTrainingButton
       size="lg"
       variant={isComplete ? "secondary" : "default"}
+      mode={isComplete ? "chat" : "training"}
       className="w-full sm:w-auto"
     >
       {label}
