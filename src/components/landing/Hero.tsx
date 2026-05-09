@@ -22,22 +22,26 @@ export function Hero({ isAuthenticated }: HeroProps) {
     : { href: "/auth/login", label: "Ya tengo cuenta" };
 
   return (
-    <section className="relative min-h-[100svh] overflow-hidden bg-primary text-primary-foreground">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_40%_at_50%_15%,rgba(212,160,23,0.18),transparent_70%)]" />
-      <div className="pointer-events-none absolute inset-0 hero-grain" aria-hidden />
+    <section className="relative min-h-[100svh] overflow-hidden bg-background text-foreground">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_45%_at_50%_10%,rgba(212,160,23,0.18),transparent_70%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(45%_30%_at_85%_85%,rgba(163,157,179,0.18),transparent_70%)]" />
       <div className="relative mx-auto grid min-h-[100svh] max-w-6xl items-center gap-12 px-6 py-24 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:py-32 lg:gap-20">
         <div className="flex flex-col items-start text-left">
-          <span className="inline-flex items-center gap-2 rounded-full border border-cream/20 bg-cream/5 px-3 py-1 text-xs uppercase tracking-[0.2em] text-cream/80">
+          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs uppercase tracking-[0.2em] text-secondary shadow-sm">
             Twin Protocol
           </span>
           <h1 className="mt-6 text-balance text-4xl font-black leading-[1.05] sm:text-5xl lg:text-6xl">
             Tu yo digital, conectado a todas tus apps.
           </h1>
-          <p className="mt-5 max-w-xl text-lg text-cream/85 sm:text-xl">
+          <p className="mt-5 max-w-xl text-lg text-muted-foreground sm:text-xl">
             Creá tu Twin una vez. Usalo en todas tus apps.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Button asChild size="lg" className="gap-2 bg-accent text-accent-foreground hover:bg-accent/90">
+            <Button
+              asChild
+              size="lg"
+              className="gap-2 bg-accent text-accent-foreground hover:bg-accent/90"
+            >
               <Link href={primary.href}>
                 {primary.label}
                 <ArrowRight className="h-4 w-4" />
@@ -47,12 +51,12 @@ export function Hero({ isAuthenticated }: HeroProps) {
               asChild
               size="lg"
               variant="ghost"
-              className="text-cream hover:bg-cream/10 hover:text-cream"
+              className="text-foreground hover:bg-primary/5 hover:text-foreground"
             >
               <Link href={secondary.href}>{secondary.label}</Link>
             </Button>
           </div>
-          <p className="mt-6 text-xs text-cream/60">
+          <p className="mt-6 text-xs text-muted-foreground/80">
             Tus datos quedan bajo tu control en todo momento.
           </p>
         </div>
@@ -70,7 +74,7 @@ export function Hero({ isAuthenticated }: HeroProps) {
 
       <a
         href="#como-funciona"
-        className="hero-scroll-cue absolute bottom-8 left-1/2 -translate-x-1/2 text-xs uppercase tracking-[0.3em] text-cream/70 hover:text-cream"
+        className="hero-scroll-cue absolute bottom-8 left-1/2 -translate-x-1/2 text-xs uppercase tracking-[0.3em] text-muted-foreground hover:text-foreground"
       >
         <span>Scroll</span>
         <ArrowDown className="mx-auto mt-2 h-4 w-4" aria-hidden />

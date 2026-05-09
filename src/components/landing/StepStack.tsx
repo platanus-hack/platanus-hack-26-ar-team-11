@@ -9,6 +9,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useScrollProgress } from "@/lib/hooks/useScrollProgress";
+import { HeroAvatar } from "./HeroAvatar";
 
 interface Step {
   n: string;
@@ -139,16 +140,14 @@ export function StepStack() {
           </div>
 
           <div className="hidden md:block">
-            <div className="relative mx-auto aspect-square w-[28rem]">
-              <span
-                className="step-stack-orb"
-                style={{
-                  transform: `scale(${1 + progress * 0.06}) rotate(${progress * 30}deg)`,
-                }}
-                aria-hidden
-              />
-              <span className="step-stack-ring step-stack-ring--outer" aria-hidden />
-              <span className="step-stack-ring step-stack-ring--inner" aria-hidden />
+            <div
+              className="relative mx-auto aspect-square w-[28rem]"
+              style={{
+                transform: `scale(${1 + progress * 0.04})`,
+                transition: "transform 600ms ease",
+              }}
+            >
+              <HeroAvatar />
 
               {steps.map((step, i) => {
                 const isActive = i === activeIndex;

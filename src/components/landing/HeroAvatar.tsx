@@ -1,11 +1,27 @@
-// Avatar visual del Twin para el hero — esfera abstracta con halo dorado
-// y orbits suaves. CSS-only animation: liviano y sin canvas/WebGL.
+import { UserAvatar } from "@/components/avatar/UserAvatar";
+import type { AvatarConfig } from "@/types/avatar";
 
+const HERO_AVATAR_CONFIG: AvatarConfig = {
+  top: "bigHair",
+  hairColor: "d6b370",
+  skinColor: "ffdbb4",
+  eyes: "wink",
+  eyebrows: "defaultNatural",
+  mouth: "smile",
+  facialHair: "none",
+  facialHairColor: "2c1b18",
+  accessories: "none",
+  clothing: "shirtScoopNeck",
+  clothesColor: "d4a017",
+  backgroundColor: "transparent",
+};
+
+// Frame del Twin: cartoon avatar con halo amber + orbits indigo.
 export function HeroAvatar({ className }: { className?: string }) {
   return (
     <div
       role="img"
-      aria-label="Twin avatar"
+      aria-label="Avatar de tu Twin"
       className={[
         "relative mx-auto flex aspect-square w-72 items-center justify-center sm:w-96 lg:w-[28rem]",
         className ?? "",
@@ -14,7 +30,14 @@ export function HeroAvatar({ className }: { className?: string }) {
       <span className="hero-avatar-orbit hero-avatar-orbit--outer" aria-hidden />
       <span className="hero-avatar-orbit hero-avatar-orbit--mid" aria-hidden />
       <span className="hero-avatar-halo" aria-hidden />
-      <span className="hero-avatar-core" aria-hidden />
+      <div className="hero-avatar-frame" aria-hidden>
+        <UserAvatar
+          config={HERO_AVATAR_CONFIG}
+          seed="twin-hero"
+          ariaLabel="Avatar de tu Twin"
+          className="h-full w-full"
+        />
+      </div>
       <span className="hero-avatar-particle hero-avatar-particle--a" aria-hidden />
       <span className="hero-avatar-particle hero-avatar-particle--b" aria-hidden />
       <span className="hero-avatar-particle hero-avatar-particle--c" aria-hidden />
