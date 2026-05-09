@@ -14,9 +14,12 @@ export async function Header({ variant = "default" }: { variant?: HeaderVariant 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/80 backdrop-blur">
       <div className="flex h-14 w-full items-center justify-between px-4 sm:px-6">
-        <Link href={user ? "/dashboard" : "/"} className="flex items-center gap-2 font-semibold tracking-tight">
+        <Link
+          href={user ? "/dashboard" : "/"}
+          aria-label="Twin"
+          className="flex items-center"
+        >
           <Image src="/logo.png" alt="Twin" width={28} height={28} priority />
-          <span>Twin</span>
         </Link>
 
         {variant === "default" && (
