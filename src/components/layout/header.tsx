@@ -1,35 +1,27 @@
 import Link from "next/link";
 import { getCurrentUser } from "@/lib/auth/server";
-import { signOutAction } from "@/lib/auth/actions";
 import { Button } from "@/components/ui/button";
+import { UserMenu } from "./user-menu";
 
-export async function Header({ variant = "default" }: { variant?: "default" | "minimal" | "auth" }) {
+export type HeaderVariant = "default" | "minimal" | "auth";
+
+export async function Header({ variant = "default" }: { variant?: HeaderVariant }) {
   const user = variant === "minimal" ? null : await getCurrentUser();
+  const name = (user?.user_metadata?.name as string | undefined) ?? null;
+  const email = user?.email ?? null;
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/80 backdrop-blur">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
-        <Link href="/" className="flex items-center gap-2 font-semibold tracking-tight">
+        <Link href={user ? "/dashboard" : "/"} className="flex items-center gap-2 font-semibold tracking-tight">
           <span className="inline-block h-6 w-6 rounded-full bg-gradient-to-br from-primary to-secondary" />
           <span>Twin Protocol</span>
         </Link>
 
         {variant === "default" && (
-          <nav className="flex items-center gap-3 text-sm">
+          <nav className="flex items-center gap-2 text-sm">
             {user ? (
-              <>
-                <Link href="/dashboard" className="text-muted-foreground hover:text-foreground">
-                  Dashboard
-                </Link>
-                <Link href="/connected-apps" className="text-muted-foreground hover:text-foreground">
-                  Apps
-                </Link>
-                <form action={signOutAction}>
-                  <Button type="submit" variant="ghost" size="sm">
-                    Logout
-                  </Button>
-                </form>
-              </>
+              <UserMenu email={email} name={name} />
             ) : (
               <>
                 <Link href="/auth/login" className="text-muted-foreground hover:text-foreground">
