@@ -38,7 +38,7 @@ export function SettingsForm({ initial }: { initial: TrainingSettings }) {
             Avatar en entrenamiento
           </Label>
           <p className="text-sm text-muted-foreground">
-            Cuando está activo, Cami aparece como un avatar en video durante la
+            Cuando está activo, Clara aparece como un avatar en video durante la
             sesión. Apagalo para entrenar en modo audio (más rápido y sin
             consumir créditos del avatar).
           </p>

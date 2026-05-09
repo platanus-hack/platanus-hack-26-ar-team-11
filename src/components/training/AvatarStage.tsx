@@ -23,7 +23,7 @@ export function AvatarStage({ audioOnly = false }: { audioOnly?: boolean }) {
           <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/20 text-primary">
             <Mic className="h-6 w-6" />
           </div>
-          <p className="text-sm tracking-wide">Modo audio · Cami sin avatar</p>
+          <p className="text-sm tracking-wide">Modo audio · Clara sin avatar</p>
         </div>
       </div>
     );
