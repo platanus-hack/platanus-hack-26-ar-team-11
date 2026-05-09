@@ -44,7 +44,7 @@ export function HeroAvatar({
       role="img"
       aria-label="Avatar de tu Twin"
       className={[
-        "relative mx-auto flex aspect-square w-72 items-center justify-center sm:w-96 lg:w-[28rem]",
+        "relative mx-auto flex aspect-square w-56 items-center justify-center sm:w-72 md:w-80 lg:w-[28rem]",
         className ?? "",
       ].join(" ")}
     >

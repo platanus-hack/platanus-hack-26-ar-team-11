@@ -300,6 +300,33 @@ body {
 
 .hero-app-node--d .hero-app-node-floater { animation-delay: -4.2s; }
 
+@media (max-width: 767px) {
+  .hero-app-node {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+  .hero-app-node--a {
+    top: -8%;
+    left: 4%;
+    --node-line: 5.5rem;
+  }
+  .hero-app-node--b {
+    top: 28%;
+    right: 4%;
+    --node-line: 5rem;
+  }
+  .hero-app-node--c {
+    bottom: 4%;
+    left: 6%;
+    --node-line: 5rem;
+  }
+  .hero-app-node--d {
+    bottom: -6%;
+    right: 8%;
+    --node-line: 5rem;
+  }
+}
+
 .hero-app-node-icon.is-exiting {
   animation: hero-app-node-pop-out 350ms cubic-bezier(0.55, 0, 0.55, 0.2) forwards;
 }
@@ -334,6 +361,17 @@ body {
   100% {
     opacity: 0;
     transform: scale(0.1);
+  }
+}
+
+/* StepStack — scroll-driven storytelling */
+.step-stack-section {
+  height: calc(var(--step-count, 5) * 65vh);
+}
+
+@media (min-width: 768px) {
+  .step-stack-section {
+    height: calc(var(--step-count, 5) * 100vh);
   }
 }
 

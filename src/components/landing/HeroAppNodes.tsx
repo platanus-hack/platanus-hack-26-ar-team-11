@@ -107,7 +107,7 @@ export function HeroAppNodes() {
                   alt=""
                   width={48}
                   height={48}
-                  className="h-12 w-12 rounded-full object-cover"
+                  className="h-8 w-8 rounded-full object-cover sm:h-10 sm:w-10 md:h-12 md:w-12"
                 />
               </span>
             </span>

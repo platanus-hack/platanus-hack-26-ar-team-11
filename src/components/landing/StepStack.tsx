@@ -88,20 +88,20 @@ export function StepStack() {
     <section
       id="como-funciona"
       ref={ref}
-      className="relative bg-background"
-      style={{ height: `${steps.length * 100}vh` }}
+      className="step-stack-section relative bg-background"
+      style={{ "--step-count": steps.length } as React.CSSProperties}
     >
       <div className="sticky top-0 flex h-screen items-center overflow-hidden pt-12">
-        <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-12 px-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-20">
-          <div className="relative">
-            <span className="text-sm uppercase tracking-[0.2em] text-secondary">
+        <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-6 px-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-12 lg:gap-20">
+          <div className="relative order-2 md:order-1">
+            <span className="text-sm uppercase tracking-[0.2em] text-secondary md:text-sm">
               Cómo funciona
             </span>
-            <h2 className="mt-3 text-balance text-4xl font-black sm:text-5xl">
+            <h2 className="mt-4 text-balance text-5xl font-black md:mt-3 md:text-5xl">
               Cinco pasos para que tu Twin viva en todas tus apps.
             </h2>
 
-            <div className="relative mt-10 h-72 sm:h-64">
+            <div className="relative mt-16 h-80 md:mt-10 md:h-64">
               {steps.map((step, i) => {
                 const state =
                   i === activeIndex ? "active" : i < activeIndex ? "past" : "next";
@@ -119,17 +119,17 @@ export function StepStack() {
                       .join(" ")}
                   >
                     <div className="flex items-center gap-3">
-                      <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-sm">
-                        <step.Icon className="h-5 w-5" />
+                      <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-sm md:h-11 md:w-11">
+                        <step.Icon className="h-6 w-6 md:h-5 md:w-5" />
                       </span>
                       <span className="text-sm uppercase tracking-[0.2em] text-secondary">
                         Paso {step.n}
                       </span>
                     </div>
-                    <h3 className="text-3xl font-bold leading-tight sm:text-4xl">
+                    <h3 className="text-4xl font-bold leading-tight md:text-4xl">
                       {step.title}
                     </h3>
-                    <p className="max-w-md text-lg text-muted-foreground sm:text-xl">
+                    <p className="max-w-md text-xl text-muted-foreground md:text-xl">
                       {step.body}
                     </p>
                   </article>
@@ -137,7 +137,7 @@ export function StepStack() {
               })}
             </div>
 
-            <div className="mt-10 flex items-center gap-2" aria-hidden>
+            <div className="mt-16 flex items-center gap-2 md:mt-10" aria-hidden>
               {steps.map((step, i) => (
                 <span
                   key={step.n}
@@ -154,7 +154,7 @@ export function StepStack() {
             </div>
           </div>
 
-          <div className="hidden md:block">
+          <div className="hidden md:order-2 md:block">
             <div
               className="relative mx-auto aspect-square w-[28rem]"
               style={{

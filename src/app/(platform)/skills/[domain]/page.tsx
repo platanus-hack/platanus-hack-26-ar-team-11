@@ -56,22 +56,22 @@ export default async function SkillDetailPage({
         Volver a skills
       </Link>
 
-      <header className="mt-8 flex flex-col items-start gap-8 sm:flex-row sm:items-center">
+      <header className="mt-8 grid grid-cols-[auto_minmax(0,1fr)_auto] items-start gap-x-3 sm:flex sm:flex-row sm:items-center sm:gap-8">
         <div
           className={cn(
-            "flex h-24 w-24 shrink-0 items-center justify-center rounded-3xl ring-1",
+            "flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl ring-1 sm:h-24 sm:w-24 sm:rounded-3xl",
             visual.tone,
             visual.ring,
           )}
         >
-          <Icon className="h-10 w-10" />
+          <Icon className="h-7 w-7 sm:h-10 sm:w-10" />
         </div>
 
-        <div className="flex-1 space-y-3">
-          <span className="block text-sm uppercase tracking-[0.2em] text-secondary">
+        <div className="min-w-0 space-y-2 sm:flex-1 sm:space-y-3">
+          <span className="block text-xs uppercase tracking-[0.2em] text-secondary sm:text-sm">
             Skill
           </span>
-          <h1 className="text-balance text-4xl font-black leading-tight sm:text-5xl">
+          <h1 className="text-balance text-2xl font-black leading-tight sm:text-5xl">
             {DOMAIN_LABELS[domain]}
           </h1>
           <p className="max-w-xl text-base text-muted-foreground">
@@ -112,7 +112,7 @@ function BigDial({ percent }: { percent: number }) {
   const offset = circumference * (1 - percent / 100);
 
   return (
-    <div className="relative h-40 w-40 shrink-0">
+    <div className="relative h-16 w-16 shrink-0 sm:h-40 sm:w-40">
       <svg viewBox="0 0 160 160" className="h-full w-full -rotate-90">
         <circle
           cx="80"
@@ -135,8 +135,8 @@ function BigDial({ percent }: { percent: number }) {
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-3xl font-black tabular-nums">{percent}%</span>
-        <span className="text-xs uppercase tracking-wider text-muted-foreground">
+        <span className="text-sm font-black tabular-nums sm:text-3xl">{percent}%</span>
+        <span className="hidden text-xs uppercase tracking-wider text-muted-foreground sm:block">
           Confianza
         </span>
       </div>
