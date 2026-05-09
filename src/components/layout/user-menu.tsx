@@ -26,6 +26,9 @@ export function UserMenu({
   avatarSeed?: string;
 }) {
   const display = name ?? email ?? "Tu cuenta";
+  const triggerAvatarConfig: AvatarConfig | null = avatarConfig
+    ? { ...avatarConfig, backgroundColor: "transparent" }
+    : null;
   const [isPending, startTransition] = useTransition();
 
   return (
@@ -34,10 +37,10 @@ export function UserMenu({
         <button
           type="button"
           aria-label={`Abrir menú de ${display}`}
-          className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-primary/10 outline-none transition-colors hover:bg-primary/20 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-transparent outline-none transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
           <UserAvatar
-            config={avatarConfig ?? null}
+            config={triggerAvatarConfig}
             seed={avatarSeed ?? email ?? "twin"}
             ariaLabel={display}
             className="h-full w-full"
