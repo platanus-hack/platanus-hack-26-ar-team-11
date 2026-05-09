@@ -89,7 +89,6 @@ export function StepStack() {
       id="como-funciona"
       ref={ref}
       className="step-stack-section relative bg-background"
-      style={{ "--step-count": steps.length } as React.CSSProperties}
     >
       <div className="sticky top-0 flex h-[100dvh] items-center overflow-hidden pt-12">
         <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-6 px-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-12 lg:gap-20">
