@@ -6,7 +6,6 @@
       <stop offset="100%" stop-color="#5aa3d9"/>
     </radialGradient>
   </defs>
-  <circle cx="2067" cy="236" r="168" fill="url(#logo-dot)"/>
   <g transform="translate(0.000000,1112.000000) scale(0.100000,-0.100000)"
 fill="#17244e" stroke="none">
 <path d="M20460 10399 c-30 -5 -100 -16 -155 -24 -158 -25 -406 -105 -465
@@ -166,4 +165,5 @@ fill="#17244e" stroke="none">
 17 -19 38 -19 47 0 35 -181 237 -235 263 -16 7 -52 27 -80 43 -27 16 -63 30
 -78 30 -16 1 -38 6 -50 13 -69 37 -303 55 -427 34z"/>
 </g>
+  <circle cx="2067" cy="236" r="168" fill="url(#logo-dot)"/>
 </svg>
