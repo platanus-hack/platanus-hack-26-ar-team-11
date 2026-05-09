@@ -4,7 +4,7 @@ import { useMemo, useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
 import { createAvatar } from "@dicebear/core";
 import * as avataaars from "@dicebear/avataaars";
-import { Check, Pencil } from "lucide-react";
+import { Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -160,6 +160,16 @@ export function AvatarCustomizer({
     });
   }
 
+  function handleNameBlur() {
+    if (isNamePending) return;
+    // Click outside while empty → discard, no toast.
+    if (!nameValid) {
+      cancelEditingName();
+      return;
+    }
+    handleSaveName();
+  }
+
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col gap-10 px-4 py-10">
       <header className="text-center">
@@ -172,63 +182,49 @@ export function AvatarCustomizer({
       </header>
 
       <div className="flex flex-col items-center gap-5">
-        <div className="flex items-center gap-3">
-          {isEditingName ? (
-            <>
-              <Input
-                ref={nameInputRef}
-                value={name}
-                maxLength={60}
-                onChange={(e) => setName(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    handleSaveName();
-                  } else if (e.key === "Escape") {
-                    e.preventDefault();
-                    cancelEditingName();
-                  }
-                }}
-                disabled={isNamePending}
-                placeholder="Tu nombre"
-                className="h-12 w-72 text-center !text-2xl"
-                aria-label="Editar nombre"
-              />
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                onClick={handleSaveName}
-                disabled={!nameValid || isNamePending}
-                className="h-11 w-11"
-                aria-label="Confirmar nombre"
-              >
-                <Check className="h-6 w-6" />
-              </Button>
-            </>
-          ) : (
-            <>
-              <span
-                className={cn(
-                  "text-2xl font-medium",
-                  !savedName && "text-muted-foreground italic",
-                )}
-              >
-                {savedName || "Tu nombre"}
-              </span>
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                onClick={startEditingName}
-                className="h-11 w-11 text-muted-foreground"
-                aria-label="Editar nombre"
-              >
-                <Pencil className="h-5 w-5" />
-              </Button>
-            </>
-          )}
-        </div>
+        {isEditingName ? (
+          <Input
+            ref={nameInputRef}
+            value={name}
+            maxLength={60}
+            onChange={(e) => setName(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                handleSaveName();
+              } else if (e.key === "Escape") {
+                e.preventDefault();
+                cancelEditingName();
+              }
+            }}
+            onBlur={handleNameBlur}
+            disabled={isNamePending}
+            placeholder="Tu nombre"
+            className="h-12 w-72 text-center !text-2xl"
+            aria-label="Editar nombre"
+          />
+        ) : (
+          <div className="relative flex w-72 items-center justify-center">
+            <span
+              className={cn(
+                "text-2xl font-medium",
+                !savedName && "text-muted-foreground italic",
+              )}
+            >
+              {savedName || "Tu nombre"}
+            </span>
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              onClick={startEditingName}
+              className="absolute right-0 h-11 w-11 text-muted-foreground"
+              aria-label="Editar nombre"
+            >
+              <Pencil className="h-5 w-5" />
+            </Button>
+          </div>
+        )}
 
         <div
           className="h-56 w-56 overflow-hidden rounded-2xl border border-border/60 bg-card sm:h-72 sm:w-72 [&>svg]:h-full [&>svg]:w-full"
