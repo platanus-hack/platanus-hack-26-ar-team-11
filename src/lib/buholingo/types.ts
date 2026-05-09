@@ -7,6 +7,7 @@ export interface BuholingoExercise {
 }
 
 export interface PersonalizedLesson {
+  topic: string;
   exercises: BuholingoExercise[];
   twin_facts_used: string[];
   summary: string;

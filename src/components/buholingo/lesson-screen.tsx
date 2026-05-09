@@ -128,6 +128,27 @@ export function LessonScreen() {
           </div>
         ) : null}
 
+        {/* Lesson topic header (only when personalized) */}
+        <AnimatePresence>
+          {phase === "personalized" && personalized?.topic ? (
+            <motion.div
+              key="topic"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4 }}
+              className="mb-5"
+            >
+              <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#46a302]">
+                Lección de hoy
+              </p>
+              <h2 className="text-2xl font-extrabold leading-tight text-neutral-900">
+                {personalized.topic}
+              </h2>
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
+
         {/* Exercises */}
         <motion.div layout className="space-y-4">
           <AnimatePresence mode="popLayout">
