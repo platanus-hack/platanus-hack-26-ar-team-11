@@ -130,25 +130,25 @@ export function LessonScreen() {
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
-              className="mb-6 rounded-2xl border-2 border-[#FFD700]/40 bg-gradient-to-r from-[#FFF3C2] to-[#FFE680] p-5 shadow-sm"
+              className="mb-8 rounded-2xl bg-[#FFC800] px-7 py-8 shadow-[0_3px_0_#D9A900]"
             >
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <h2 className="text-xl font-extrabold text-[#3C2A04]">
-                    Aburrido, ¿no?
+              <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+                <div className="max-w-xl">
+                  <h2 className="text-2xl font-extrabold leading-tight text-[#3C2A04]">
+                    ¿Aburrido aprendiendo lo de siempre?
                   </h2>
-                  <p className="text-sm text-[#5A3F0A]">
+                  <p className="mt-1 text-sm leading-relaxed text-[#5A3F0A]">
                     Conectá tu Twin y aprendé inglés a través de las cosas que
-                    realmente te interesan.
+                    realmente te interesan: tu música, tus planes, tu vibe.
                   </p>
                 </div>
                 <button
                   type="button"
                   onClick={handleConnect}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#212842] px-5 py-3 text-sm font-extrabold uppercase tracking-wide text-white shadow-[0_3px_0_#0e132a] transition-transform active:translate-y-[2px] active:shadow-[0_1px_0_#0e132a]"
+                  className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-[#58CC02] px-6 py-3 text-sm font-extrabold uppercase tracking-wide text-white shadow-[0_3px_0_#46a302] transition-transform active:translate-y-[2px] active:shadow-[0_1px_0_#46a302]"
                 >
                   <LinkIcon className="h-4 w-4" />
-                  Connect your Twin
+                  Conectar Twin
                 </button>
               </div>
             </motion.div>
