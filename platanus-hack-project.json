@@ -1,5 +1,6 @@
 {
   "project-name": "Twin",
-  "project-oneliner-spanish": "<FILL THIS>",
-  "project-description-spanish": "<FILL THIS>"
+  "deploy-url": "https://twin-protocol-one.vercel.app",
+  "project-oneliner-spanish": "Tu yo digital portable: una IA que te conoce y se conecta a otras apps, como un \"Login con Google\" pero para tu personalidad.",
+  "project-description-spanish": "Twin es una infraestructura abierta que permite a los usuarios crear su twin digital. Una representación de su personalidad, gustos y comportamiento. Después pueden conectarlo a cualquier plataforma que quiera ofrecer experiencias personalizadas.\n\nDe la misma forma que hoy existe \"Login con Google\", las plataformas pueden ofrecer \"Login con Twin\". El usuario autoriza qué partes de su twin son accesibles. La plataforma obtiene contexto rico desde el primer segundo. Sin formularios ni cold start.\n\nEl twin se entrena en sesiones conversacionales con una IA. Está basado en una metodología validada por un estudio de la Universidad de Stanford junto a Google DeepMind. Ese estudio demostró que dos horas de entrevista alcanzan para replicar las respuestas de una persona con un 85% de precisión. Las sesiones son recurrentes para que el twin evolucione junto al usuario.\n\nTwin es model-agnostic y abierto. Está diseñado para que el usuario sea siempre dueño de sus datos. Decide qué comparte. Decide con quién. Puede revocar accesos en cualquier momento.\n\nApuntamos a convertirnos en el estándar de identidad personal para la próxima generación de plataformas agenticas. La personalización profunda y la portabilidad del contexto van a dejar de ser un diferencial para ser un requisito."
 }
