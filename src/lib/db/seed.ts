@@ -84,6 +84,7 @@ async function ensureTwin(
   const profileJson = {
     version: 1 as const,
     summary: user.twin_summary,
+    summary_es: null as string | null,
     summary_generated_at: new Date().toISOString(),
     summary_after_session_id: null as string | null,
   };

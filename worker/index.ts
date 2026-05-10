@@ -90,22 +90,54 @@ export default defineAgent({
     const transcript: TranscriptEntry[] = [];
     let endedReason: SessionEndReason = "user_disconnected";
 
+    // Signal that resolves once the session is over and we can safely run
+    // saveSession + post-session. Resolves on:
+    //  - the AgentSession Close event (the normal happy path), OR
+    //  - our own room.disconnect() finishing (fallback: when end_session fires,
+    //    the publishData/cleanup race can leave Close hanging — observed in
+    //    session 820bf492…), OR
+    //  - a hard timeout after end_session as a last-resort safety net.
+    let resolveClosed!: () => void;
+    const sessionClosed = new Promise<void>((r) => {
+      resolveClosed = r;
+    });
+    let closedSignaled = false;
+    const signalClosed = (reason: string) => {
+      if (closedSignaled) return;
+      closedSignaled = true;
+      console.log(`[worker] session-close signal: ${reason}`);
+      resolveClosed();
+    };
+
     // Grace window after Cami invokes end_session: lets the TTS finish speaking
     // her closing sentence before we tear down the room. Tuned for the typical
     // length of a one-sentence farewell + a small buffer.
     const END_SESSION_GRACE_MS = 6_000;
+    // If neither Close nor our own disconnect resolves within this window after
+    // end_session, force-resolve so saveSession still runs.
+    const END_SESSION_HARD_TIMEOUT_MS = 30_000;
     let endSessionTimer: ReturnType<typeof setTimeout> | null = null;
+    let hardTimeoutTimer: ReturnType<typeof setTimeout> | null = null;
     const scheduleAgentEnd = () => {
       if (endSessionTimer) return;
       console.log(
         `[worker] end_session tool fired — disconnecting room in ${END_SESSION_GRACE_MS}ms`
       );
       endedReason = "agent_closed";
-      endSessionTimer = setTimeout(() => {
-        ctx.room.disconnect().catch((err) => {
+      endSessionTimer = setTimeout(async () => {
+        try {
+          await ctx.room.disconnect();
+        } catch (err) {
           console.warn("[worker] room.disconnect failed:", err);
-        });
+        } finally {
+          // Even if Close never fires (publishData abort, plugin race, etc.),
+          // we know the room is gone — release the wait so persistence runs.
+          signalClosed("self_disconnect");
+        }
       }, END_SESSION_GRACE_MS);
+      hardTimeoutTimer = setTimeout(() => {
+        signalClosed("hard_timeout");
+      }, END_SESSION_GRACE_MS + END_SESSION_HARD_TIMEOUT_MS);
     };
 
     const publishData = async (event: DataTrackEvent) => {
@@ -194,6 +226,10 @@ export default defineAgent({
       endedReason = "error";
     });
 
+    session.on(voice.AgentSessionEventTypes.Close, () => {
+      signalClosed("close_event");
+    });
+
     await session.start({ agent, room: ctx.room });
     console.log(`[worker] session started`);
 
@@ -204,12 +240,21 @@ export default defineAgent({
     // session.start sees an already-set output.audio and ignores ours, leaving
     // the avatar muted. See bey-dev/bey-examples/livekit-agent/main.js.
     if (avatarEnabled) {
-      console.log(`[worker] starting bey avatar (avatarId=${beyAvatarId})`);
+      // LiveKit Cloud Agents inject LIVEKIT_URL with the `https://` scheme, but
+      // the Bey API rejects anything that isn't `ws[s]://`. Normalize and pass
+      // it explicitly to .start() (it's a start option, not a constructor one).
+      const rawLivekitUrl = process.env.LIVEKIT_URL ?? "";
+      const livekitUrl = rawLivekitUrl
+        .replace(/^https:\/\//, "wss://")
+        .replace(/^http:\/\//, "ws://");
+      console.log(
+        `[worker] starting bey avatar (avatarId=${beyAvatarId}, livekitUrl=${livekitUrl})`
+      );
       const avatar = new bey.AvatarSession({
         avatarId: beyAvatarId!,
         apiKey: beyApiKey!,
       });
-      await avatar.start(session, ctx.room);
+      await avatar.start(session, ctx.room, { livekitUrl });
       console.log(`[worker] bey avatar session started`);
     } else {
       console.log(`[worker] avatar disabled — running in audio-only mode`);
@@ -217,9 +262,8 @@ export default defineAgent({
 
     await session.generateReply({});
 
-    await new Promise<void>((resolve) => {
-      session.on(voice.AgentSessionEventTypes.Close, () => resolve());
-    });
+    await sessionClosed;
+    if (hardTimeoutTimer) clearTimeout(hardTimeoutTimer);
 
     const endedAtMs = Date.now();
     const endedAt = new Date(endedAtMs).toISOString();
