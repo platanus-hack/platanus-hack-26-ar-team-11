@@ -7,10 +7,21 @@ export interface SignUpResult {
   error?: string;
 }
 
+// MVP: signup está cerrado, las cuentas se crean manualmente con Supabase CLI.
+// La UI ya no expone el form (ver signup/page.tsx) pero blindamos la acción
+// también para que un POST directo no abra un agujero de creación de usuarios.
+const SIGNUP_DISABLED = true;
+const SIGNUP_DISABLED_MESSAGE =
+  "El registro está cerrado durante el MVP. Pedile credenciales a los administradores.";
+
 export async function signUpAction(
   _prev: SignUpResult | undefined,
   formData: FormData,
 ): Promise<SignUpResult> {
+  if (SIGNUP_DISABLED) {
+    return { error: SIGNUP_DISABLED_MESSAGE };
+  }
+
   const email = String(formData.get("email") ?? "").trim();
   const password = String(formData.get("password") ?? "");
   const confirm = String(formData.get("confirm_password") ?? "");

@@ -21,13 +21,31 @@ function fd(values: Record<string, string>): FormData {
 
 const valid = { email: "a@b.com", password: "12345678", confirm_password: "12345678" };
 
-describe("signUpAction", () => {
+describe("signUpAction (MVP: signup disabled)", () => {
   afterEach(() => {
     signUpWithPassword.mockReset();
     signInWithPassword.mockReset();
     redirect.mockClear();
   });
 
+  it("blocks creation and never calls Supabase", async () => {
+    const result = await signUpAction(undefined, fd(valid));
+    expect(result?.error).toMatch(/registro está cerrado/i);
+    expect(signUpWithPassword).not.toHaveBeenCalled();
+    expect(signInWithPassword).not.toHaveBeenCalled();
+    expect(redirect).not.toHaveBeenCalled();
+  });
+
+  it("blocks even if fields are missing or invalid", async () => {
+    const result = await signUpAction(undefined, fd({ email: "", password: "", confirm_password: "" }));
+    expect(result?.error).toMatch(/registro está cerrado/i);
+    expect(signUpWithPassword).not.toHaveBeenCalled();
+  });
+});
+
+// When re-enabling signup, flip SIGNUP_DISABLED in actions.ts and bring back
+// the validation tests below.
+describe.skip("signUpAction — validation flow (re-enable when SIGNUP_DISABLED=false)", () => {
   it("creates account and redirects to /dashboard", async () => {
     signUpWithPassword.mockResolvedValue({ user: { id: "u1" }, error: null });
     signInWithPassword.mockResolvedValue({ user: { id: "u1" }, error: null });
