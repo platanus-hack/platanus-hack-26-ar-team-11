@@ -191,9 +191,9 @@ export function LessonScreen() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.4, delay: 0.15 }}
-              className="mb-5 rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3"
+              className="mb-5 rounded-2xl border border-neutral-200 bg-neutral-50 px-6 py-5"
             >
-              <p className="text-sm text-neutral-700">
+              <p className="text-xl leading-snug text-neutral-700">
                 <span className="font-semibold text-neutral-900">
                   Cambiamos a formato escrito.
                 </span>{" "}
