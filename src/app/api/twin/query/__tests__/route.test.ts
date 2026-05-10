@@ -118,6 +118,37 @@ describe("POST /api/twin/query", () => {
     expect(res.status).toBe(400);
   });
 
+  it("400 when LLM prompt fields exceed bounded input size", async () => {
+    const res = await call(
+      {
+        connection_id: ACTIVE_CONN.id,
+        intent: "event_ranking",
+        context: {
+          events: [
+            {
+              id: "e0",
+              artist: "a".repeat(201),
+            },
+          ],
+        },
+      },
+      { token: "tok" },
+    );
+    expect(res.status).toBe(400);
+  });
+
+  it("400 when context contains unsupported extra fields", async () => {
+    const res = await call(
+      {
+        connection_id: ACTIVE_CONN.id,
+        intent: "general_summary",
+        context: { unused: "x" },
+      },
+      { token: "tok" },
+    );
+    expect(res.status).toBe(400);
+  });
+
   it("400 invalid_intent for unknown intent", async () => {
     state.validation = { ok: true, connection: ACTIVE_CONN };
     const res = await call(
@@ -244,6 +275,24 @@ describe("POST /api/twin/query", () => {
       { token: "tok" },
     );
     expect(state.loggedCalls.length).toBeGreaterThan(0);
+  });
+
+  it("429 when an active connection exceeds the local query rate limit", async () => {
+    const limitedConnection = {
+      ...ACTIVE_CONN,
+      id: "22222222-2222-2222-2222-222222222222",
+    };
+    state.validation = { ok: true, connection: limitedConnection };
+
+    let res: Response | null = null;
+    for (let i = 0; i < 21; i += 1) {
+      res = await call(
+        { connection_id: limitedConnection.id, intent: "general_summary" },
+        { token: "tok" },
+      );
+    }
+
+    expect(res?.status).toBe(429);
   });
 });
 
