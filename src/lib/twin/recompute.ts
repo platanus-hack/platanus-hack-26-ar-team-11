@@ -118,15 +118,17 @@ export async function regenerateSummary(
 
   const response = await anthropic.messages.create({
     model,
-    max_tokens: 300,
+    max_tokens: 600,
     temperature: 0.4,
     system:
-      'Generate a 3-sentence summary of this user in English (it will be consumed by third-party APIs). Stick to the facts provided — do not invent or speculate. Keep it neutral and useful for personalization. Output the summary only, no preamble.',
+      'Generate a 3-sentence summary of this user in BOTH English and Spanish. The English version is consumed by third-party APIs; the Spanish version is shown in the Twin\'s own UI. Stick to the facts provided — do not invent or speculate. Keep both versions neutral, useful for personalization, and matched in meaning (the Spanish is not a literal translation of the English; it should feel native and use rioplatense Spanish — vos forms when addressing or characterizing the user). Output ONLY a JSON object with this exact shape: {"en": "<english summary>", "es": "<spanish summary>"}. No markdown fences, no preamble, no commentary.',
     messages: [{ role: "user", content: userMessage }],
   });
 
-  const summary = collectText(response).trim();
-  if (!summary) return null;
+  const parsed = parseSummaryResponse(collectText(response));
+  if (!parsed) return null;
+  const summary = parsed.en;
+  const summaryEs = parsed.es;
 
   // Read current profile_json so we patch instead of overwrite.
   const { data: row, error: readErr } = await client
@@ -141,6 +143,7 @@ export async function regenerateSummary(
   const profile: TwinProfileJson = {
     version: 1,
     summary: null,
+    summary_es: null,
     summary_generated_at: null,
     summary_after_session_id: null,
     ...(row?.profile_json as Partial<TwinProfileJson> | undefined),
@@ -149,6 +152,7 @@ export async function regenerateSummary(
   const updatedProfile: TwinProfileJson = {
     ...profile,
     summary,
+    summary_es: summaryEs,
     summary_generated_at: new Date().toISOString(),
     summary_after_session_id: opts.sessionId ?? profile.summary_after_session_id,
   };
@@ -218,6 +222,27 @@ async function countTrainingSessions(
     throw new Error(`countTrainingSessions failed: ${error.message}`);
   }
   return count ?? 0;
+}
+
+// The model is instructed to return raw JSON, but Claude occasionally wraps it
+// in ```json fences or adds preamble. Strip those before parsing.
+function parseSummaryResponse(raw: string): { en: string; es: string } | null {
+  const trimmed = raw.trim();
+  if (!trimmed) return null;
+  const fenceStripped = trimmed.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/i, "");
+  const start = fenceStripped.indexOf("{");
+  const end = fenceStripped.lastIndexOf("}");
+  if (start < 0 || end < 0 || end <= start) return null;
+  const slice = fenceStripped.slice(start, end + 1);
+  try {
+    const obj = JSON.parse(slice) as { en?: unknown; es?: unknown };
+    const en = typeof obj.en === "string" ? obj.en.trim() : "";
+    const es = typeof obj.es === "string" ? obj.es.trim() : "";
+    if (!en || !es) return null;
+    return { en, es };
+  } catch {
+    return null;
+  }
 }
 
 function collectText(response: Anthropic.Messages.Message): string {

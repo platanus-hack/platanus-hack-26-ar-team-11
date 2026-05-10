@@ -40,7 +40,8 @@ export interface TwinSkill {
 
 export interface TwinProfileJson {
   version: number; // 1
-  summary: string | null;
+  summary: string | null; // English (mirrors twins.summary; consumed by 3rd-party APIs)
+  summary_es: string | null; // Spanish display copy for the Twin's own UI
   summary_generated_at: string | null;
   summary_after_session_id: string | null;
 }

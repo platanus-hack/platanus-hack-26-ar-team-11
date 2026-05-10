@@ -30,7 +30,7 @@ export async function GET(
 
   const { data: twin } = await supabase
     .from("twins")
-    .select("id, user_id, completion_score, summary, next_session_index")
+    .select("id, user_id, completion_score, summary, profile_json, next_session_index")
     .eq("id", session.twin_id)
     .maybeSingle();
 
@@ -49,6 +49,7 @@ export async function GET(
       id: twin.id,
       completion_score: Number(twin.completion_score ?? 0),
       summary: twin.summary,
+      profile_json: twin.profile_json,
       next_session_index: twin.next_session_index,
     },
     skills: skills ?? [],

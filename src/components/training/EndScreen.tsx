@@ -8,7 +8,7 @@ import { Progress } from "@/components/ui/progress";
 import { ContinueTrainingButton } from "@/components/training/ContinueTrainingButton";
 import { LoadingScreen } from "@/components/common/LoadingScreen";
 import { TARGET_TRAINING_SESSIONS } from "@/lib/twin/recompute";
-import type { Domain, ExtractedFact, Session } from "@/types";
+import type { Domain, ExtractedFact, Session, TwinProfileJson } from "@/types";
 
 const POLL_INTERVAL_MS = 2000;
 const POLL_TIMEOUT_MS = 30_000;
@@ -31,6 +31,7 @@ interface SessionResponse {
     id: string;
     completion_score: number;
     summary: string | null;
+    profile_json: TwinProfileJson | null;
     next_session_index: number;
   };
   skills: Array<{ domain: Domain; confidence: number }>;
@@ -218,12 +219,14 @@ function ReadyView({ data }: { data: SessionResponse }) {
         </section>
       )}
 
-      {data.twin.summary && (
+      {(data.twin.profile_json?.summary_es ?? data.twin.summary) && (
         <section className="rounded-xl border border-neutral-200 bg-neutral-50 p-4">
           <p className="text-xs uppercase tracking-[0.2em] text-neutral-500">
             Resumen actualizado
           </p>
-          <p className="mt-2 text-sm text-neutral-800">{data.twin.summary}</p>
+          <p className="mt-2 text-sm text-neutral-800">
+            {data.twin.profile_json?.summary_es ?? data.twin.summary}
+          </p>
         </section>
       )}
 

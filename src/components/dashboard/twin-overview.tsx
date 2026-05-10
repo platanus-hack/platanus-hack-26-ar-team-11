@@ -31,7 +31,10 @@ export function TwinOverview({
   const twinName = hasOwnerName
     ? `Twin de ${ownerName}`
     : (twin.name ?? "Tu Twin");
-  const summary = personalizeSummary(twin.summary, ownerName);
+  // Prefer the Spanish display copy; fall back to the English (which is the
+  // contract field for 3rd-party API consumers and what older twins still have).
+  const rawSummary = twin.profile_json?.summary_es ?? twin.summary;
+  const summary = personalizeSummary(rawSummary, ownerName);
 
   return (
     <div className="flex min-h-[calc(100dvh-5rem)] flex-col items-center justify-center gap-6 px-4 py-8 text-center">
