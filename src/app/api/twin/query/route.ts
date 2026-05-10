@@ -34,28 +34,39 @@ const VenueSizeEnum = z.enum([
   "festival",
 ]);
 
+const MAX_CONNECTION_ID_LENGTH = 128;
+const MAX_INTENT_LENGTH = 64;
+const MAX_TEXT_FIELD_LENGTH = 200;
+const MAX_QUESTION_LENGTH = 1_000;
+const MAX_GENRES = 20;
+const QUERY_RATE_LIMIT_WINDOW_MS = 60_000;
+const QUERY_RATE_LIMIT_MAX = 20;
+
+const queryRateBuckets = new Map<string, { count: number; resetAt: number }>();
+const TextFieldSchema = z.string().max(MAX_TEXT_FIELD_LENGTH);
+
 const EventDescriptorSchema = z.object({
-  id: z.string().optional(),
-  artist: z.string().optional(),
-  venue: z.string().optional(),
-  city: z.string().optional(),
-  date: z.string().optional(),
-  genres: z.array(z.string()).optional(),
+  id: TextFieldSchema.optional(),
+  artist: TextFieldSchema.optional(),
+  venue: TextFieldSchema.optional(),
+  city: TextFieldSchema.optional(),
+  date: TextFieldSchema.optional(),
+  genres: z.array(TextFieldSchema).max(MAX_GENRES).optional(),
   venue_size: VenueSizeEnum.optional(),
-  price: z.number().optional(),
+  price: z.number().finite().optional(),
 });
 
 const QuerySchema = z.object({
-  connection_id: z.string().min(1),
-  intent: z.string().min(1),
+  connection_id: z.string().min(1).max(MAX_CONNECTION_ID_LENGTH),
+  intent: z.string().min(1).max(MAX_INTENT_LENGTH),
   context: z
     .object({
-      domain: z.string().optional(),
-      question: z.string().optional(),
+      domain: TextFieldSchema.optional(),
+      question: z.string().max(MAX_QUESTION_LENGTH).optional(),
       event: EventDescriptorSchema.optional(),
-      events: z.array(EventDescriptorSchema).optional(),
+      events: z.array(EventDescriptorSchema).max(MAX_EVENTS).optional(),
     })
-    .passthrough()
+    .strict()
     .optional(),
 });
 
@@ -113,6 +124,20 @@ function isKnownDomain(domain: string): domain is Domain {
 
 function deniedPolicy(reason: string): PolicyResult {
   return { allowed: false, scopes_used: [], blocked_reason: reason };
+}
+
+function isRateLimited(connectionId: string, now = Date.now()): boolean {
+  const bucket = queryRateBuckets.get(connectionId);
+  if (!bucket || bucket.resetAt <= now) {
+    queryRateBuckets.set(connectionId, {
+      count: 1,
+      resetAt: now + QUERY_RATE_LIMIT_WINDOW_MS,
+    });
+    return false;
+  }
+  if (bucket.count >= QUERY_RATE_LIMIT_MAX) return true;
+  bucket.count += 1;
+  return false;
 }
 
 function validateIntentShape(
@@ -245,6 +270,23 @@ export async function POST(req: NextRequest) {
       scopes_used: [],
     });
     return jsonWithCors({ policy }, { status: 200 }, origin);
+  }
+
+  if (isRateLimited(connection.id)) {
+    await logQuery({
+      connection,
+      intent,
+      question: questionFromBody(parsed),
+      response_summary: "blocked: rate_limit_exceeded",
+      allowed: false,
+      blocked_reason: "rate_limit_exceeded",
+      scopes_used: [],
+    });
+    return jsonWithCors(
+      { error: { code: "rate_limit_exceeded", message: "Too many requests" } },
+      { status: 429 },
+      origin,
+    );
   }
 
   try {
