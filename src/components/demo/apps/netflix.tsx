@@ -96,7 +96,7 @@ export function NetflixMock({ connected }: AppProps) {
       </AnimatePresence>
 
       {/* Rows */}
-      <div className="flex flex-1 flex-col justify-start gap-3 px-5 py-3 pb-5">
+      <div className="flex flex-1 flex-col justify-start gap-3 px-5 pb-5 pt-6">
         {data.rows.map((row, ri) => (
           <div key={`${connected}-${row.label}`}>
             <p className="mb-1.5 text-[11px] font-bold text-white">{row.label}</p>
